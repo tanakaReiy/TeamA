@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 674392106}
   - component: {fileID: 674392105}
   m_Layer: 0
-  m_Name: OpenFloorDorrManager
+  m_Name: StageGimmickObserver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
