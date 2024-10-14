@@ -13,11 +13,12 @@ public class StageGimmickObserver : MonoBehaviour
 {
     [Header("現在の階層のギミック")]
     [SerializeField] private StageGimmickBase[] _stageGimmicks;
-    [Header("現在の階層のドア")]
-    [SerializeField] private GameObject _floorDoor;
 
     // キャンセル用のトークンソース
-    private CancellationTokenSource _cancellationTokenSource; 
+    private CancellationTokenSource _cancellationTokenSource;
+
+    // クリア時のイベントデリゲート
+    public event Action OnAllGimmicksClear;
 
     private void Start()
     {
@@ -51,21 +52,22 @@ public class StageGimmickObserver : MonoBehaviour
         {
             //すべてのギミックがクリアされるまで待つ
             await UniTask.WhenAll(gimmickTasks);
-            if (_floorDoor != null)
-            {
-                //ドアを開ける処理
-                //await _floor.Open()
-                Debug.Log("ドアが開きました");
-            }
-            else
-            {
-                Debug.LogWarning("ドアが登録されていません");
-            }
+            //ギミックが完了した通知を飛ばす
+            NotifyGimmicksClear();
         }
         catch(OperationCanceledException)
         {
             Debug.Log("クリア処理がキャンセルされました");
         }  
+    }
+
+    /// <summary>
+    /// ギミッククリア通知を発行する
+    /// </summary>
+    private void NotifyGimmicksClear()
+    {
+        Debug.Log("すべてのギミックがクリアされました！");
+        OnAllGimmicksClear?.Invoke(); // イベントを発行
     }
 
     private void OnDisable()
