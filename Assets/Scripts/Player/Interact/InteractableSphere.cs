@@ -11,10 +11,16 @@ namespace InteractableObject
     {
         private bool _canInteract = true;
 
-        public InRangeData OnEnterInteractRange(IInteractCallBackReceivable caller)
+        public bool CanInteract()
         {
-            return _canInteract ? new InRangeData { _inRangeText = "“®‚©‚·" } : null;
+            return _canInteract;
         }
+
+        public string GetInteractionMessage()
+        {
+            return "“®‚©‚·";
+        }
+
         public void OnInteract(IInteractCallBackReceivable caller)
         {
             if (_canInteract)

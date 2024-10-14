@@ -19,12 +19,10 @@ namespace InteractCallBacks
 
 public interface IInteractable
 {
-    abstract void OnInteract(IInteractCallBackReceivable caller);
+    bool CanInteract();
+    string GetInteractionMessage();
+    void OnInteract(IInteractCallBackReceivable caller);
 
-    InRangeData OnEnterInteractRange(IInteractCallBackReceivable caller)
-    {
-        return new InRangeData { _inRangeText = ("インタラクトする") };
-    }
 }
 
 

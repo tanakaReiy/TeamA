@@ -12,14 +12,15 @@ namespace UIControls
 
         public void Initialize()
         {
-            _detector.OnInInteractableRange
+          
+            _detector.CurrentInteractable
                 .Subscribe(data =>
                 {
                     if (data == null) { gameObject.SetActive(false); }
                     else
                     {
                         gameObject.SetActive(true);
-                        _text.text = data._inRangeText;
+                        _text.text = data.GetInteractionMessage();
                     }
                 }).AddTo(this);
         }

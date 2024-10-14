@@ -7,44 +7,59 @@ using UnityEngine;
 using Alchemy.Inspector;
 public class DetectInteract : MonoBehaviour
 {
-    [SerializeField] private Vector3 _offset;
     [SerializeField] private float _radius;
-    [SerializeField] private GameObject _interactCallBackReceivableObject;
-
     [SerializeField] private bool _showRange = false;
+    [SerializeField] private LayerMask _detectLayer;
 
-    public IObservable<InRangeData> OnInInteractableRange => _onInRange;
+    //Event
+    public IReadOnlyReactiveProperty<IInteractable> CurrentInteractable => _currentInteractable;
 
-    private ReactiveProperty<InRangeData> _onInRange = new (null);
-    public bool CanInteract {
-        get => _canInteract;
+    //public Property
+    public bool IsDetectionEnabled
+    {
+        get => _enableDetection;
         set{
-            _canInteract = value;
+            _enableDetection = value;
             if (!value)
             {
-                _currentInteractable = null;            
+                _currentInteractable.Value = null;            
             }
         }
     }
 
+    //private
     private const float DETECTCALCINTERVAL = 0.1f;
 
-    private bool _canInteract = false;
-    private IInteractable _currentInteractable = null;
+    private bool _enableDetection = true;
+    private ReactiveProperty<IInteractable> _currentInteractable = new(null);
     private IInteractCallBackReceivable _callBackReceivable;
 
     private void Start()
     {
-        if (!_interactCallBackReceivableObject.TryGetComponent(out _callBackReceivable))
+        if (!gameObject.TryGetComponent(out _callBackReceivable))
         {
-            throw new System.Exception($"{nameof(_interactCallBackReceivableObject)}は{nameof(IInteractCallBackReceivable)}を実装している必要があります");
+            throw new System.Exception($"{gameObject.name}は{nameof(IInteractCallBackReceivable)}を実装している必要があります");
         }
+
         StartCoroutine(Detect());
     }
 
-    public void Interact()
+    /// <summary>
+    /// 範囲内にあるInteractableに対してインタラクトします
+    /// </summary>
+    /// <returns>インタラクトできたかどうか</returns>
+    public bool Interact()
     {
-        _currentInteractable?.OnInteract(_callBackReceivable);
+        if (_currentInteractable.Value != null)
+        {
+            _currentInteractable.Value.OnInteract(_callBackReceivable);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 
     //一定間隔でInteractableを検知する
@@ -53,31 +68,32 @@ public class DetectInteract : MonoBehaviour
         
         while (true)
         {
-            if (!CanInteract) { _currentInteractable = null; goto There; }
-            var hits = Physics.SphereCastAll(new Ray { origin = transform.position + _offset, direction = transform.forward },_radius,0.1f);
+            if (!IsDetectionEnabled) { goto There; }
 
-            //interactableを発見できたか
-            bool isFound = false;
+            //検知
+            RaycastHit[] hits = Physics.SphereCastAll(
+                new Ray { origin = transform.position, direction = transform.forward },_radius,0.1f,_detectLayer.value);
+
             
-            foreach(var hit in hits)
+            IInteractable interactable = null;
+            foreach (var hit in hits)
             {
-                if(hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
+                //Detect Interactable
+                if(hit.collider.gameObject.TryGetComponent(out  interactable))
                 {
-                    isFound = true;
-                    //現在と同じInteractableであったらBreak
-                    if (interactable != _currentInteractable) { break; }
-
-                    _currentInteractable = interactable;
-                    break;
+                    //インタラクトできないInteractableの場合はスキップ
+                    if (!interactable.CanInteract()) { continue; }
+                    else { break; }
                 }
             }
-            if (!isFound) {
-                
-                _currentInteractable = null;
+
+            //発見したInteractable or nullが現在と異なるときのみ値を更新
+            if(interactable != _currentInteractable.Value)
+            {
+                _currentInteractable.Value = interactable;
             }
 
         There:
-            _onInRange.Value = _currentInteractable?.OnEnterInteractRange(_callBackReceivable);
             yield return new WaitForSeconds(DETECTCALCINTERVAL);
         }
     }
@@ -88,14 +104,9 @@ public class DetectInteract : MonoBehaviour
 
         if(!_showRange) { return; }
 
-        Gizmos.DrawSphere(transform.position + _offset, _radius);
+        Gizmos.DrawSphere(transform.position, _radius);
 
     }
 
-}
-
-public class InRangeData
-{
-    public string _inRangeText;
 }
 

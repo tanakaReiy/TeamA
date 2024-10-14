@@ -1922,10 +1922,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7363d460cd4ed408eba453a589e525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _offset: {x: 0, y: 0, z: 0.34}
-  _radius: 0.96
-  _interactCallBackReceivableObject: {fileID: 1723189866}
+  _radius: 1
   _showRange: 0
+  _detectLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &1723189875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2027,7 +2028,7 @@ GameObject:
   - component: {fileID: 1806512711}
   - component: {fileID: 1806512710}
   - component: {fileID: 1806512709}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ineractable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
