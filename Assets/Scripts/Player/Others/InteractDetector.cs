@@ -5,7 +5,7 @@ using System.Linq;
 using UniRx;
 using UnityEngine;
 using Alchemy.Inspector;
-public class DetectInteract : MonoBehaviour
+public class InteractDetector : MonoBehaviour
 {
     [SerializeField] private float _radius;
     [SerializeField] private bool _showRange = false;

@@ -6,7 +6,7 @@ using Alchemy.Inspector;
 public class PlayerStateMachine : StateMachine
 {
     [field:SerializeField,FoldoutGroup("CompRefs")] public CharacterMovement CharacterMovement { get; private set; }
-    [field: SerializeField, FoldoutGroup("CompRefs")] public DetectInteract InteractDetector { get; private set; }
+    [field: SerializeField, FoldoutGroup("CompRefs")] public InteractDetector InteractDetector { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public SocketManager SocketManager { get; private set; }
 
 

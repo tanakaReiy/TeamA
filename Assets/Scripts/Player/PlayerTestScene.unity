@@ -1892,6 +1892,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CharacterMovement>k__BackingField: {fileID: 1723189871}
+  <InteractDetector>k__BackingField: {fileID: 1723189874}
+  <SocketManager>k__BackingField: {fileID: 1723189873}
+  FreeLookMovementSpeed: 6
+  RotationDampTime: 10
 --- !u!114 &1723189873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2047,6 +2051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b41855b53b356445a7997895c8edd25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attachPrefab: {fileID: 8991281056110075728, guid: 0f96c4b83aac62648a716ae92b5b9a2e,
+    type: 3}
 --- !u!136 &1806512710
 CapsuleCollider:
   m_ObjectHideFlags: 0

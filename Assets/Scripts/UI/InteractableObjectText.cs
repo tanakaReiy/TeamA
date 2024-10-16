@@ -8,7 +8,7 @@ namespace UIControls
     public class InteractableObjectText : MonoBehaviour,IInitializable
     {
         [SerializeField] private Text _text;
-        [SerializeField] private DetectInteract _detector;
+        [SerializeField] private InteractDetector _detector;
 
         public void Initialize()
         {

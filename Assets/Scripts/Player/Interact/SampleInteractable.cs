@@ -9,7 +9,7 @@ using UnityEngine;
 namespace InteractableObject
 {
 
-    public class InteractableSphere : MonoBehaviour, IInteractable
+    public class SampleInteractable : MonoBehaviour, IInteractable
     {
         [SerializeField, AssetsOnly] private GameObject _attachPrefab;
         private bool _canInteract = true;
