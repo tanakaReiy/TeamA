@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class PlayerFreeLookState : PlayerBaseState
 {
-    private const float Speed = 6f;
-    private const float RotationDamping = 6;
     public PlayerFreeLookState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
 
     public override void Enter()
     {
-
+        InputReader.Instance.OnInteractAsObservable()
+            .Where(c => c.performed)
+            .Subscribe(_ =>
+            {
+                _stateMachine.InteractDetector.Interact();
+            }).AddTo(_stateMachine.gameObject);
     }
 
     public override void Tick(float deltaTime)
@@ -21,7 +25,7 @@ public class PlayerFreeLookState : PlayerBaseState
 
         FaceMovement(direction, deltaTime);
 
-        _stateMachine.CharacterMovement.Move(direction  *Speed, deltaTime);
+        _stateMachine.CharacterMovement.Move(direction  *_stateMachine.FreeLookMovementSpeed, deltaTime);
     }
 
     private void FaceMovement(Vector3 direction,float deltaTime)
@@ -29,7 +33,9 @@ public class PlayerFreeLookState : PlayerBaseState
         if(direction.magnitude == 0) { return; }
 
         _stateMachine.transform.rotation =
-            Quaternion.Lerp(_stateMachine.transform.rotation, Quaternion.LookRotation(direction), RotationDamping * deltaTime);
+            Quaternion.Lerp(_stateMachine.transform.rotation
+            , Quaternion.LookRotation(direction)
+            , _stateMachine.RotationDampTime * deltaTime);
     }
 
     private Vector3 CalculateMovement()

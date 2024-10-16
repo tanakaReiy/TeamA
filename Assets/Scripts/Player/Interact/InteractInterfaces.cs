@@ -10,7 +10,10 @@ public interface IInteractCallBackReceivable
 
 namespace InteractCallBacks 
 {
-
+    public interface IEquippable
+    {
+        void Equip(GameObject go);
+    }
 
 }
 

@@ -1,4 +1,6 @@
+using Alchemy.Inspector;
 using Cysharp.Threading.Tasks;
+using InteractCallBacks;
 using LitMotion;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ namespace InteractableObject
 
     public class InteractableSphere : MonoBehaviour, IInteractable
     {
+        [SerializeField, AssetsOnly] private GameObject _attachPrefab;
         private bool _canInteract = true;
 
         public bool CanInteract()
@@ -38,6 +41,12 @@ namespace InteractableObject
                     _canInteract = true;
 
                 }).Forget();
+
+                if(caller is IEquippable equippable)
+                {
+                    GameObject go = Instantiate(_attachPrefab);
+                    equippable.Equip(go);
+                }
                 
             }
 

@@ -10,7 +10,7 @@ using UniRx;
 [AlchemySerialize]
 public partial class SocketManager : MonoBehaviour
 {
-    [AlchemySerializeField,NonSerialized,ReadOnly]
+    [AlchemySerializeField,NonSerialized]
     private Dictionary<string, Socket> _soketsTable = new();
 
 
@@ -68,7 +68,17 @@ public partial class SocketManager : MonoBehaviour
         }
     }
 
-    public Socket GetSocket(string socketName) => _soketsTable[socketName];
+    public Socket GetSocket(string socketName)
+    {
+        if (_soketsTable.ContainsKey(socketName))
+        {
+            return _soketsTable[socketName];
+        }
+        else
+        {
+            throw new System.Exception($"SocketTableÇ…{socketName}Ç™ë∂ç›ÇµÇ‹ÇπÇÒ");
+        }
+    }
 
     
 }
