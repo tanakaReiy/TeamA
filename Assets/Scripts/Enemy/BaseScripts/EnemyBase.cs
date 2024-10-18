@@ -20,6 +20,7 @@ public class EnemyBase : MonoBehaviour
     //Playerの位置を知るための参照
     //後にシーンにあるエネミースポナーからPlayerのtransformを参照渡しする方法に変更
     //EnemyBaseから値を変更しない
+    [ReadOnly]
     public Transform _playerTransform;
 
     private bool _initialized = false;
