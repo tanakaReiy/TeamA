@@ -17,4 +17,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Mockup/BaseGimmickTest.unity
+    guid: c9f136a29b659324a995d5c953d362d7
+  - enabled: 1
+    path: Assets/Mockup/CandleGimmickTest.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Sample/3DSoundSample.unity
+    guid: a174e69cd80e78248945d3373b6e48f0
+  - enabled: 1
+    path: Assets/Scenes/System/IngameDebug.unity
+    guid: f344c073eba28c247a464cfb6b57ff22
+  - enabled: 1
+    path: Assets/Scenes/Mockup/EnemyTest/EnemyTest.unity
+    guid: 0fb9e8fa86fa4ca4ca2f30d0402791a3
+  - enabled: 1
+    path: Assets/Scenes/Mockup/CandleGimmickTest.unity
+    guid: d3df973b97c7bac4990e9c4e7d74ec25
   m_configObjects: {}
