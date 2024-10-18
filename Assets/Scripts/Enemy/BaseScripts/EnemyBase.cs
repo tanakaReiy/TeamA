@@ -1,5 +1,7 @@
 ﻿using Alchemy.Inspector;
+using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,9 +17,10 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     public Func<Vector3> GetNextPosition;
 
+    //Playerの位置を知るための参照
     //後にシーンにあるエネミースポナーからPlayerのtransformを参照渡しする方法に変更
     //EnemyBaseから値を変更しない
-    private Transform _playerTransform;
+    public Transform _playerTransform;
 
     private bool _initialized = false;
 
@@ -42,8 +45,14 @@ public class EnemyBase : MonoBehaviour
     private bool _isTargetPlayer = false;
     private bool _isSearchPlayer = false;
 
+    private CancellationTokenSource _cts;
+    private CancellationToken _token;
+
     private void Start()
     {
+        _cts = new CancellationTokenSource();
+        _token = _cts.Token;
+
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
         //memo
@@ -55,7 +64,7 @@ public class EnemyBase : MonoBehaviour
             _initialized = true;
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (!_initialized || !_navMeshAgent.isOnNavMesh)
         {
@@ -67,7 +76,7 @@ public class EnemyBase : MonoBehaviour
             SetMovePosition();
         }
     }
-    void SetMovePosition()
+    private void SetMovePosition()
     {
         _isSearchPlayer = SearchPlayer();
 
@@ -127,11 +136,21 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>
-    /// エネミーの状態を変更し、敵の状態に伴ったメソッドを呼び出す
+    /// エネミーの状態を変更し、敵の状態に伴ったメソッドを1回呼び出す
     /// </summary>
     /// <param name="changedEnemyState"></param>
-    private void ChangeEnemyState(EnemyState changedEnemyState)
+    private async void ChangeEnemyState(EnemyState changedEnemyState)
     {
+        // すでにキャンセルされているなら例外を投げる
+        _token.ThrowIfCancellationRequested();
+
+        //処理停止
+        _cts.Cancel();
+
+        //token再生成
+        _cts = new CancellationTokenSource();
+        _token = _cts.Token;
+
         _enemyState = changedEnemyState;
 
         //確認用　後で消す
@@ -139,25 +158,25 @@ public class EnemyBase : MonoBehaviour
 
         switch (_enemyState)
         {
-            case EnemyState.Attack :
-
+            case EnemyState.Attack:
+                OnAttackedActionAsync(_token);
                 break;
-            case EnemyState.Damage : 
-
+            case EnemyState.Damage:
+                OnDamagedActionAsync(_token);
                 break;
-            case EnemyState.Death : 
-
+            case EnemyState.Death:
+                OnDeathActionAsync(_token);
                 break;
         }
     }
 
     /// <summary>
-    /// ダメージを受けた際に㏋を変更する機能
+    /// ダメージを受けた際に㏋を変更する機能　後に変更ある可能性あり
     /// </summary>
     /// <param name="damage"></param>
     public virtual void Damaged(int damage)
     {
-        if(_enemyState == EnemyState.Damage || _enemyState == EnemyState.Death)
+        if (_enemyState == EnemyState.Damage || _enemyState == EnemyState.Death)
         {
             //確認用　後で消す
             Debug.Log($"Now, enemy:{this.gameObject.name} cant damaged");
@@ -177,8 +196,9 @@ public class EnemyBase : MonoBehaviour
 
     /// <summary>
     /// enemyStateがAttackに切り替わった際に呼ばれる
+    /// overrideする前提の関数
     /// </summary>
-    public virtual void OnAttackedAction()
+    protected virtual async UniTask OnAttackedActionAsync(CancellationToken cancellationToken)
     {
         //確認用　後で消す
         Debug.Log($"Enemy:{this.gameObject.name} attacked！");
@@ -186,8 +206,9 @@ public class EnemyBase : MonoBehaviour
 
     /// <summary>
     /// enemyStateがDamagedに切り替わった際に呼ばれる
+    /// overrideする前提の関数
     /// </summary>
-    public virtual void OnDamagedAction()
+    protected virtual async UniTask OnDamagedActionAsync(CancellationToken cancellationToken)
     {
         //確認用　後で消す
         Debug.Log($"Enemy:{this.gameObject.name} damaged！");
@@ -195,8 +216,9 @@ public class EnemyBase : MonoBehaviour
 
     /// <summary>
     /// enemyStateがDeathに切り替わった際に呼ばれる
+    /// overrideする前提の関数
     /// </summary>
-    public virtual void OnDeathAction()
+    protected virtual async UniTask OnDeathActionAsync(CancellationToken cancellationToken)
     {
         //確認用　後で消す
         Debug.Log($"Enemy:{this.gameObject.name} dead！");
@@ -206,6 +228,7 @@ public class EnemyBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
+        // 正面の視野ラインを描画
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * _searchablePlayerDistance);
         Gizmos.color = Color.blue;
 
