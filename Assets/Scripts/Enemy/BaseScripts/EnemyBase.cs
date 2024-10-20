@@ -27,8 +27,8 @@ public class EnemyBase : MonoBehaviour
 
     [Title("基本設定")]
 
-    [LabelText("HP")]
-    [SerializeField] private int _hp = 1;
+    [LabelText("設定するHP")]
+    [SerializeField] private int _enemyHp = 1;
 
     [LabelText("現在の状態")]
     [SerializeField] private EnemyState _enemyState = EnemyState.Move;
@@ -54,17 +54,30 @@ public class EnemyBase : MonoBehaviour
         _cts = new CancellationTokenSource();
         _token = _cts.Token;
 
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
+        //Navmeshレイヤーの名前は後で変える
+        _navMeshAgent.agentTypeID = NavMesh.GetAreaFromName("TestEnemy");
 
         //memo
         //ここのプレイヤーのポジション参照の取得は後にシングルトンかスポナーから与えられる形に変わる
         _playerTransform = FindAnyObjectByType<PlayerInEnemyTest>().GetComponent<Transform>();
 
-        if (_playerTransform && _navMeshAgent)
+        //初期化できたかどうかのnullチェック
+        if (_playerTransform && _navMeshAgent && GetNextPosition != null && OnStart())
         {
             _initialized = true;
         }
     }
+    /// <summary>
+    /// 継承先で、本来Start()でしたい処理をここに書く
+    /// 実行はEnemyBase内でのStart()の最後で呼ばれる
+    /// </summary>
+    /// <returns> 初期化できたならTrue、できてないならFalseを返す</returns>
+    public virtual bool OnStart()
+    {
+        return true;
+    }
+
     private void FixedUpdate()
     {
         if (!_initialized || !_navMeshAgent.isOnNavMesh)
@@ -77,6 +90,9 @@ public class EnemyBase : MonoBehaviour
             SetMovePosition();
         }
     }
+    /// <summary>
+    /// EnemyStateがMoveの時に移動先を選択する
+    /// </summary>
     private void SetMovePosition()
     {
         _isSearchPlayer = SearchPlayer();
@@ -97,30 +113,43 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// プレイヤーが視野内に存在するかを判定
+    /// </summary>
+    /// <returns>視野内にいるならTrue、いないならFalse</returns>
     private bool SearchPlayer()
     {
-        Vector3 toPlayerDirection = _playerTransform.position - transform.position;
+        Vector3 toPlayerDirection = _playerTransform.position - this.transform.position;
         if (toPlayerDirection.magnitude < _searchablePlayerDistance
             && Vector3.Angle(transform.forward, toPlayerDirection) < _fieldOfViewHalf
-            && !Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, -1 - 1 << LayerMask.NameToLayer("Player")))
+            && !Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, 1 ^ LayerMask.NameToLayer("Player"))
+            && Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, LayerMask.NameToLayer("Player")))
         {
             return true;
         }
         return false;
     }
-
+    /// <summary>
+    /// プレイヤーが視野内のいる間、移動目標をプレイヤーの座標にする
+    /// </summary>
     private void ChasePlayer()
     {
         NavMesh.SamplePosition(_playerTransform.position, out _navMeshHit, _searchableTargetRange, 1);
         _navMeshAgent.destination = _navMeshHit.position;
     }
 
+    /// <summary>
+    /// プレイヤーが視野から外れたときに、移動目標を最後に設定した目標に戻す処理
+    /// </summary>
     private void SetLastTarget()
     {
         NavMesh.SamplePosition(_lastTarget, out _navMeshHit, _searchableTargetRange, 1);
         _navMeshAgent.destination = _navMeshHit.position;
     }
 
+    /// <summary>
+    /// 次の目標地点を設定する
+    /// </summary>
     private void SetNextTarget()
     {
         if (_navMeshAgent.destination != null)
@@ -147,6 +176,12 @@ public class EnemyBase : MonoBehaviour
 
         //処理停止
         _cts.Cancel();
+
+        //nullじゃなかったら明示的に解放
+        if (_cts != null)
+        {
+            _cts.Dispose();
+        }
 
         //token再生成
         _cts = new CancellationTokenSource();
@@ -183,10 +218,10 @@ public class EnemyBase : MonoBehaviour
             Debug.Log($"Now, enemy:{this.gameObject.name} cant damaged");
             return;
         }
-        _hp -= damage;
-        if (_hp < 0)
+        _enemyHp -= damage;
+        if (_enemyHp < 0)
         {
-            _hp = 0;
+            _enemyHp = 0;
             ChangeEnemyState(EnemyState.Death);
         }
         else
