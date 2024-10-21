@@ -57,7 +57,7 @@ public class InputReader : SingletonMonoBehavior<InputReader>, Controls.IPlayerA
 
     public void OnSkill(InputAction.CallbackContext context)
     {
-        _onCaptureSubject.OnNext(context); 
+        _onSkillSubject.OnNext(context); 
     }
 
     public void OnInteract(InputAction.CallbackContext context)
