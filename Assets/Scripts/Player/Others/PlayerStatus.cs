@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-
+using Ability;
 //仮プレイヤーステータス
 public class PlayerStatus : MonoBehaviour
 {
-    public enum CapureAbility
-    {
-        None = 0,ExampleAbility,
-    }
+
     private void Awake()
     {
+        Ability = new NoneAbility();
 
         Health = new ObservableStatus(100, 100);
 
@@ -19,19 +17,11 @@ public class PlayerStatus : MonoBehaviour
             .Where(c => c.performed)
             .Subscribe(_ =>
             {
-                switch (Ability)
-                {
-                    case CapureAbility.None:
-                        print("スキルはありません");
-                        break;
-                    case CapureAbility.ExampleAbility:
-                        print("ExampleSkillが設定されています");
-                        break;
-                }
+                Ability.PerformAbility();
             }).AddTo(this);
     }
 
 
     public ObservableStatus Health { get; private set; } = null;
-    public CapureAbility Ability { get; set; } = CapureAbility.None;
+    public IPlayerAbility Ability { get; set; }
 }
