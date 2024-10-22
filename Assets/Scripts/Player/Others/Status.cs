@@ -14,6 +14,7 @@ public class ObservableStatus : IObservable<Status>
         _status = new ReactiveProperty<Status>(new Status(value,max));
     }
 
+    //現在の値を設定、取得ができます
     public float Value
     {
         get
@@ -27,6 +28,7 @@ public class ObservableStatus : IObservable<Status>
         }
     }
 
+    //値の最大値の設定、取得ができます
     public float Max
     {
         get
@@ -38,6 +40,12 @@ public class ObservableStatus : IObservable<Status>
         {
             _status.Value = _status.Value.SetStatus(_status.Value.GetStatus().value, value);
         }
+    }
+
+    //値を初期値に設定します
+    public void ResetValue()
+    {
+        _status.Value = _status.Value.SetInitialValue();
     }
 
 
@@ -54,17 +62,21 @@ public class Status
     private readonly float _max;
     private readonly float _initialValue;
 
-    public Status(float value, float max)
+    //初期値と値の上限を用いてStatusを作成します
+    //初期値のコピーは指定がない場合、valueが使用されます
+    public Status(float value, float max,float? initialValue = null)
     {
         if(max < value) { throw new System.ArgumentException(); }
         if(value < 0) { throw new System.ArgumentException(); }
         _value = value;
         _max = max;
-        _initialValue = value;
+        _initialValue = initialValue ?? value;
+
+        
     }
 
     /// <summary>
-    /// Maxを超える値はクランプされます
+    /// Valueは 0 - maxにクランプされます
     /// </summary>
     /// <param name="value"></param>
     /// <param name="max"></param>
@@ -72,14 +84,14 @@ public class Status
     public Status SetStatus(float value,float max)
     {
         value = Mathf.Clamp(value, 0, max);
-        return new Status(value, max);
+        return new Status(value, max,_initialValue);
     }
 
     public (float value, float max) GetStatus() { return (_value, _max); }
 
     public Status SetInitialValue()
     {
-        return new Status(_initialValue, _max);
+        return new Status(_initialValue, _max,_initialValue);
     }
 
     
