@@ -1,7 +1,11 @@
 ﻿using Alchemy.Inspector;
 using Cysharp.Threading.Tasks;
+using LitMotion;
+using LitMotion.Extensions;
 using System;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,7 +19,7 @@ public class EnemyBase : MonoBehaviour
     /// 次の目的地をセットするFunc
     /// EnemySpawnerから個別に設定
     /// </summary>
-    public Func<Vector3> GetNextPosition;
+    public Func<(Vector3, Vector3)> GetNextPosition;
 
     //Playerの位置を知るための参照
     //後にシーンにあるエネミースポナーからPlayerのtransformを参照渡しする方法に変更
@@ -29,6 +33,15 @@ public class EnemyBase : MonoBehaviour
 
     [LabelText("設定するHP")]
     [SerializeField] private int _enemyHp = 1;
+
+    [LabelText("設定する上限の移動速度")]
+    [SerializeField] private float _enemyMaxSpeed = 6;
+
+    [LabelText("設定する回転速度（deg/s）")]
+    [SerializeField] private float _enemyAngularSpeed = 240;
+
+    [LabelText("地面からの高さ")]
+    [SerializeField] private float _enemyBaseOffset = 0.5f;
 
     [LabelText("現在の状態")]
     [SerializeField] private EnemyState _enemyState = EnemyState.Move;
@@ -46,17 +59,20 @@ public class EnemyBase : MonoBehaviour
     private bool _isTargetPlayer = false;
     private bool _isSearchPlayer = false;
 
-    private CancellationTokenSource _cts;
-    private CancellationToken _token;
+    private CancellationTokenSource _ctsAction;
+    private CancellationToken _cancellTokenAction;
 
-    private void Start()
+    private CancellationTokenSource _ctsMove;
+    private CancellationToken _cancellTokenMove;
+
+    bool _isPlayGoalAction = false;
+
+    public void Initialize()
     {
-        _cts = new CancellationTokenSource();
-        _token = _cts.Token;
+        _ctsAction = new CancellationTokenSource();
+        _cancellTokenAction = _ctsAction.Token;
 
         _navMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
-        //Navmeshレイヤーの名前は後で変える
-        _navMeshAgent.agentTypeID = NavMesh.GetAreaFromName("TestEnemy");
 
         //memo
         //ここのプレイヤーのポジション参照の取得は後にシングルトンかスポナーから与えられる形に変わる
@@ -67,10 +83,17 @@ public class EnemyBase : MonoBehaviour
         {
             _initialized = true;
         }
+        //Navmeshレイヤーの名前は後で変える
+        _navMeshAgent.agentTypeID = NavMesh.GetAreaFromName("EnemyMovable");
+
+        _navMeshAgent.speed = _enemyMaxSpeed;
+        _navMeshAgent.angularSpeed = _enemyAngularSpeed;
+        _navMeshAgent.baseOffset = _enemyBaseOffset;
     }
     /// <summary>
-    /// 継承先で、本来Start()でしたい処理をここに書く
-    /// 実行はEnemyBase内でのStart()の最後で呼ばれる
+    /// <br>継承先で、本来Start()でしたい処理をここに書く/br>
+    /// <br>実行はEnemyBase内でのInitialize()のnullチェック中に呼ばれる</br>
+    /// <br>この中の初期化が正常に行われない場合も全体の動きが停止するように実装予定</br>
     /// </summary>
     /// <returns> 初期化できたならTrue、できてないならFalseを返す</returns>
     public virtual bool OnStart()
@@ -93,12 +116,33 @@ public class EnemyBase : MonoBehaviour
     /// <summary>
     /// EnemyStateがMoveの時に移動先を選択する
     /// </summary>
-    private void SetMovePosition()
+    private async void SetMovePosition()
     {
         _isSearchPlayer = SearchPlayer();
-
         if (_isSearchPlayer)
         {
+            //GoalActionAsyncをしている途中ならキャンセルをする
+            if(_isPlayGoalAction)
+            {
+                // すでにキャンセルされているなら例外を投げる
+                _cancellTokenMove.ThrowIfCancellationRequested();
+
+                //処理停止
+                _ctsMove.Cancel();
+
+                //nullじゃなかったら明示的に解放
+                if (_ctsMove != null)
+                {
+                    _ctsMove.Dispose();
+                }
+
+                //token再生成
+                _ctsMove = new CancellationTokenSource();
+                _cancellTokenMove = _ctsMove.Token;
+                _isPlayGoalAction = false;
+
+            }
+
             _isTargetPlayer = true;
             ChasePlayer();
         }
@@ -109,7 +153,9 @@ public class EnemyBase : MonoBehaviour
         }
         else if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
         {
-            SetNextTarget();
+            (Vector3, Vector3) NextTargetData = GetNextPosition();
+            //await GoalTargetActionAsync(NextTargetData.Item2 , _cancellTokenMove);----------------やっぱりうまくいかん　最優先の修正案件
+            SetNextTarget(NextTargetData.Item1);
         }
     }
 
@@ -120,10 +166,13 @@ public class EnemyBase : MonoBehaviour
     private bool SearchPlayer()
     {
         Vector3 toPlayerDirection = _playerTransform.position - this.transform.position;
-        if (toPlayerDirection.magnitude < _searchablePlayerDistance
-            && Vector3.Angle(transform.forward, toPlayerDirection) < _fieldOfViewHalf
-            && !Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, 1 ^ LayerMask.NameToLayer("Player"))
-            && Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, LayerMask.NameToLayer("Player")))
+        bool a = toPlayerDirection.magnitude < _searchablePlayerDistance;
+        bool b = Vector3.Angle(transform.forward, toPlayerDirection) < _fieldOfViewHalf;
+        bool c = !Physics.Raycast(transform.position, toPlayerDirection, toPlayerDirection.magnitude, -1 - (1 << LayerMask.NameToLayer("Player")));
+        int L = LayerMask.NameToLayer("Player");
+        bool d = Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, (int)Mathf.Pow(2, 7) );
+
+        if (a && b && c && d)
         {
             return true;
         }
@@ -138,6 +187,12 @@ public class EnemyBase : MonoBehaviour
         _navMeshAgent.destination = _navMeshHit.position;
     }
 
+    async private UniTask GoalTargetActionAsync(Vector3 targetDirection , CancellationToken cancellationToken)
+    {
+        _isPlayGoalAction = true;
+        await LMotion.Create(this.transform.forward, targetDirection, 1f).BindToEulerAngles(transform).ToUniTask(cancellationToken);
+        _isPlayGoalAction = false;
+    }
     /// <summary>
     /// プレイヤーが視野から外れたときに、移動目標を最後に設定した目標に戻す処理
     /// </summary>
@@ -150,18 +205,16 @@ public class EnemyBase : MonoBehaviour
     /// <summary>
     /// 次の目標地点を設定する
     /// </summary>
-    private void SetNextTarget()
+    private void SetNextTarget(Vector3 nextPosition)
     {
-        if (_navMeshAgent.destination != null)
+        if (_navMeshAgent.destination != null && _lastTarget == _navMeshAgent.destination)
         {
             _lastTarget = _navMeshAgent.destination;
-        }
-        Vector3 nextPosition = GetNextPosition();
-
-        if (nextPosition != null)
-        {
-            NavMesh.SamplePosition(nextPosition, out _navMeshHit, _searchableTargetRange, 1);
-            _navMeshAgent.destination = _navMeshHit.position;
+            if (nextPosition != null)
+            {
+                NavMesh.SamplePosition(nextPosition, out _navMeshHit, _searchableTargetRange, 1);
+                _navMeshAgent.destination = _navMeshHit.position;
+            }
         }
     }
 
@@ -169,23 +222,23 @@ public class EnemyBase : MonoBehaviour
     /// エネミーの状態を変更し、敵の状態に伴ったメソッドを1回呼び出す
     /// </summary>
     /// <param name="changedEnemyState"></param>
-    private async void ChangeEnemyState(EnemyState changedEnemyState)
+    async private void ChangeEnemyStateAsync(EnemyState changedEnemyState)
     {
         // すでにキャンセルされているなら例外を投げる
-        _token.ThrowIfCancellationRequested();
+        _cancellTokenAction.ThrowIfCancellationRequested();
 
         //処理停止
-        _cts.Cancel();
+        _ctsAction.Cancel();
 
         //nullじゃなかったら明示的に解放
-        if (_cts != null)
+        if (_ctsAction != null)
         {
-            _cts.Dispose();
+            _ctsAction.Dispose();
         }
 
         //token再生成
-        _cts = new CancellationTokenSource();
-        _token = _cts.Token;
+        _ctsAction = new CancellationTokenSource();
+        _cancellTokenAction = _ctsAction.Token;
 
         _enemyState = changedEnemyState;
 
@@ -195,13 +248,23 @@ public class EnemyBase : MonoBehaviour
         switch (_enemyState)
         {
             case EnemyState.Attack:
-                OnAttackedActionAsync(_token);
+                _navMeshAgent.enabled = false;
+                await OnAttackedActionAsync(_cancellTokenAction);
+                _navMeshAgent.enabled = true;
+                //いらんかも
+                ChangeEnemyStateAsync(EnemyState.Move);
                 break;
             case EnemyState.Damage:
-                OnDamagedActionAsync(_token);
+                _navMeshAgent.enabled = false;
+                await OnDamagedActionAsync(_cancellTokenAction);
+                _navMeshAgent.enabled = true;
+                //いらんかも
+                ChangeEnemyStateAsync(EnemyState.Move);
                 break;
             case EnemyState.Death:
-                OnDeathActionAsync(_token);
+                _navMeshAgent.enabled = false;
+                await OnDeathActionAsync(_cancellTokenAction);
+                _navMeshAgent.enabled = true;
                 break;
         }
     }
@@ -222,11 +285,11 @@ public class EnemyBase : MonoBehaviour
         if (_enemyHp < 0)
         {
             _enemyHp = 0;
-            ChangeEnemyState(EnemyState.Death);
+            ChangeEnemyStateAsync(EnemyState.Death);
         }
         else
         {
-            ChangeEnemyState(EnemyState.Damage);
+            ChangeEnemyStateAsync(EnemyState.Damage);
         }
     }
 
@@ -234,7 +297,7 @@ public class EnemyBase : MonoBehaviour
     /// enemyStateがAttackに切り替わった際に呼ばれる
     /// overrideする前提の関数
     /// </summary>
-    protected virtual async UniTask OnAttackedActionAsync(CancellationToken cancellationToken)
+    virtual async protected UniTask OnAttackedActionAsync(CancellationToken cancellationToken)
     {
         //確認用　後で消す
         Debug.Log($"Enemy:{this.gameObject.name} attacked！");
@@ -244,7 +307,7 @@ public class EnemyBase : MonoBehaviour
     /// enemyStateがDamagedに切り替わった際に呼ばれる
     /// overrideする前提の関数
     /// </summary>
-    protected virtual async UniTask OnDamagedActionAsync(CancellationToken cancellationToken)
+    virtual async protected UniTask OnDamagedActionAsync(CancellationToken cancellationToken)
     {
         //確認用　後で消す
         Debug.Log($"Enemy:{this.gameObject.name} damaged！");
@@ -254,27 +317,45 @@ public class EnemyBase : MonoBehaviour
     /// enemyStateがDeathに切り替わった際に呼ばれる
     /// overrideする前提の関数
     /// </summary>
-    protected virtual async UniTask OnDeathActionAsync(CancellationToken cancellationToken)
+    virtual async protected UniTask OnDeathActionAsync(CancellationToken cancellationToken)
     {
         //確認用　後で消す
         Debug.Log($"Enemy:{this.gameObject.name} dead！");
     }
 
+    private void OnDisable()
+    {
+        //nullじゃなかったら明示的に解放
+        if (_ctsAction != null)
+        {
+            _ctsAction.Dispose();
+        }
+        //nullじゃなかったら明示的に解放
+        if (_ctsMove != null)
+        {
+            _ctsMove.Dispose();
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
+        //BaseOffsetの位置
+        Gizmos.DrawSphere(new Vector3(this.transform.position.x, _enemyBaseOffset, this.transform.position.z), 0.1f);
+
         Gizmos.color = Color.yellow;
         // 正面の視野ラインを描画
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward * _searchablePlayerDistance);
+        Gizmos.DrawLine(this.transform.position, this.transform.position + this.transform.forward * _searchablePlayerDistance);
         Gizmos.color = Color.blue;
 
         // 左側の視野ラインを描画
-        Vector3 leftDirection = transform.rotation * Quaternion.Euler(0, -_fieldOfViewHalf, 0) * Vector3.forward;
-        Gizmos.DrawLine(transform.position, transform.position + leftDirection * _searchablePlayerDistance);
+        Vector3 leftDirection = this.transform.rotation * Quaternion.Euler(0, -_fieldOfViewHalf, 0) * Vector3.forward;
+        Gizmos.DrawLine(this.transform.position, this.transform.position + leftDirection * _searchablePlayerDistance);
 
         // 右側の視野ラインを描画
-        Vector3 rightDirection = transform.rotation * Quaternion.Euler(0, _fieldOfViewHalf, 0) * Vector3.forward;
-        Gizmos.DrawLine(transform.position, transform.position + rightDirection * _searchablePlayerDistance);
+        Vector3 rightDirection = this.transform.rotation * Quaternion.Euler(0, _fieldOfViewHalf, 0) * Vector3.forward;
+        Gizmos.DrawLine(this.transform.position, this.transform.position + rightDirection * _searchablePlayerDistance);
     }
 #endif
 }
