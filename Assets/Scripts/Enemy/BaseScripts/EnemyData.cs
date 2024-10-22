@@ -22,4 +22,7 @@ public class EnemyData : ScriptableObject
     public IMovePatternEnemy MovePatern => _movePatern;
 }
 
-public interface IMovePatternEnemy { }
+public interface IMovePatternEnemy 
+{
+    public (Vector3 position, Vector3 direction) NextTarget();
+}
