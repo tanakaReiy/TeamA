@@ -19,4 +19,9 @@ public class SURUTOKARI : EnemyBase
     {
 
     }
+    public sealed override void CaptureStatusSet(ref PlayerStatus playerStatus)
+    {
+        playerStatus.Ability = new SurtrCaptrable();
+        ChangeEnemyStateAsync(EnemyState.Idle);
+    }
 }

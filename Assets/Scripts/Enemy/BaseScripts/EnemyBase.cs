@@ -1,4 +1,5 @@
-﻿using Alchemy.Inspector;
+﻿using Ability;
+using Alchemy.Inspector;
 using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
@@ -10,7 +11,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour, ICapturableEnemy
 {
     private NavMeshAgent _navMeshAgent;
     private NavMeshHit _navMeshHit;
@@ -222,7 +223,7 @@ public class EnemyBase : MonoBehaviour
     /// エネミーの状態を変更し、敵の状態に伴ったメソッドを1回呼び出す
     /// </summary>
     /// <param name="changedEnemyState"></param>
-    async private void ChangeEnemyStateAsync(EnemyState changedEnemyState)
+    async protected void ChangeEnemyStateAsync(EnemyState changedEnemyState)
     {
         // すでにキャンセルされているなら例外を投げる
         _cancellTokenAction.ThrowIfCancellationRequested();
@@ -321,6 +322,17 @@ public class EnemyBase : MonoBehaviour
     {
         //確認用　後で消す
         Debug.Log($"Enemy:{this.gameObject.name} dead！");
+    }
+
+    /// <summary>
+    /// プレイヤーで呼び出すやつ
+    /// </summary>
+    /// <param name="playerStatus">プレイヤーのステータス
+    /// <br>代入を行うので参照で渡すこと</br>　
+    /// </param>
+    public virtual void CaptureStatusSet(ref PlayerStatus playerStatus)
+    {
+        playerStatus.Ability = new NoneAbility();
     }
 
     private void OnDisable()
