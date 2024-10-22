@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2423457145049103728}
   - component: {fileID: 2129035980397241993}
   - component: {fileID: 207078709437038315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SurutoKari
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6d13339bc3c64d24e8338361b3007393, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

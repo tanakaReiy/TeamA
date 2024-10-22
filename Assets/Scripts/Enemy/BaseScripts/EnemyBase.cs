@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBase : MonoBehaviour, ICapturableEnemy
+public class EnemyBase : MonoBehaviour, ICapturableEnemy, IInteractable
 {
     private NavMeshAgent _navMeshAgent;
     private NavMeshHit _navMeshHit;
@@ -327,12 +327,11 @@ public class EnemyBase : MonoBehaviour, ICapturableEnemy
     /// <summary>
     /// プレイヤーで呼び出すやつ
     /// </summary>
-    /// <param name="playerStatus">プレイヤーのステータス
-    /// <br>代入を行うので参照で渡すこと</br>　
+    /// <param name="playerAbility">プレイヤーのステータス
     /// </param>
-    public virtual void CaptureStatusSet(ref PlayerStatus playerStatus)
+    public virtual void CaptureStatusSet(IPlayerAbility playerAbility)
     {
-        playerStatus.Ability = new NoneAbility();
+        playerAbility = new NoneAbility();
     }
 
     private void OnDisable()
@@ -368,6 +367,22 @@ public class EnemyBase : MonoBehaviour, ICapturableEnemy
         // 右側の視野ラインを描画
         Vector3 rightDirection = this.transform.rotation * Quaternion.Euler(0, _fieldOfViewHalf, 0) * Vector3.forward;
         Gizmos.DrawLine(this.transform.position, this.transform.position + rightDirection * _searchablePlayerDistance);
+    }
+
+    public bool CanInteract()
+    {
+        //こっちも無理やり参照　後で治す
+        return FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability is NoneAbility ? true : false;
+    }
+
+    public string GetInteractionMessage()
+    {
+        return "今プレイヤーにキャプチャーされた";
+    }
+
+    public void OnInteract(IInteractCallBackReceivable caller)
+    {
+        CaptureStatusSet(FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability);
     }
 #endif
 }

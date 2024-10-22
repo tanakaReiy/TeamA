@@ -1,3 +1,4 @@
+using Ability;
 using Alchemy.Inspector;
 using Cysharp.Threading.Tasks;
 using System.Threading;
@@ -19,9 +20,9 @@ public class SURUTOKARI : EnemyBase
     {
 
     }
-    public sealed override void CaptureStatusSet(ref PlayerStatus playerStatus)
+    public sealed override void CaptureStatusSet(IPlayerAbility playerAbility)
     {
-        playerStatus.Ability = new SurtrCaptrable();
+        FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability = new SurtrCaptrable();
         ChangeEnemyStateAsync(EnemyState.Idle);
     }
 }
