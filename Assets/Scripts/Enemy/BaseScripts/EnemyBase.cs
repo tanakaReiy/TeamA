@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBase : MonoBehaviour, ICapturableEnemy, IInteractable
+public class EnemyBase : MonoBehaviour, IInteractable
 {
     private NavMeshAgent _navMeshAgent;
     private NavMeshHit _navMeshHit;
