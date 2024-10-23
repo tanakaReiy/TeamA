@@ -5,12 +5,13 @@ using System.Linq;
 using UniRx;
 using UnityEngine;
 using Alchemy.Inspector;
+
+
 public class InteractDetector : MonoBehaviour
 {
     [SerializeField] private float _radius;
     [SerializeField] private bool _showRange = false;
     [SerializeField] private LayerMask _detectLayer;
-
     //Event
     public IReadOnlyReactiveProperty<IInteractable> CurrentInteractable => _currentInteractable;
 
@@ -82,7 +83,7 @@ public class InteractDetector : MonoBehaviour
                 if(hit.collider.gameObject.TryGetComponent(out  interactable))
                 {
                     //インタラクトできないInteractableの場合はスキップ
-                    if (!interactable.CanInteract()) { continue; }
+                    if (!interactable.CanInteract()) { interactable = null; continue; }
                     else { break; }
                 }
             }
