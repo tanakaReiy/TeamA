@@ -18,6 +18,7 @@ public class TestSpawner : MonoBehaviour
             enemyBase = enemyObject.AddComponent<EnemyBase>();
         }
         enemyBase.GetNextPosition += _enemyData.MovePatern.NextTarget;
+        enemyBase.GetNextGoalAction += _enemyData.MovePatern.NextTargetActionAsync;
         enemyBase.Initialize();
     }
 }
