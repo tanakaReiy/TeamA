@@ -1,4 +1,6 @@
 using Alchemy.Inspector;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -25,4 +27,5 @@ public class EnemyData : ScriptableObject
 public interface IMovePatternEnemy 
 {
     public (Vector3 position, Vector3 direction) NextTarget();
+    public UniTask NextTargetActionAsync(Quaternion rotation, Transform transform, CancellationToken token);
 }
