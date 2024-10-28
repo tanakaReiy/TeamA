@@ -6,8 +6,12 @@ using Alchemy.Inspector;
 public class PlayerStateMachine : StateMachine
 {
     [field:SerializeField,FoldoutGroup("CompRefs")] public CharacterMovement CharacterMovement { get; private set; }
+    [field: SerializeField, FoldoutGroup("CompRefs")] public CharacterController Controller { get; private set; }
+
     [field: SerializeField, FoldoutGroup("CompRefs")] public InteractDetector InteractDetector { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public SocketManager SocketManager { get; private set; }
+    [field: SerializeField, FoldoutGroup("CompRefs")] public Animator Animator { get; private set; }
+
 
 
     [field: SerializeField] public float FreeLookMovementSpeed = 6f;

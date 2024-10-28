@@ -5,12 +5,19 @@ using UniRx;
 
 public class PlayerFreeLookState : PlayerBaseState
 {
+    private readonly int WalkStateHash = Animator.StringToHash("Walk");
+    private readonly int SpeedPramHash = Animator.StringToHash("Speed");
+    private const float AnimatorDampTime = 0.1f;
+    private const float TransitionDuration = 0.1f;
     public PlayerFreeLookState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
 
     public override void Enter()
     {
+        _stateMachine.Animator.CrossFadeInFixedTime(WalkStateHash, TransitionDuration);
+
+
         InputReader.Instance.OnInteractAsObservable()
             .Where(c => c.performed)
             .Subscribe(_ =>
@@ -21,11 +28,14 @@ public class PlayerFreeLookState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
+
         var direction = CalculateMovement();
 
         FaceMovement(direction, deltaTime);
 
         _stateMachine.CharacterMovement.Move(direction  *_stateMachine.FreeLookMovementSpeed, deltaTime);
+
+        UpdateAnimator(deltaTime);
     }
 
     private void FaceMovement(Vector3 direction,float deltaTime)
@@ -56,6 +66,15 @@ public class PlayerFreeLookState : PlayerBaseState
                     .normalized;
 
 
+    }
+
+    private void UpdateAnimator(float deltaTime)
+    {
+        _stateMachine.Animator.SetFloat(
+            SpeedPramHash
+            , _stateMachine.Controller.velocity.magnitude / _stateMachine.FreeLookMovementSpeed
+            , AnimatorDampTime
+            , deltaTime);
     }
     public override void Exit()
     {
