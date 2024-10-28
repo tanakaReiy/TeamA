@@ -33,7 +33,7 @@ public sealed class GuardEnemy : IMovePatternEnemy
             Debug.Log("Cancel NextTargetAction");
         }
     }
-
+    /*
 #if UNITY_EDITOR
     /// <summary>
     /// 
@@ -45,4 +45,5 @@ public sealed class GuardEnemy : IMovePatternEnemy
 
     }
 #endif
+    */
 }
