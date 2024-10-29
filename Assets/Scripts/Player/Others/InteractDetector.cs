@@ -10,6 +10,7 @@ public class InteractDetector : MonoBehaviour
     [SerializeField] private float _radius;
     [SerializeField] private bool _showRange = false;
     [SerializeField] private LayerMask _detectLayer;
+    [SerializeField] private Vector3 _offset;
 
     //Event
     public IReadOnlyReactiveProperty<IInteractable> CurrentInteractable => _currentInteractable;
@@ -72,7 +73,7 @@ public class InteractDetector : MonoBehaviour
 
             //ŒŸ’m
             RaycastHit[] hits = Physics.SphereCastAll(
-                new Ray { origin = transform.position, direction = transform.forward },_radius,0.1f,_detectLayer.value);
+                new Ray { origin = transform.TransformPoint(_offset), direction = transform.forward },_radius,0.1f,_detectLayer.value);
 
             
             IInteractable interactable = null;
@@ -104,7 +105,7 @@ public class InteractDetector : MonoBehaviour
 
         if(!_showRange) { return; }
 
-        Gizmos.DrawSphere(transform.position, _radius);
+        Gizmos.DrawSphere(transform.TransformPoint(_offset), _radius);
 
     }
 

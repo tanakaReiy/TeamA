@@ -1,5 +1,9 @@
 using Alchemy.Inspector;
+using Cysharp.Threading.Tasks;
+using LitMotion;
+using LitMotion.Extensions;
 using System;
+using System.Threading;
 using UnityEngine;
 
 [Serializable]
@@ -12,6 +16,24 @@ public sealed class GuardEnemy : IMovePatternEnemy
     {
         return (_guardPosition, _guardFrontAngle);
     }
+
+    public async UniTask NextTargetActionAsync(Quaternion targetRotation, Transform transform, CancellationToken token)
+    {
+        try
+        {
+            //–h‰q‚ÌŒü‚«‚É‡‚í‚¹‚ÄˆÚ“®‚·‚é
+            await LMotion.Create(transform.rotation, targetRotation, 1).WithEase(Ease.InOutCubic).BindToLocalRotation(transform).ToUniTask(token);
+            //Å‰‚É­‚µŒX‚­
+            await LMotion.Create(transform.rotation, targetRotation * Quaternion.AngleAxis(-30, Vector3.up), 1.5f).WithEase(Ease.InOutCubic).BindToLocalRotation(transform).ToUniTask(token);
+            //ƒ‹[ƒv‚Å¶‰E‚É‰ñ“]‚µ‚ÄŒx‰ú‚ğ‚·‚é
+            await LMotion.Create(targetRotation * Quaternion.AngleAxis(-30, Vector3.up), targetRotation * Quaternion.AngleAxis(60, Vector3.up), 3f).WithEase(Ease.InOutCubic).WithLoops(-1, loopType: LoopType.Yoyo).BindToLocalRotation(transform).ToUniTask(token);
+        }
+        catch (OperationCanceledException e)
+        {
+            Debug.Log("Cancel NextTargetAction");
+        }
+    }
+
 #if UNITY_EDITOR
     /// <summary>
     /// 
