@@ -24,10 +24,7 @@ public class StageGimmickObserver : MonoBehaviour
 
     private void Start()
     {
-        if (_clearSwitch != null)
-        {
-            _clearSwitch.SetActive(false);
-        }
+        _clearSwitch?.SetActive(false);
         if (_stageGimmicks != null)
         {
             //キャンセレーショントークンソースの初期化
