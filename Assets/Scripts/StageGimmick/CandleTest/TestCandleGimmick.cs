@@ -17,7 +17,6 @@ public class TestCandleGimmick : StageGimmickBase
     }
     private void ClearTest()
     {
-        //ここにスイッチを出現させる処理
-        Debug.Log("スイッチ出現!");
+
     }
 }
