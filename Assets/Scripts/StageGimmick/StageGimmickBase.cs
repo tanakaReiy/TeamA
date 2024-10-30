@@ -25,8 +25,8 @@ public abstract class StageGimmickBase : MonoBehaviour
     /// <br>クリア時に呼ぶ処理</br>
     /// <br>※オーバーライド時にはisClearをtrueにする処理を忘れずに</br>
     /// </summary>
-    protected virtual void ClearActive()
+    protected virtual void ClearActive(bool changeIsClear)
     {
-        isClear = true;
+        isClear = changeIsClear;
     }
 }

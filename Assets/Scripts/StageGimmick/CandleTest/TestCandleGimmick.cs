@@ -11,9 +11,9 @@ public class TestCandleGimmick : StageGimmickBase
         _observer = FindObjectOfType<StageGimmickObserver>();
         _observer.OnAllGimmicksClear += ClearTest;
     }
-    protected override void ClearActive()
+    protected override void ClearActive(bool changeIsClear)
     {
-        base.ClearActive();
+        base.ClearActive(changeIsClear);
     }
     private void ClearTest()
     {
