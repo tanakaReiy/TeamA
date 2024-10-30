@@ -1,3 +1,4 @@
+using Alchemy.Inspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,16 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
     private bool _canInteract = true;
     private Renderer _candleRenderer;
     [SerializeField] private GameObject _candleObject = null;
+
+
+    [LabelText("‰Î‚ª‚Â‚¢‚Ä‚¢‚éó‘Ô‚ª³‚µ‚¢")]
+    [SerializeField] private bool _isFiredCorrect = true;
+
+    /// <summary>
+    /// Œ»İA‰Î‚ª‚Â‚¢‚Ä‚¢‚é‚©‚ğŠÇ—‚·‚éƒu[ƒ‹
+    /// </summary>
+    private bool _isFire = false;
+
     private void Start()
     {
         _candleRenderer = GetComponent<Renderer>();
@@ -25,22 +36,19 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
 
     public string GetInteractionMessage()
     {
-        return "‰Î‚ğ“”‚·";
-        /*
-        return "Œ©‚½–Ú•Ï‚¦‚Ü‚·";
-        */
+        return _canInteract ? "‰Î‚ğ“”‚·" : "‰Î‚ª‚ ‚ê‚Î...";
     }
 
     public void OnInteract(IInteractCallBackReceivable caller)
     {
         if (_canInteract)
         {
-            base.ClearActive();
+            base.ClearActive(_isFiredCorrect ? _isFire : !_isFire);
             if (_candleObject)
             {
-                _candleObject.SetActive(true);
+                _candleObject.SetActive(!_isFire);
+                _isFire = !_isFire;
             }
-            //_candleRenderer.material.color = Color.red;
             _canInteract = false;
         }
         else
