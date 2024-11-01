@@ -7,9 +7,9 @@ public class SwitchTest : MonoBehaviour
 {
     private bool _hasProcessed = false;
     private float _rayDistance = 1f;
-    private float _switchWidth = 1f; //スイッチの半径
-    private float _switchHeight = 0.5f; //高さの半径
-    private float _switchDepth = 1f; //奥行き
+    [SerializeField] private float _switchWidth = 1f; //スイッチの半径
+    [SerializeField] private float _switchHeight = 0.5f; //高さの半径
+    [SerializeField] private float _switchDepth = 1f; //奥行き
     private float _switchDistance = 2f;
     private Vector3 _halfExtents;
     private Vector3 _switchCenterOffset = new Vector3(0, 0.5f, 0);

@@ -14,7 +14,6 @@ public class StageGimmickObserver : MonoBehaviour
     [SerializeField] private StageGimmickBase[] _stageGimmicks;
 
     [SerializeField] private SwitchTest _switchTest;
-    [SerializeField] private DoorTest _doorTest;
 
     // キャンセル用のトークンソース
     private CancellationTokenSource _cancellationTokenSource;
@@ -24,12 +23,7 @@ public class StageGimmickObserver : MonoBehaviour
 
     private void Start()
     {
-        if (_switchTest != null && _doorTest != null)
-        {
-            _switchTest.OnSwitchPressed += _doorTest.OpenDoor;
-            _switchTest?.gameObject.SetActive(true);
-        }
-
+        _switchTest?.gameObject.SetActive(true);
         if (_stageGimmicks != null)
         {
             //キャンセレーショントークンソースの初期化
