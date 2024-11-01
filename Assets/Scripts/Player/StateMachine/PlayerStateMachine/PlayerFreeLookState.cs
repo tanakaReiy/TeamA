@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
+[System.Serializable]
 public class PlayerFreeLookState : PlayerBaseState
 {
     private readonly int WalkStateHash = Animator.StringToHash("Walk");
     private readonly int SpeedPramHash = Animator.StringToHash("Speed");
     private const float AnimatorDampTime = 0.1f;
     private const float TransitionDuration = 0.1f;
+    private CompositeDisposable disposables = new();
     public PlayerFreeLookState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -23,7 +25,14 @@ public class PlayerFreeLookState : PlayerBaseState
             .Subscribe(_ =>
             {
                 _stateMachine.InteractDetector.Interact();
-            }).AddTo(_stateMachine.gameObject);
+            }).AddTo(disposables);
+
+        InputReader.Instance.OnCaptureAsObservable()
+            .Where(c => c.performed)
+            .Subscribe(_ =>
+            {
+                _stateMachine.ChangeState(new PlayerCapturingState(_stateMachine));
+            }).AddTo(disposables);
     }
 
     public override void Tick(float deltaTime)
@@ -78,7 +87,7 @@ public class PlayerFreeLookState : PlayerBaseState
     }
     public override void Exit()
     {
-
+        disposables.Dispose();
     }
 
   

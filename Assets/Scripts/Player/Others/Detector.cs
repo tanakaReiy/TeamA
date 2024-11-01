@@ -24,7 +24,10 @@ public class Detector<DetectType>  where DetectType : class, IDetectable
     /// <summary>
     /// 衝突履歴を削除します。衝突履歴はDetectMessageOnceでのみ使用されています
     /// </summary>
-    public void ResetColiideInfo() => _alreadyCollideWih.Clear();
+    public void ResetColiideHistory() => _alreadyCollideWih.Clear();
+
+   
+
 
     /// <summary>
     /// 範囲内で初めに検知したDetectTypeのみを返します。一度発見したらそれ以降の検知はありません

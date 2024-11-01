@@ -13,12 +13,12 @@ public class PlayerStatus : MonoBehaviour
 
         Health = new ObservableStatus(100, 100);
 
-        InputReader.Instance.OnSkillAsObservable()
-            .Where(c => c.performed)
-            .Subscribe(_ =>
-            {
-                Ability.PerformAbility();
-            }).AddTo(this);
+        //InputReader.Instance.OnSkillAsObservable()
+        //    .Where(c => c.performed)
+        //    .Subscribe(_ =>
+        //    {
+        //        Ability.PerformAbility();
+        //    }).AddTo(this);
     }
 
 

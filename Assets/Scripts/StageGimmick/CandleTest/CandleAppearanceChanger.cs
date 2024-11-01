@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Ability;
 public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
 {
     private bool _canInteract = true;
