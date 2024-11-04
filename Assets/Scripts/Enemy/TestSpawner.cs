@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class TestSpawner : MonoBehaviour
 {
+    [SerializeField] private bool _isGizmoActive;
     [SerializeField] EnemyData _enemyData;
     int _existEnemyCnt = 0;
-    int _SpawnEnemyCnt = 0;
+    [SerializeField] int _SpawnEnemyCnt = 0;
+    int _SpawnEnemyCount = 0;
 
+    Vector3 _enableSpawnPoint = Vector3.zero;
 
     private void Start()
     {
@@ -21,4 +24,15 @@ public class TestSpawner : MonoBehaviour
         enemyBase.GetNextGoalAction += _enemyData.MovePatern.NextTargetActionAsync;
         enemyBase.Initialize();
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if(_isGizmoActive && _enemyData)
+        {
+            Gizmos.color = new Color(1, 0, 1, 0.5f);
+            Gizmos.DrawCube(_enemyData.MovePatern.NextTarget().position, Vector3.one * 0.8f);
+        }
+    }
+#endif
 }

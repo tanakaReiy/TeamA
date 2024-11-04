@@ -11,7 +11,10 @@ using UnityEngine;
 public sealed class GuardEnemy : IMovePatternEnemy
 {
     [SerializeField] private Vector3 _guardPosition;
+    public Vector3 GetGuardPosition => _guardPosition;
     [SerializeField] private Vector3 _guardFrontAngle;
+    public Vector3 GetGuardFrontAngle => _guardFrontAngle;
+
     public (Vector3 position, Vector3 direction) NextTarget()
     {
         return (_guardPosition, _guardFrontAngle);

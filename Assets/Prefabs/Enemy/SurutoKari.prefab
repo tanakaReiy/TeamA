@@ -234,4 +234,6 @@ MonoBehaviour:
   _enemyState: 1
   _searchablePlayerDistance: 5
   _fieldOfViewHalf: 50
+  _maxChacableDistance: 7.5
+  _isViewLastTarget: 1
   _sampleFloat: 1
