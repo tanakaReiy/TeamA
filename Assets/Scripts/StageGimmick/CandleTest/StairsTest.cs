@@ -15,6 +15,13 @@ public class StairsTest : MonoBehaviour, IGimmick
     private IEnumerator DelaySwitchScene(float delay, string sceneName)
     {
         yield return new WaitForSeconds(delay);
-        SceneLoader.LoadSceneSimple(sceneName);
+        try
+        {
+            SceneLoader.LoadSceneSimple(sceneName);
+        }
+        catch
+        {
+            Debug.LogError($"{sceneName} ÇÕñ≥å¯Ç»ÉVÅ[ÉìñºÇ≈Ç∑");
+        }
     }
 }

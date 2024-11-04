@@ -741,9 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efd3a1e566402647a0b6817026f579a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _switchWidth: 2
-  _switchHeight: 0.5
-  _switchDepth: 1
+  _halfExtents: {x: 2, y: 0.5, z: 1}
 --- !u!65 &1014035930
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1280,11 +1278,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8357476647126512457, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 6
+      value: 5.645023
       objectReference: {fileID: 0}
     - target: {fileID: -8357476647126512457, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.49
+      value: -3.777496
       objectReference: {fileID: 0}
     - target: {fileID: -6391444549685571872, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_BindingMode
@@ -1292,11 +1290,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6391444549685571872, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 6
+      value: 5.645023
       objectReference: {fileID: 0}
     - target: {fileID: -6391444549685571872, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.49
+      value: -3.777496
       objectReference: {fileID: 0}
     - target: {fileID: 82550371450771837, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1328,11 +1326,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781246853273360582, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000002230958
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 781246853273360582, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000012486887
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1463969596160537452, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1396,11 +1394,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3066678956907905637, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 6
+      value: 5.645023
       objectReference: {fileID: 0}
     - target: {fileID: 3066678956907905637, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.49
+      value: -3.777496
       objectReference: {fileID: 0}
     - target: {fileID: 3674747491355205116, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_FollowOffset.y
@@ -1448,11 +1446,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8057386936884971502, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001922833
+      value: -0.00000003807285
       objectReference: {fileID: 0}
     - target: {fileID: 8057386936884971502, guid: badb6afc8b986b049bb0debd27c2ece9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000010307521
+      value: 0.000000020409301
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1969,9 +1967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efd3a1e566402647a0b6817026f579a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _switchWidth: 1
-  _switchHeight: 0.5
-  _switchDepth: 1
+  _halfExtents: {x: 1, y: 0.5, z: 1}
 --- !u!1 &2024580983
 GameObject:
   m_ObjectHideFlags: 0

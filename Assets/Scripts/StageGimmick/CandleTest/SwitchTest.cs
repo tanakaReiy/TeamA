@@ -7,11 +7,8 @@ public class SwitchTest : MonoBehaviour
 {
     private bool _hasProcessed = false;
     private float _rayDistance = 1f;
-    [SerializeField] private float _switchWidth = 1f; //スイッチの半径
-    [SerializeField] private float _switchHeight = 0.5f; //高さの半径
-    [SerializeField] private float _switchDepth = 1f; //奥行き
     private float _switchDistance = 2f;
-    private Vector3 _halfExtents;
+    [SerializeField] private Vector3 _halfExtents; //スイッチの大きさの半径
     private Vector3 _switchCenterOffset = new Vector3(0, 0.5f, 0);
     public event Action OnSwitchPressed; //ドア開閉通知
     private void FixedUpdate()
@@ -26,7 +23,6 @@ public class SwitchTest : MonoBehaviour
     }
     private bool IsPlayerOnSwitch()
     {
-        _halfExtents = new Vector3(_switchWidth, _switchHeight, _switchDepth);
         return Physics.BoxCast(transform.position + new Vector3(0, -0.5f, 0), _halfExtents, Vector3.up, out RaycastHit hit, Quaternion.identity, _switchDistance);
     }
     private void OnDrawGizmos()
