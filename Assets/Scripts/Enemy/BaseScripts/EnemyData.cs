@@ -20,7 +20,7 @@ public class EnemyData : ScriptableObject
     public int MaxEnemyCnt => _maxEnemyCnt;
 
     [LabelText("エネミーの挙動")]
-    [SerializeField, SerializeReference] private IMovePatternEnemy _movePatern;
+    [SerializeField, SerializeReference] public IMovePatternEnemy _movePatern;
     public IMovePatternEnemy MovePatern => _movePatern;
 }
 

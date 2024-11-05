@@ -12,6 +12,7 @@ public abstract class StageGimmickBase : MonoBehaviour
     //ギミックのクリア状態を管理するプロパティ,trueにすることによりクリア通知を送る
     protected bool isClear = false;
 
+
     /// <summary>
     /// クリアするまで待つ処理
     /// </summary>
@@ -28,5 +29,10 @@ public abstract class StageGimmickBase : MonoBehaviour
     protected virtual void ClearActive(bool changeIsClear)
     {
         isClear = changeIsClear;
+    }
+
+    public virtual void ResetGimmick()
+    {
+        Debug.Log($"{this.gameObject.name}がリセットされました");
     }
 }

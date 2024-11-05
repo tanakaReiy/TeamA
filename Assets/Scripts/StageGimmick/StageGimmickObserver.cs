@@ -23,7 +23,8 @@ public class StageGimmickObserver : MonoBehaviour
 
     private void Start()
     {
-        _switchTest?.gameObject.SetActive(true);
+        _switchTest = _switchTest.GetComponent<SwitchTest>();
+        _switchTest?.gameObject.SetActive(false);
         if (_stageGimmicks != null)
         {
             //キャンセレーショントークンソースの初期化

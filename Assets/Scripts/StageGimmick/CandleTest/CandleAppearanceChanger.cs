@@ -25,6 +25,7 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
         {
             _candleObject.SetActive(false);
         }
+        FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction += ResetGimmick;
     }
     public bool CanInteract()
     {
@@ -36,6 +37,21 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
 
     public string GetInteractionMessage()
     {
+        if(_canInteract)
+        {
+            if(_isFire)
+            {
+                return "‰Î‚ğÁ‚·";
+            }
+            else
+            {
+                return "‰Î‚ğ“”‚·";
+            }
+        }
+        else
+        {
+            return "‰Î‚ª‚ ‚ê‚Î...";
+        }
         return _canInteract ? "‰Î‚ğ“”‚·" : "‰Î‚ª‚ ‚ê‚Î...";
     }
 
@@ -43,11 +59,11 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
     {
         if (_canInteract)
         {
+            _isFire = !_isFire;
             base.ClearActive(_isFiredCorrect ? _isFire : !_isFire);
             if (_candleObject)
             {
-                _candleObject.SetActive(!_isFire);
-                _isFire = !_isFire;
+                _candleObject.SetActive(_isFire);
             }
             _canInteract = false;
         }
@@ -55,5 +71,11 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
         {
             Debug.Log("‰½‚©‰Î‚ª‚ ‚ê‚Îcc");
         }
+    }
+    public override void ResetGimmick()
+    {
+        _isFire = false;
+        _candleObject.SetActive(false);
+        Debug.Log($"{this.gameObject.name} reset gimmick");
     }
 }

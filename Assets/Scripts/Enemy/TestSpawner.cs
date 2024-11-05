@@ -14,7 +14,7 @@ public class TestSpawner : MonoBehaviour
 
     private void Start()
     {
-        GameObject enemyObject = Instantiate(_enemyData.EnemyPrefab);
+        GameObject enemyObject = Instantiate(_enemyData.EnemyPrefab, _enemyData.MovePatern.NextTarget().position, Quaternion.Euler(_enemyData.MovePatern.NextTarget().direction));
         EnemyBase enemyBase = enemyObject.GetComponent<EnemyBase>();
         if(!enemyBase)
         {
