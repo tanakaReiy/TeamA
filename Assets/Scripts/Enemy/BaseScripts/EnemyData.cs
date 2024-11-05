@@ -27,5 +27,12 @@ public class EnemyData : ScriptableObject
 public interface IMovePatternEnemy 
 {
     public (Vector3 position, Vector3 direction) NextTarget();
+    /// <summary>
+    /// エネミーの次の目的地に移行する際の回転を制御する
+    /// </summary>
+    /// <param name="rotation">次の目的地にて設定されている向き</param>
+    /// <param name="transform">エネミーのtransform</param>
+    /// <param name="token">キャンセル用トークン</param>
+    /// <returns></returns>
     public UniTask NextTargetActionAsync(Quaternion rotation, Transform transform, CancellationToken token);
 }

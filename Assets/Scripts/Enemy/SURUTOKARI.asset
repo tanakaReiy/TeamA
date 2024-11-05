@@ -23,5 +23,5 @@ MonoBehaviour:
     - rid: 7169660747787010048
       type: {class: GuardEnemy, ns: , asm: Assembly-CSharp}
       data:
-        _guardPosition: {x: 6, y: 0, z: 0}
+        _guardPosition: {x: 0.02, y: 0, z: -11.8}
         _guardFrontAngle: {x: 0, y: 270, z: 0}
