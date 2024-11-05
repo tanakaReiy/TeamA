@@ -23,5 +23,6 @@ public class PlayerStatus : MonoBehaviour
 
 
     public ObservableStatus Health { get; private set; } = null;
+
     public IPlayerAbility Ability { get; set; }
 }

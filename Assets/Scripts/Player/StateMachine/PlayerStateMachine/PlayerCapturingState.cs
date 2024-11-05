@@ -10,6 +10,7 @@ public class PlayerCapturingState : PlayerBaseState,ICaptureAnimationEventReceiv
     private const string StaffHeadAttachSocketName = "StaffHead";
     public PlayerCapturingState(PlayerStateMachine playerStateMachine) : base(playerStateMachine){}
 
+
     public override void Enter()
     {
         _stateMachine.Animator.CrossFadeInFixedTime(CaputureStateHash, TransitionDuration);
@@ -20,10 +21,11 @@ public class PlayerCapturingState : PlayerBaseState,ICaptureAnimationEventReceiv
 
     public override void Tick(float deltaTime)
     {
-        if(GetAnimationNormalizedTime(_stateMachine.Animator) >= 1f)
+        if (GetAnimationNormalizedTime(_stateMachine.Animator,"Capture") >= 1f)
         {
             ReturnToLocomotion();
         }
+
     }
 
     public override void Exit()
@@ -37,11 +39,8 @@ public class PlayerCapturingState : PlayerBaseState,ICaptureAnimationEventReceiv
         _stateMachine.CapturableDetector.StartDetection(
             capture =>
             {
-                _stateMachine.Status.Ability = capture.CapturableAbility;
-
-                GameObject staffHead = GameObject.Instantiate(capture.StaffHeadPrefab);
-                IAttachable staffAttachable = staffHead.GetComponent<IAttachable>();
-                _stateMachine.SocketManager.AttachTo(staffAttachable, StaffHeadAttachSocketName);
+                capture.OnCaptured.Invoke();
+                _stateMachine.WandManager.OnCapture(capture.CapturableAbility);
 
                 _stateMachine.CapturableDetector.EndDetection();
             });

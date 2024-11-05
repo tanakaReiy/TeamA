@@ -33,6 +33,14 @@ public class PlayerFreeLookState : PlayerBaseState
             {
                 _stateMachine.ChangeState(new PlayerCapturingState(_stateMachine));
             }).AddTo(disposables);
+
+        InputReader.Instance.OnSkillAsObservable()
+            .Where(c => c.performed)
+            .Where(_=>_stateMachine.WandManager.HasAbility())
+            .Subscribe(_ =>
+            {
+                _stateMachine.ChangeState(new PlayerAbilityState(_stateMachine));
+            }).AddTo(disposables);
     }
 
     public override void Tick(float deltaTime)

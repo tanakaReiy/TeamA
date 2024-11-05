@@ -5,27 +5,23 @@ using UnityEngine;
 
 namespace Ability
 {
-    //プレイヤーのアビリティ(スキル)を抽象的に扱うためのinterfaceです
+
+    [Obsolete("このクラスは使用しなくなりました。コンフリクトしなくなれば削除します")]
     public interface IPlayerAbility 
     {
-        /// <summary>
-        /// 現在のAbilityがNoneAbility(アビリティが設定されていない状態)でないときtrueを返しmasu
-        /// </summary>
-        /// <returns></returns>
+
+    
+
         bool HasAbility() { return true; }
 
-        /// <summary>
-        /// 設定されたアビリティを実行します
-        /// </summary>
+
         [Obsolete()]
         void PerformAbility();
 
-        /// <summary>
-        /// アビリティ使用時、この関数が呼ばれた後にPlayerのステートが戻り値に切り替わります
-        /// </summary>
-        /// <param name="performer"></param>
-        /// <returns></returns>
-        PlayerBaseState OnPerformAbility(GameObject performer) { return null; }
+        PlayerBaseState OnPerformAbility(GameObject performer) { return new PlayerAbilityState(performer.GetComponent<PlayerStateMachine>()); }
+
+
+        
     }
     //なんのアビリティも設定されていないことを表すAbilityです
     public sealed class NoneAbility : IPlayerAbility
@@ -51,6 +47,14 @@ namespace Ability
             Debug.Log("CandleAbilityが設定されています");
         }
     }
+
+   
+
+
+
+
 }
+
+
 
 

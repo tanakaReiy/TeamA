@@ -14,6 +14,8 @@ public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable
     [field: SerializeField, FoldoutGroup("CompRefs")] public Animator Animator { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public CapturableDetector CapturableDetector { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public PlayerStatus Status { get; private set; }
+    [field: SerializeField, FoldoutGroup("CompRefs")] public WandManager WandManager { get; private set; }
+
 
 
 
