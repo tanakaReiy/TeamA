@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ability;
 using System;
-public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
+public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable
 {
     private bool _canInteract = true;
     private Renderer _candleRenderer;
@@ -58,7 +58,6 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
         {
             return "火があれば...";
         }
-        return _canInteract ? "火を灯す" : "火があれば...";
     }
 
     public void OnInteract(IInteractCallBackReceivable caller)
@@ -66,7 +65,7 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
         if (_canInteract)
         {
             _isFire = !_isFire;
-            base.ClearActive(_isFiredCorrect ? _isFire : !_isFire);
+            SetState(_isFiredCorrect ? _isFire : !_isFire);
             if (_candleObject)
             {
                 _candleObject.SetActive(_isFire);
@@ -78,12 +77,6 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
             Debug.Log("何か火があれば……");
         }
     }
-    public override void ResetGimmick()
-    {
-        _isFire = false;
-        _candleObject.SetActive(false);
-        Debug.Log($"{this.gameObject.name} reset gimmick");
-    }
 
     /// <summary>
     /// ロウソクの火が変更された時に呼ぶ関数
@@ -93,5 +86,47 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
     {
         _isFire = newState;
         OnStateChanged?.Invoke(); // イベントを発火
+    }/// <summary>
+     /// リセットアクションの追加
+     /// </summary>
+    public void RegisterReset()
+    {
+        try
+        {
+            FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction += ResetGimmick;
+        }
+        catch
+        {
+            Debug.Log($"{this.gameObject.name} can't register ResetGimmick ");
+        }
+    }
+    /// <summary>
+    /// ギミックの状態をリセットする
+    /// </summary>
+    public void ResetGimmick()
+    {
+        _isFire = false;
+        _candleObject.SetActive(false);
+        SetState(_isFiredCorrect ? _isFire : !_isFire);
+        Debug.Log($"{this.gameObject.name} reset gimmick");
+    }
+
+    /// <summary>
+    /// 登録したリセットアクションの解除
+    /// </summary>
+    public void CancelletionReset()
+    {
+        try
+        {
+            FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction -= ResetGimmick;
+        }
+        catch
+        {
+            Debug.Log($"{this.gameObject.name} can't register ResetGimmick ");
+        }
+    }
+    private void OnDisable()
+    {
+        CancelletionReset();
     }
 }

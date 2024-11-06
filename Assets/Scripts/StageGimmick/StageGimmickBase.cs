@@ -30,9 +30,4 @@ public abstract class StageGimmickBase : MonoBehaviour
     {
         isClear = changeIsClear;
     }
-
-    public virtual void ResetGimmick()
-    {
-        Debug.Log($"{this.gameObject.name}がリセットされました");
-    }
 }
