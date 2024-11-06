@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ability;
+using System;
 public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
 {
     private bool _canInteract = true;
@@ -13,10 +14,15 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
     [LabelText("火がついている状態が正しい")]
     [SerializeField] private bool _isFiredCorrect = true;
 
+    public bool IsFiredCorrect { get; private set; }
+
     /// <summary>
     /// 現在、火がついているかを管理するブール
     /// </summary>
     private bool _isFire = false;
+    public bool IsFire { get; private set; }
+
+    public event Action OnStateChanged;
 
     private void Start()
     {
@@ -77,5 +83,15 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
         _isFire = false;
         _candleObject.SetActive(false);
         Debug.Log($"{this.gameObject.name} reset gimmick");
+    }
+
+    /// <summary>
+    /// ロウソクの火が変更された時に呼ぶ関数
+    /// </summary>
+    /// <param name="newState">火のオンオフ</param>
+    public void SetState(bool newState)
+    {
+        _isFire = newState;
+        OnStateChanged?.Invoke(); // イベントを発火
     }
 }
