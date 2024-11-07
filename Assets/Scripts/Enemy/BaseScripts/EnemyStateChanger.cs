@@ -13,7 +13,7 @@ using UnityEngine.AI;
 /// <br>エネミーの個別スクリプトはこれを継承することを前提に作成</br>
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBase : MonoBehaviour, IInteractable
+public class EnemyStateChanger : MonoBehaviour, IInteractable
 {
     private NavMeshAgent _navMeshAgent;
     private NavMeshHit _navMeshHit;

@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
-public class SURUTOKARI : EnemyBase
+public class SURUTOKARI : EnemyStateChanger
 {
     [Title("å≈óLê›íË")]
     [SerializeField] float _sampleFloat = 1.0f;
@@ -21,11 +21,6 @@ public class SURUTOKARI : EnemyBase
     //{
 
     //}
-    public sealed override void CaptureStatusSet(IPlayerAbility playerAbility)
-    {
-        FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability = new SurtrCaptrable();
-        ChangeEnemyStateAsync(EnemyState.Idle);
-    }
 #if UNITY_EDITOR
     [Title("åüèÿóp")]
     

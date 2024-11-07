@@ -1109,9 +1109,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab57419642782a945978e17cff12adfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isGizmoActive: 1
-  _enemyData: {fileID: 11400000, guid: 3dbc2a6207bdc58488f44f42e0a65312, type: 2}
-  _SpawnEnemyCnt: 0
+  _enemyMoveData:
+  - _isDrawTargetsPosition: 1
+    _enemyPrefab: {fileID: 7595661437455495787, guid: 2d3974724f7d54741bc4ffb836e86926, type: 3}
+    _spawnPoint: {x: 4.29, y: 0, z: -3.25}
+    _mamGenerateCnt: 1
+    _maxEnemyCnt: 1
+    _movePatern:
+      rid: 8352058721892040709
+  references:
+    version: 2
+    RefIds:
+    - rid: 8352058721892040709
+      type: {class: GuardEnemy, ns: , asm: Assembly-CSharp}
+      data:
+        _guardPosition: {x: -5.37, y: 0, z: 0.69}
+        _guardFrontAngle: {x: 0, y: 270, z: 0}
 --- !u!4 &731768232
 Transform:
   m_ObjectHideFlags: 0
@@ -1120,13 +1133,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731768230}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.27076843, z: 0, w: 0.9626446}
   m_LocalPosition: {x: -9.2, y: 0, z: 4.6759696}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -31.42, z: 0}
 --- !u!1 &768650656
 GameObject:
   m_ObjectHideFlags: 0

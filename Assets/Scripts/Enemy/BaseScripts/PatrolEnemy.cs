@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 
@@ -9,9 +11,26 @@ using UnityEngine;
 /// <summary>èÑâÒÇ∑ÇÈÇ‚Ç¬</summary>
 public sealed class PatrolEnemy : IMovePatternEnemy
 {
-    [SerializeField] private Transform[] _patrolPositions;
+    [Serializable]
+    public class PatrolPointData
+    {
+        public Vector3 Position;
+        public Vector3 Direction;
+    }
 
-    public (Vector3 position, Vector3 direction) NextTarget()
+
+    [SerializeField] PatrolPointData[] patrolPositions;
+
+    Vector3[] IMovePatternEnemy.GetAllTargets()
+    {
+        Vector3[] positions = new Vector3[patrolPositions.Length];
+        for (int i= 0; i < patrolPositions.Length; i++)
+        {
+            positions[i] = patrolPositions[i].Position;
+        }
+        return positions;
+    }
+    public (Vector3 position, Vector3 direction) GetNextTarget()
     {
         return (Vector3.zero, Vector3.zero);
     }

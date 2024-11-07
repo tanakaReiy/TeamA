@@ -10,7 +10,11 @@ using UnityEngine;
 public sealed class FreeMoveEnemy : IMovePatternEnemy
 {
 
-    public (Vector3 position, Vector3 direction) NextTarget()
+    Vector3[] IMovePatternEnemy.GetAllTargets()
+    {
+        return new Vector3[] { Vector3.zero };
+    }
+    public (Vector3 position, Vector3 direction) GetNextTarget()
     {
         return (Vector3.zero, Vector3.zero);
     }
