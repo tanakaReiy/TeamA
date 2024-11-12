@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyMoveData:
   - _isDrawTargetsPosition: 1
-    _enemyPrefab: {fileID: 7595661437455495787, guid: 2d3974724f7d54741bc4ffb836e86926, type: 3}
+    _enemyPrefab: {fileID: 6589487952110768536, guid: 7a668e20ddb80ab42bf304909157b6ab, type: 3}
     _spawnPoint: {x: 4.29, y: 0, z: -3.25}
     _mamGenerateCnt: 1
     _maxEnemyCnt: 1

@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
-public class SURUTOKARI : EnemyStateChanger
+public class SURUTOKARI : EnemyBase
 {
     [Title("å≈óLê›íË")]
     [SerializeField] float _sampleFloat = 1.0f;
@@ -23,11 +23,11 @@ public class SURUTOKARI : EnemyStateChanger
     //}
 #if UNITY_EDITOR
     [Title("åüèÿóp")]
-    
+
     [Button]
     private void Damage(int damage)
     {
-        base.Damaged(damage);
+        base.ApplyDamage(damage);
     }
 #endif
 }
