@@ -35,14 +35,8 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     }
     public bool CanInteract()
     {
-        //プレイヤーが一つしかないから無理やり探してます
-        //推奨：別の方法での参照　要修正
-        //_canInteract = FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability is SurtrCaptrable ? true : false;
-        //return _canInteract;
-
         var playerStatus = FindAnyObjectByType<WandManager>();
-        var _canInteract = playerStatus == null || (playerStatus.HasAbility() && playerStatus.CurrentAbility != WandManager.CaptureAbility.Test1);
-        return _canInteract;
+        return playerStatus == null || (playerStatus.HasAbility() && playerStatus.CurrentAbility != WandManager.CaptureAbility.Test1);
     }
 
     public string GetInteractionMessage()

@@ -24,14 +24,13 @@ public class SwitchTest : MonoBehaviour
     }
     private bool IsPlayerOnSwitch()
     {
-        if (Physics.BoxCast(transform.position + new Vector3(0, -0.5f, 0), _halfExtents, Vector3.up, out RaycastHit hit, Quaternion.identity, _switchDistance))
-        {
-            if ((playerLayer.value & (1 << hit.collider.gameObject.layer)) != 0)
-            {
-                return true;
-            }
-        }
-        return false;
+        RaycastHit hit;
+        return Physics.BoxCast(transform.position + new Vector3(0, -0.5f, 0)
+            , _halfExtents
+            , Vector3.up
+            , out hit
+            , Quaternion.identity
+            , _switchDistance, playerLayer.value);
     }
     private void OnDrawGizmos()
     {
