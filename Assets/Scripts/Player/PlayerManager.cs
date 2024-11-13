@@ -47,7 +47,7 @@ public class PlayerManager : SingletonMonoBehavior<PlayerManager>
     public async UniTask<GameObject> InstanciatePlayerAsync(Vector3? generatePos = null)
     {
         _playerRef = await Addressables.InstantiateAsync(PlayerAddressableAddress);
-        if(generatePos.HasValue) { _playerRef.transform.position = generatePos.Value; }
+        if(generatePos.HasValue) { _playerRef.transform.GetChild(0).position = generatePos.Value; }
         return _playerRef;
     }
 
