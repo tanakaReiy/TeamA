@@ -1,4 +1,4 @@
-using Alchemy.Inspector;
+ï»¿using Alchemy.Inspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,22 +6,28 @@ using UnityEngine;
 
 public class WallGenerator : MonoBehaviour
 {
-    [LabelText("•Ç‚ÌƒvƒŒƒnƒu")]
+    [LabelText("å£ã®ãƒ—ãƒ¬ãƒãƒ–")]
     [SerializeField] private List<WallObject> _wallObjectsPrefab;
-    [LabelText("¶¬‚·‚éƒvƒŒƒnƒu‚Ìd‚İ")]
+    [LabelText("ç”Ÿæˆã™ã‚‹ãƒ—ãƒ¬ãƒãƒ–ã®é‡ã¿")]
     [SerializeField] private List<float> _wallObjectWeight;
-    [LabelText("¶¬ˆÊ’u")]
+    [LabelText("ç”Ÿæˆä½ç½®")]
     [SerializeField] private Transform _generatePosition;
-    [LabelText("¶¬ŠÔŠu")]
+
+    public Transform GeneratePosition
+    {
+        get { return _generatePosition; }
+    }
+
+    [LabelText("ç”Ÿæˆé–“éš”")]
     [SerializeField] private float _generateInterval;
-    [LabelText("¶¬‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğÁ‚·‹——£")]
+    [LabelText("ç”Ÿæˆã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¶ˆã™è·é›¢")]
     [SerializeField] private float _destroyObjectDistance;
 
-    public float DestroyObjectDistance  // publicƒvƒƒpƒeƒBi“Ç‚İæ‚èê—pj
+    public float DestroyObjectDistance  // publicãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ï¼ˆèª­ã¿å–ã‚Šå°‚ç”¨ï¼‰
     {
         get { return _destroyObjectDistance; }
     }
-    private bool _isGenerate; //¶¬ƒXƒ^[ƒg‚·‚éˆ—
+    private bool _isGenerate; //ç”Ÿæˆã‚¹ã‚¿ãƒ¼ãƒˆã™ã‚‹å‡¦ç†
     private float _timer;
 
     private void Start()
@@ -31,7 +37,7 @@ public class WallGenerator : MonoBehaviour
 
     private void Update()
     {
-        _timer = Time.deltaTime;
+        _timer += Time.deltaTime;
        if ( _wallObjectsPrefab != null && _isGenerate && _timer >= _generateInterval)
        {
             RandomWallGenerate();
@@ -39,21 +45,23 @@ public class WallGenerator : MonoBehaviour
        }
     }
 
-    // •Ç‚ğ¶¬‚·‚éˆ—
+    // å£ã‚’ç”Ÿæˆã™ã‚‹å‡¦ç†
     private void RandomWallGenerate()
     {
         int objIndex = GetRandomItem();
         if( objIndex != -1 )
         {
-            Instantiate(_wallObjectsPrefab[objIndex], _generatePosition);
+            WallObject wallObject = Instantiate(_wallObjectsPrefab[objIndex], _generatePosition.position, transform.rotation);
+            wallObject.RegisterGenerator(this);
+            Debug.Log("ç”Ÿæˆã—ã¾ã—ãŸ");
         }
         else
         {
-            Debug.LogWarning("¶¬‚É¸”s‚µ‚Ü‚µ‚½");
+            Debug.LogWarning("ç”Ÿæˆã«å¤±æ•—ã—ã¾ã—ãŸ");
         }
     }
 
-    // •Ç‚ÌƒuƒŒƒnƒu‚Ì“Y‚¦š‚ğ•Ô‚·ƒƒ\ƒbƒh
+    // å£ã®ãƒ–ãƒ¬ãƒãƒ–ã®æ·»ãˆå­—ã‚’è¿”ã™ãƒ¡ã‚½ãƒƒãƒ‰
     private int GetRandomItem()
     {
         float totalWeight = 0;
@@ -79,12 +87,21 @@ public class WallGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// ¶¬ƒtƒ‰ƒO‚ğƒIƒ“‚É‚·‚é
+    /// ç”Ÿæˆãƒ•ãƒ©ã‚°ã‚’ã‚ªãƒ³ã«ã™ã‚‹
     /// </summary>
     [Button]
     public void OnGenerateFlag()
     {
         _isGenerate = true;
+    }
+
+    /// <summary>
+    /// ç”Ÿæˆãƒ•ãƒ©ã‚°ã‚’ã‚ªãƒ•ã«ã™ã‚‹
+    /// </summary>
+    [Button]
+    public void OffGenerateFlag()
+    {
+        _isGenerate = false;
     }
 
     private void OnDrawGizmos()
@@ -94,8 +111,17 @@ public class WallGenerator : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawCube(_generatePosition.position, this.transform.localScale);
 
-        Gizmos.color = Color.blue; // You can choose any color for the line
-        Vector3 lineEnd = _generatePosition.position + _generatePosition.forward * _destroyObjectDistance; // Change 5f to your desired line length
-        Gizmos.DrawCube(lineEnd, new Vector3(10f, 5f, 1f));
+        Gizmos.color = Color.blue;
+        // å›è»¢ã¨ä½ç½®ã‚’åæ˜ ã•ã›ã‚‹ãŸã‚ã«Gizmos.matrixã‚’è¨­å®š
+        Matrix4x4 cubeMatrix = Matrix4x4.TRS(
+            _generatePosition.position + _generatePosition.forward * _destroyObjectDistance,
+            _generatePosition.rotation, // å›è»¢ã‚’é©ç”¨
+            Vector3.one // ã‚¹ã‚±ãƒ¼ãƒ«ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã¾ã¾
+        );
+
+        Gizmos.matrix = cubeMatrix;
+        Gizmos.DrawCube(Vector3.zero, new Vector3(10f, 5f, 1f));
+
+        Gizmos.matrix = Matrix4x4.identity;
     }
 }
