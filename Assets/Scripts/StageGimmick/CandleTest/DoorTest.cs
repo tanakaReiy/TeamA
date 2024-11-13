@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class DoorTest : MonoBehaviour, IGimmick
 {
-    Animator _animator;
+    Animator _doorAnimator;
     void Start()
     {
-        _animator = GetComponent<Animator>();
+        _doorAnimator = GetComponent<Animator>();
     }
     public void Activate()
     {
-        _animator.SetTrigger("Open");
+        _doorAnimator?.SetTrigger("Open");
         Debug.Log("ドアオープン");
     }
 }
