@@ -2187,14 +2187,12 @@ MonoBehaviour:
       data: "[\n    {\n        \"Key\": 1,\n        \"Value\": {\n            \"Item1\":
         0,\n            \"Item2\": 1\n        }\n    },\n    {\n        \"Key\":
         2,\n        \"Value\": {\n            \"Item1\": 2,\n            \"Item2\":
-        3\n        }\n    },\n    {\n        \"Key\": 4,\n        \"Value\": {\n           
-        \"Item1\": 4,\n            \"Item2\": 1\n        }\n    }\n]"
+        3\n        }\n    }\n]"
     unityObjectReferences:
     - {fileID: 2379698036203508746, guid: 2fe6f6caee8560a498f035a9e1f5bf95, type: 3}
     - {fileID: 7400000, guid: de6aff95087f84245a6f9677ae4a60df, type: 2}
     - {fileID: 2379698036203508746, guid: 5e3c49f1139a9be438a7d306c32dca87, type: 3}
     - {fileID: 7400000, guid: 6c2c16406f4d0db42a3d8b3f46f3ec6c, type: 2}
-    - {fileID: 2379698036203508746, guid: 5ece2c30197bde24cbd010c4273ea1c1, type: 3}
 --- !u!1 &6008778015602933401
 GameObject:
   m_ObjectHideFlags: 0
