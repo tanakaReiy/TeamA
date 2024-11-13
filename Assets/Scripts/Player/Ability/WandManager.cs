@@ -16,6 +16,7 @@ public partial class WandManager : MonoBehaviour
     private const string AbilityClipName = "AbilityEmpty";
 
     private IAbilityExcuter currentExcuter = null;
+    public CaptureAbility CurrentAbility { get; private set; }  
     /// <summary>
     /// —LŒø‚ÈAbiity‚ğ‚Á‚Ä‚¢‚é‚©
     /// </summary>

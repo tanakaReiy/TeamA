@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ability;
 using System;
-public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable
+public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable, IAbilityDetectable
 {
-    private bool _canInteract = true;
+    private bool _processed = true;
     private Renderer _candleRenderer;
     [SerializeField] private GameObject _candleObject = null;
-
-
     [LabelText("火がついている状態が正しい")]
     [SerializeField] private bool _isFiredCorrect = true;
 
@@ -21,6 +19,8 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable
     /// </summary>
     private bool _isFire = false;
     public bool IsFire { get; private set; }
+
+    public bool IsEnableDetect => true;
 
     public event Action OnStateChanged;
 
@@ -35,17 +35,15 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable
     }
     public bool CanInteract()
     {
-        //プレイヤーが一つしかないから無理やり探してます
-        //推奨：別の方法での参照　要修正
-        _canInteract = FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability is SurtrCaptrable ? true : false;
-        return _canInteract;
+        var playerStatus = FindAnyObjectByType<WandManager>();
+        return playerStatus == null || (playerStatus.HasAbility() && playerStatus.CurrentAbility != WandManager.CaptureAbility.Test1);
     }
 
     public string GetInteractionMessage()
     {
-        if(_canInteract)
+        if (CanInteract())
         {
-            if(_isFire)
+            if (_isFire)
             {
                 return "火を消す";
             }
@@ -62,15 +60,17 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable
 
     public void OnInteract(IInteractCallBackReceivable caller)
     {
-        if (_canInteract)
+        if (CanInteract() && _processed)
         {
             _isFire = !_isFire;
             SetState(_isFiredCorrect ? _isFire : !_isFire);
             if (_candleObject)
             {
                 _candleObject.SetActive(_isFire);
+                var _candleGimmick = this.GetComponent<TestCandleGimmick>();
+                _candleGimmick.OnFire();
             }
-            _canInteract = false;
+            _processed = false;
         }
         else
         {
@@ -128,5 +128,11 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable
     private void OnDisable()
     {
         CancelletionReset();
+    }
+
+    public void OnAbilityDetect(WandManager.CaptureAbility ability)
+    {
+        if (WandManager.CaptureAbility.Test1 != ability) { return; }
+
     }
 }
