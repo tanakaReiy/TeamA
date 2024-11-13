@@ -35,13 +35,12 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     }
     public bool CanInteract()
     {
-        var playerStatus = FindAnyObjectByType<WandManager>();
-        return playerStatus == null || (playerStatus.HasAbility() && playerStatus.CurrentAbility != WandManager.CaptureAbility.Test1);
+        return false;
     }
 
     public string GetInteractionMessage()
     {
-        if (CanInteract())
+        if (IsEnableDetect)
         {
             if (_isFire)
             {
@@ -60,22 +59,7 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
 
     public void OnInteract(IInteractCallBackReceivable caller)
     {
-        if (CanInteract() && _processed)
-        {
-            _isFire = !_isFire;
-            SetState(_isFiredCorrect ? _isFire : !_isFire);
-            if (_candleObject)
-            {
-                _candleObject.SetActive(_isFire);
-                var _candleGimmick = this.GetComponent<TestCandleGimmick>();
-                _candleGimmick.OnFire();
-            }
-            _processed = false;
-        }
-        else
-        {
-            Debug.Log("何か火があれば……");
-        }
+        
     }
 
     /// <summary>
@@ -133,6 +117,21 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     public void OnAbilityDetect(WandManager.CaptureAbility ability)
     {
         if (WandManager.CaptureAbility.Test1 != ability) { return; }
-
+        if (IsEnableDetect && _processed)
+        {
+            _isFire = !_isFire;
+            SetState(_isFiredCorrect ? _isFire : !_isFire);
+            if (_candleObject)
+            {
+                _candleObject.SetActive(_isFire);
+                var _candleGimmick = this.GetComponent<TestCandleGimmick>();
+                _candleGimmick.OnFire();
+            }
+            _processed = false;
+        }
+        else
+        {
+            Debug.Log("何か火があれば……");
+        }
     }
 }
