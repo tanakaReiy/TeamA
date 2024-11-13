@@ -8,7 +8,7 @@ using Alchemy.Serialization;
 [AlchemySerialize]
 public partial class WandManager : MonoBehaviour
 {
-    [NonSerialized,AlchemySerializeField] private Dictionary<CaptureAbility,(GameObject Head, AnimationClip Clip)> sources;
+    [SerializeField,AlchemySerializeField] private Dictionary<CaptureAbility,(GameObject Head, AnimationClip Clip)> sources;
     [field:SerializeField]public SocketManager SocketManager { get; private set; }
     [field:SerializeField]public Animator PlayerAnimator { get; private set; }
 
