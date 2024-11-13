@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5600823372022168178}
   - component: {fileID: 1876331437873257642}
   - component: {fileID: 9118518768267168904}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,8 +96,9 @@ GameObject:
   - component: {fileID: 4308454953826363095}
   - component: {fileID: 2423457145049103728}
   - component: {fileID: 2129035980397241993}
+  - component: {fileID: 1098804458901537660}
   - component: {fileID: 207078709437038315}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: SurutoKari
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 7595661437455495787}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 1.499}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -213,6 +214,34 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1098804458901537660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7595661437455495787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50adba0074472de4ea5cb6bbfd311f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CapturableAbility>k__BackingField: 1
+  OnCaptured:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 207078709437038315}
+        m_TargetAssemblyTypeName: EnemyBase, Assembly-CSharp
+        m_MethodName: OnCapturedAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &207078709437038315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,13 +256,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 0}
   _initialized: 0
+  _enemyState: 1
   _enemyHp: 1
   _enemyMaxSpeed: 3.65
   _enemyAngularSpeed: 240
-  _enemyBaseOffset: 0.5
-  _enemyState: 1
-  _searchablePlayerDistance: 5
+  _searchablePlayerDistance: 7
   _fieldOfViewHalf: 50
-  _maxChacableDistance: 7.5
+  _attackableDistance: 3
   _isViewLastTarget: 1
   _sampleFloat: 1

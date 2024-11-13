@@ -21,18 +21,13 @@ public class SURUTOKARI : EnemyBase
     //{
 
     //}
-    public sealed override void CaptureStatusSet(IPlayerAbility playerAbility)
-    {
-        FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability = new SurtrCaptrable();
-        ChangeEnemyStateAsync(EnemyState.Idle);
-    }
 #if UNITY_EDITOR
     [Title("åüèÿóp")]
-    
+
     [Button]
     private void Damage(int damage)
     {
-        base.Damaged(damage);
+        base.ApplyDamage(damage);
     }
 #endif
 }

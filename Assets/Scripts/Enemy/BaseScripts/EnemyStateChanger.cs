@@ -1,6 +1,6 @@
-﻿using Alchemy.Inspector;
+﻿using Ability;
+using Alchemy.Inspector;
 using Cysharp.Threading.Tasks;
-using DamageSystem;
 using LitMotion;
 using LitMotion.Extensions;
 using System;
@@ -8,8 +8,12 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// <br>エネミーのステートパターンをごり押しで実装している</br>
+/// <br>エネミーの個別スクリプトはこれを継承することを前提に作成</br>
+/// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyBase : MonoBehaviour , IDamagable
+public class EnemyStateChanger : MonoBehaviour, IInteractable
 {
     private NavMeshAgent _navMeshAgent;
     private NavMeshHit _navMeshHit;
@@ -33,20 +37,20 @@ public class EnemyBase : MonoBehaviour , IDamagable
 
     [Title("基本設定")]
 
-    [LabelText("現在の状態")]
-    [SerializeField] private EnemyState _enemyState = EnemyState.Move;
-
     [LabelText("設定するHP")]
-    [SerializeField] private float _enemyHp = 1;
+    [SerializeField] private int _enemyHp = 1;
 
     [LabelText("設定する上限の移動速度")]
     [SerializeField] private float _enemyMaxSpeed = 6;
 
-    [LabelText("設定する目標に対して止まる距離")]
-    [SerializeField] private float _stopDistance = 1;
-
     [LabelText("設定する回転速度（deg/s）")]
     [SerializeField] private float _enemyAngularSpeed = 240;
+
+    [LabelText("地面からの高さ")]
+    [SerializeField] private float _enemyBaseOffset = 0.5f;
+
+    [LabelText("現在の状態")]
+    [SerializeField] private EnemyState _enemyState = EnemyState.Move;
 
     [LabelText("プレイヤーを発見できる距離")]
     [SerializeField] private float _searchablePlayerDistance = 5;
@@ -82,7 +86,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
 
         _navMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
 
-
+        //memo
         //ここのプレイヤーのポジション参照の取得は後にシングルトンかスポナーから与えられる形に変わる
         _playerTransform = FindAnyObjectByType<PlayerInEnemyTest>().GetComponent<Transform>();
 
@@ -91,17 +95,17 @@ public class EnemyBase : MonoBehaviour , IDamagable
         {
             _initialized = true;
         }
-
+        //Navmeshレイヤーの名前は後で変える
         _navMeshAgent.agentTypeID = NavMesh.GetAreaFromName("EnemyMovable");
 
-        _navMeshAgent.stoppingDistance = 1;
         _navMeshAgent.speed = _enemyMaxSpeed;
         _navMeshAgent.angularSpeed = _enemyAngularSpeed;
+        _navMeshAgent.baseOffset = _enemyBaseOffset;
         NavMesh.SamplePosition(GetNextPosition().position, out _navMeshHit, _searchableTargetRange, 1);
         _navMeshAgent.destination = _navMeshHit.position;
     }
     /// <summary>
-    /// 継承先で、本来Start()でしたい処理をここに書く
+    /// <br>継承先で、本来Start()でしたい処理をここに書く/br>
     /// <br>実行はEnemyBase内でのInitialize()のnullチェック中に呼ばれる</br>
     /// <br>この中の初期化が正常に行われない場合も全体の動きが停止するように実装予定</br>
     /// </summary>
@@ -134,6 +138,9 @@ public class EnemyBase : MonoBehaviour , IDamagable
             //GoalActionAsyncをしている途中ならキャンセルをする
             if (_isPlayMovedAction)
             {
+                // すでにキャンセルされているなら例外を投げる
+                _cancellTokenMovedAction.ThrowIfCancellationRequested();
+
                 //処理停止
                 _ctsMovedAction.Cancel();
             }
@@ -149,26 +156,13 @@ public class EnemyBase : MonoBehaviour , IDamagable
             _ctsMovedAction = new CancellationTokenSource();
             _cancellTokenMovedAction = _ctsMovedAction.Token;
             _isPlayMovedAction = true;
-            try
-            {
-                //プレイヤーを見失った位置まで動く
-                await UniTask.WaitUntil(() => Vector3.Distance(_navMeshAgent.destination, this.transform.position) <= _navMeshAgent.stoppingDistance
-                , cancellationToken: _cancellTokenMovedAction);
-                //辺りを一回見まわす
-                await LookAround(_cancellTokenMovedAction);
-            }
-            catch (OperationCanceledException e)
-            {
-                Debug.Log("SearchPlayer CancelThis\nWaitLastPlayerPositionAsync or LookAround");
-            }
 
+            await LookAround(_cancellTokenMovedAction);
 
             _isPlayMovedAction = false;
             SetLastTarget();
-
-
         }
-        //目的地との直線距離で判定している
+        //どうやらNavMeshAgent.remainDistanceは挙動が怪しく使い物にならない。よって直接目的地との直線距離で判定している
         else if (Vector3.Distance(_navMeshAgent.destination, this.transform.position) <= _navMeshAgent.stoppingDistance && !_isPlayMovedAction)
         {
             _lastTarget = _navMeshAgent.destination;
@@ -201,13 +195,13 @@ public class EnemyBase : MonoBehaviour , IDamagable
     private bool SearchPlayer()
     {
         Vector3 toPlayerDirection = _playerTransform.position - this.transform.position;
+        bool a = toPlayerDirection.magnitude < _searchablePlayerDistance;
+        bool b = Vector3.Angle(transform.forward, toPlayerDirection) < _fieldOfViewHalf;
+        bool c = !Physics.Raycast(transform.position, toPlayerDirection, toPlayerDirection.magnitude, -1 - (1 << LayerMask.NameToLayer("Player")));
+        int L = LayerMask.NameToLayer("Player");
+        bool d = Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, (int)Mathf.Pow(2, 7));
 
-        bool seachablePlayerDistance = toPlayerDirection.magnitude < _searchablePlayerDistance;
-        bool playerInSight = Vector3.Angle(transform.forward, toPlayerDirection) < _fieldOfViewHalf;
-        bool playerVisible = !Physics.Raycast(transform.position, toPlayerDirection, toPlayerDirection.magnitude, -1 - (1 << LayerMask.NameToLayer("Player")));
-        bool noObstaclesExistPlayerDirection = Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, (int)Mathf.Pow(2, 7));
-
-        if (seachablePlayerDistance && playerInSight && playerVisible && noObstaclesExistPlayerDirection)
+        if (a && b && c && d)
         {
             return true;
         }
@@ -218,7 +212,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
     /// </summary>
     private void ChasePlayer()
     {
-        if (!_isTargetPlayer)
+        if(!_isTargetPlayer)
         {
             _lastTarget = _navMeshAgent.destination;
         }
@@ -261,16 +255,13 @@ public class EnemyBase : MonoBehaviour , IDamagable
 
     private async UniTask LookAround(CancellationToken token)
     {
+        Vector3 forward = this.transform.forward;
         try
         {
-            Debug.Log("見失い挙動開始");
-            //２秒で時計回りに75度回転
-            await LMotion.Create(this.transform.rotation, this.transform.rotation * Quaternion.AngleAxis(60, Vector3.up), 2)
-                .WithEase(Ease.InOutCubic).BindToLocalRotation(transform).ToUniTask(token);
-            //２秒で反時計回りに130度回転
-            await LMotion.Create(this.transform.rotation, this.transform.rotation * Quaternion.AngleAxis(-130, Vector3.up), 2)
-                .WithEase(Ease.InOutCubic).BindToLocalRotation(transform).ToUniTask(token);
-            Debug.Log("見失い挙動終了");
+            await LMotion.Create(forward, Quaternion.AngleAxis(90, Vector3.up) * forward, 1)
+                .WithEase(Ease.OutQuad).WithLoops(2, LoopType.Yoyo).BindToLocalEulerAngles(transform).ToUniTask(token);
+            await LMotion.Create(this.transform.forward, Quaternion.AngleAxis(-90, Vector3.up) * forward, 2)
+                .WithEase(Ease.OutCubic).BindToLocalEulerAngles(transform).ToUniTask(token);
         }
         catch (OperationCanceledException e)
         {
@@ -281,16 +272,21 @@ public class EnemyBase : MonoBehaviour , IDamagable
     /// <summary>
     /// エネミーの状態を変更し、敵の状態に伴ったメソッドを1回呼び出す
     /// </summary>
-    /// <param name="enemyState"></param>
-    async protected void ChangeEnemyStateAsync(EnemyState enemyState)
+    /// <param name="changedEnemyState"></param>
+    async protected void ChangeEnemyStateAsync(EnemyState changedEnemyState)
     {
         if (_isPlayMovedAction)
         {
+            // すでにキャンセルされているなら例外を投げる
+            _cancellTokenMovedAction.ThrowIfCancellationRequested();
+
             //処理停止
             _ctsMovedAction.Cancel();
         }
         if (_isPlayChangeStateAction)
         {
+            // すでにキャンセルされているなら例外を投げる
+            _cancellTokenChangeState.ThrowIfCancellationRequested();
             //処理停止
             _ctsChangeStateAction.Cancel();
             //nullじゃなかったら明示的に解放
@@ -299,13 +295,17 @@ public class EnemyBase : MonoBehaviour , IDamagable
                 _ctsChangeStateAction.Dispose();
             }
         }
+
         //token再生成
         _ctsChangeStateAction = new CancellationTokenSource();
         _cancellTokenChangeState = _ctsChangeStateAction.Token;
 
-        Debug.Log($"Enemy:{this.gameObject.name} change state {enemyState}");
+        _enemyState = changedEnemyState;
 
-        switch (enemyState)
+        //確認用　後で消す
+        Debug.Log($"Enemy:{this.gameObject.name} change state {_enemyState}");
+
+        switch (_enemyState)
         {
             case EnemyState.Attack:
                 _navMeshAgent.enabled = false;
@@ -337,65 +337,16 @@ public class EnemyBase : MonoBehaviour , IDamagable
                 break;
         }
     }
-    /// <summary>
-    /// enemyStateがAttackに切り替わった際に呼ばれる
-    /// overrideする前提の関数
-    /// </summary>
-    virtual async protected UniTask OnAttackedActionAsync(CancellationToken token)
-    {
-        Debug.Log($"Enemy:{this.gameObject.name} attacked！\nStart attacked action");
-
-        await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * 5, 1)
-            .WithEase(Ease.OutElastic).BindToPosition(this.transform).ToUniTask(token);
-
-        Debug.Log($"Enemy:{this.gameObject.name} finish attacked action");
-    }
 
     /// <summary>
-    /// enemyStateがDamagedに切り替わった際に呼ばれる
-    /// overrideする前提の関数
-    /// </summary>
-    virtual async protected UniTask OnDamagedActionAsync(CancellationToken token)
-    {
-        Debug.Log($"Enemy:{this.gameObject.name} damaged！\nStart damaged action");
-
-        await LMotion.Create(this.transform.position, this.transform.position + Vector3.up * 5, 1)
-            .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
-
-        Debug.Log($"Enemy:{this.gameObject.name} finish damaged action");
-    }
-
-    /// <summary>
-    /// enemyStateがDeathに切り替わった際に呼ばれる
-    /// overrideする前提の関数
-    /// </summary>
-    virtual async protected UniTask OnDeathActionAsync(CancellationToken token)
-    {
-        Debug.Log($"Enemy:{this.gameObject.name} dead！\nStart dead action");
-
-        await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * -5, 1)
-            .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
-
-        Debug.Log($"Enemy:{this.gameObject.name} finish dead action");
-    }
-
-    /// <summary>
-    /// Capturableに付ける用の関数
-    /// </summary>
-    public void OnCapturedAction()
-    {
-        ChangeEnemyStateAsync(EnemyState.Idle);
-    }
-
-    /// <summary>
-    /// ダメージ処理
+    /// ダメージを受けた際に㏋を変更する機能　後に変更ある可能性あり
     /// </summary>
     /// <param name="damage"></param>
-    /// <param name="arg"></param>
-    public void ApplyDamage(float damage, IDamageArg arg = null)
+    public virtual void Damaged(int damage)
     {
         if (_enemyState == EnemyState.Damage || _enemyState == EnemyState.Death)
         {
+            //確認用　後で消す
             Debug.Log($"Now, enemy:{this.gameObject.name} cant damaged");
             return;
         }
@@ -411,28 +362,74 @@ public class EnemyBase : MonoBehaviour , IDamagable
         }
     }
 
-    private void OnDisable()
+    /// <summary>
+    /// enemyStateがAttackに切り替わった際に呼ばれる
+    /// overrideする前提の関数
+    /// </summary>
+    virtual async protected UniTask OnAttackedActionAsync(CancellationToken token)
     {
-        if (_isPlayMovedAction)
-        {
-            //処理停止
-            _ctsMovedAction.Cancel();
-            //nullじゃなかったら明示的に解放
-            if (_ctsMovedAction != null)
-            {
-                _ctsMovedAction.Dispose();
-            }
-        }
-        if (_isPlayChangeStateAction)
-        {
-            //処理停止
-            _ctsChangeStateAction.Cancel();
-            //nullじゃなかったら明示的に解放
-            if (_ctsChangeStateAction != null)
-            {
-                _ctsChangeStateAction.Dispose();
-            }
-        }
+        //確認用　後で消す
+        Debug.Log($"Enemy:{this.gameObject.name} attacked！\nStart attacked action");
+        
+        await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * 5, 1)
+            .WithEase(Ease.OutElastic).BindToPosition(this.transform).ToUniTask(token);
+        Debug.Log($"Enemy:{this.gameObject.name} finish attacked action");
+    }
+
+    /// <summary>
+    /// enemyStateがDamagedに切り替わった際に呼ばれる
+    /// overrideする前提の関数
+    /// </summary>
+    virtual async protected UniTask OnDamagedActionAsync(CancellationToken token)
+    {
+        //確認用　後で消す
+        Debug.Log($"Enemy:{this.gameObject.name} damaged！\nStart damaged action");
+
+        await LMotion.Create(this.transform.position, this.transform.position + Vector3.up * 5, 1)
+            .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+        Debug.Log($"Enemy:{this.gameObject.name} finish damaged action");
+    }
+
+    /// <summary>
+    /// enemyStateがDeathに切り替わった際に呼ばれる
+    /// overrideする前提の関数
+    /// </summary>
+    virtual async protected UniTask OnDeathActionAsync(CancellationToken token)
+    {
+        //確認用　後で消す
+        Debug.Log($"Enemy:{this.gameObject.name} dead！\nStart dead action");
+
+        LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * -5, 0.5f)
+            .WithEase(Ease.OutQuart).WithLoops(2, LoopType.Yoyo).BindToPosition(this.transform).ToUniTask(token);
+        await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * -5, 1)
+            .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+        Debug.Log($"Enemy:{this.gameObject.name} finish dead action");
+    }
+
+    /// <summary>
+    /// プレイヤーで呼び出すやつ
+    /// </summary>
+    /// <param name="playerAbility">プレイヤーのステータス
+    /// </param>
+    public virtual void CaptureStatusSet(IPlayerAbility playerAbility)
+    {
+        playerAbility = new NoneAbility();
+    }
+
+    public bool CanInteract()
+    {
+        //こっちも無理やり参照　後で治す
+        return FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability is NoneAbility ? true : false;
+    }
+
+    public string GetInteractionMessage()
+    {
+        return "キャプチャー";
+    }
+
+    public void OnInteract(IInteractCallBackReceivable caller)
+    {
+        CaptureStatusSet(FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability);
     }
 
 #if UNITY_EDITOR
@@ -441,22 +438,22 @@ public class EnemyBase : MonoBehaviour , IDamagable
     [LabelText("テスト用ステート変更機能")]
     [Button]
     public void ChangeStateOnInspector(EnemyState state)
-    {
+    { 
         ChangeEnemyStateAsync(state);
     }
+
+
     private void OnDrawGizmos()
     {
         if (_isViewLastTarget)
         {
-            //DrawLastTarget
             Gizmos.color = Color.cyan;
             Gizmos.DrawCube(_lastTarget, Vector3.one);
-            if (!_initialized)
-                return;
-            //DrawNowTarget
-            Gizmos.color = new Color(0, 0, 0, 0.6f);
-            Gizmos.DrawCube(_navMeshAgent.destination, Vector3.one * 0.5f + Vector3.up * 3);
         }
+        Gizmos.color = Color.red;
+        //BaseOffsetの位置
+        Gizmos.DrawSphere(new Vector3(this.transform.position.x, _enemyBaseOffset, this.transform.position.z), 0.1f);
+
         Gizmos.color = Color.yellow;
         // 正面の視野ラインを描画
         Gizmos.DrawLine(this.transform.position, this.transform.position + this.transform.forward * _searchablePlayerDistance);
@@ -470,6 +467,5 @@ public class EnemyBase : MonoBehaviour , IDamagable
         Vector3 rightDirection = this.transform.rotation * Quaternion.Euler(0, _fieldOfViewHalf, 0) * Vector3.forward;
         Gizmos.DrawLine(this.transform.position, this.transform.position + rightDirection * _searchablePlayerDistance);
     }
-
 #endif
 }

@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -11,11 +12,13 @@ using UnityEngine;
 public sealed class GuardEnemy : IMovePatternEnemy
 {
     [SerializeField] private Vector3 _guardPosition;
-    public Vector3 GetGuardPosition => _guardPosition;
     [SerializeField] private Vector3 _guardFrontAngle;
-    public Vector3 GetGuardFrontAngle => _guardFrontAngle;
 
-    public (Vector3 position, Vector3 direction) NextTarget()
+    Vector3[] IMovePatternEnemy.GetAllTargets()
+    {
+        return new Vector3[] { _guardPosition };
+    }
+    public (Vector3 position, Vector3 direction) GetNextTarget()
     {
         return (_guardPosition, _guardFrontAngle);
     }
@@ -36,17 +39,18 @@ public sealed class GuardEnemy : IMovePatternEnemy
             Debug.Log("Cancel NextTargetAction");
         }
     }
+
     /*
 #if UNITY_EDITOR
-    /// <summary>
-    /// 
-    /// ※この仮想クラス以外で呼び出さないこと
-    /// </summary>
-    [Button]
-    public void GenerateGuradPosition() 
-    {
+/// <summary>
+/// 
+/// ※この仮想クラス以外で呼び出さないこと
+/// </summary>
+[Button]
+public void GenerateGuradPosition() 
+{
 
-    }
+}
 #endif
-    */
+*/
 }

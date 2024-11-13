@@ -3,30 +3,32 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class EnemyData : ScriptableObject
+[System.Serializable]
+public class EnemyMoveData
 {
-    [LabelText("エネミーのプレハブ")]
-    [SerializeField] private GameObject _enemyPrefab;
+    [LabelText("エネミーの巡回位置を表示するか")]
+    public bool _isDrawTargetsPosition = false;
 
-    public GameObject EnemyPrefab => _enemyPrefab;
+    [LabelText("エネミーのプレハブ")]
+    public GameObject _enemyPrefab;
+
+    [LabelText("エネミーのスポーン位置")]
+    public Vector3 _spawnPoint = Vector3.zero;
 
     [LabelText("生成する回数 / -1を選ぶと無限に生成")]
-    [SerializeField] private int _mamGenerateCnt = 0;
-    public int MaxGenerateCnt => _mamGenerateCnt;
+    public int _mamGenerateCnt = 0;
 
     [LabelText("シーンに存在できる最大数")]
-    [SerializeField] private int _maxEnemyCnt = 0;
-    public int MaxEnemyCnt => _maxEnemyCnt;
+    public int _maxEnemyCnt = 0;
 
     [LabelText("エネミーの挙動")]
-    [SerializeField, SerializeReference] public IMovePatternEnemy _movePatern;
-    public IMovePatternEnemy MovePatern => _movePatern;
+    [SerializeReference] public IMovePatternEnemy _movePatern;
 }
 
-public interface IMovePatternEnemy 
+public interface IMovePatternEnemy
 {
-    public (Vector3 position, Vector3 direction) NextTarget();
+    public Vector3[] GetAllTargets();
+    public (Vector3 position, Vector3 direction) GetNextTarget();
     /// <summary>
     /// エネミーの次の目的地に移行する際の回転を制御する
     /// </summary>
