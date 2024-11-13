@@ -5,7 +5,6 @@ using UnityEngine;
 public class TestCandleGimmick : StageGimmickBase
 {
     private StageGimmickObserver _observer;
-
     private void Awake()
     {
         _observer = FindObjectOfType<StageGimmickObserver>();
@@ -14,6 +13,10 @@ public class TestCandleGimmick : StageGimmickBase
     protected override void ClearActive(bool changeIsClear)
     {
         base.ClearActive(changeIsClear);
+    }
+    public void OnFire()
+    {
+        ClearActive(true);
     }
     private void ClearTest()
     {
