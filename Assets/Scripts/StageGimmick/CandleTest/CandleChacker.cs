@@ -9,7 +9,7 @@ public class CandleChacker : StageGimmickBase
     [LabelText("ギミックのろうそく")]
     [SerializeField] private List<CandleAppearanceChanger> candleAppearanceChangers;
 
-    private Dictionary<CandleAppearanceChanger, bool> candleDictionary;
+    private Dictionary<CandleAppearanceChanger, bool> candleDictionary = new Dictionary<CandleAppearanceChanger, bool>();
 
     private void Start()
     {
