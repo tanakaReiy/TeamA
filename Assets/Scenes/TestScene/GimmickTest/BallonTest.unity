@@ -910,7 +910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 880713672705638298, guid: 270e4357728927d46b05661993a13f15, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5250001
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 880713672705638298, guid: 270e4357728927d46b05661993a13f15, type: 3}
       propertyPath: m_LocalPosition.z
@@ -947,6 +947,10 @@ PrefabInstance:
     - target: {fileID: 7717582863770736865, guid: 270e4357728927d46b05661993a13f15, type: 3}
       propertyPath: m_Name
       value: Ballon
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313400414213929149, guid: 270e4357728927d46b05661993a13f15, type: 3}
+      propertyPath: _moveDuration
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

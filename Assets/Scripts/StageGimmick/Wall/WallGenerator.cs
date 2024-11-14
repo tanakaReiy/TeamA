@@ -4,12 +4,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallGenerator : MonoBehaviour
+[System.Serializable]
+public class WallData
 {
     [LabelText("壁のプレハブ")]
-    [SerializeField] private List<WallObject> _wallObjectsPrefab;
+    public WallObject WallObjectsPrefab;
     [LabelText("生成するプレハブの重み")]
-    [SerializeField] private List<float> _wallObjectWeight;
+    [Range(1,100)]public float WallObjectWeight;
+}
+
+public class WallGenerator : MonoBehaviour
+{
+    [LabelText("壁のデータ")]
+    [SerializeField] private List<WallData> _wallObjects = new List<WallData>();
     [LabelText("生成位置")]
     [SerializeField] private Transform _generatePosition;
 
@@ -38,7 +45,7 @@ public class WallGenerator : MonoBehaviour
     private void Update()
     {
         _timer += Time.deltaTime;
-       if ( _wallObjectsPrefab != null && _isGenerate && _timer >= _generateInterval)
+       if (_wallObjects.Count != 0 && _isGenerate && _timer >= _generateInterval)
        {
             RandomWallGenerate();
             _timer = 0;
@@ -51,7 +58,7 @@ public class WallGenerator : MonoBehaviour
         int objIndex = GetRandomItem();
         if( objIndex != -1 )
         {
-            WallObject wallObject = Instantiate(_wallObjectsPrefab[objIndex], _generatePosition.position, transform.rotation);
+            WallObject wallObject = Instantiate(_wallObjects[objIndex].WallObjectsPrefab, _generatePosition.position, transform.rotation);
             wallObject.RegisterGenerator(this);
             Debug.Log("生成しました");
         }
@@ -66,17 +73,17 @@ public class WallGenerator : MonoBehaviour
     {
         float totalWeight = 0;
 
-        foreach (var weight in _wallObjectWeight)
+        foreach (var wall in _wallObjects)
         {
-            totalWeight += weight;
+            totalWeight += wall.WallObjectWeight;
         }
 
         float randomValue = UnityEngine.Random.Range(0, totalWeight);
         float cumulativeWeight = 0;
 
-        for (int i = 0; i < _wallObjectsPrefab.Count; i++)
+        for (int i = 0; i < _wallObjects.Count; i++)
         {
-            cumulativeWeight += _wallObjectWeight[i];
+            cumulativeWeight += _wallObjects[i].WallObjectWeight;
             if (randomValue <= cumulativeWeight)
             {
                 return i;
