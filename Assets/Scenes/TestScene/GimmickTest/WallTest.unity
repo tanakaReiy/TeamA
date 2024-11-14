@@ -448,14 +448,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ab5cce8e80ed24d875fdcd1a4e89d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wallObjectsPrefab:
-  - {fileID: 2133741953944674294, guid: b59315913150de04ba9cd7e085b800e5, type: 3}
-  - {fileID: 7116293689571132278, guid: e2f38250402571a4fbde10aa165da9f2, type: 3}
-  - {fileID: 913678967739044469, guid: b74677dfa1bb17e49973d4be9cc3b148, type: 3}
-  _wallObjectWeight:
-  - 10
-  - 20
-  - 30
+  _wallObjects:
+  - WallObjectsPrefab: {fileID: 2133741953944674294, guid: b59315913150de04ba9cd7e085b800e5, type: 3}
+    WallObjectWeight: 10
+  - WallObjectsPrefab: {fileID: 7116293689571132278, guid: e2f38250402571a4fbde10aa165da9f2, type: 3}
+    WallObjectWeight: 20
+  - WallObjectsPrefab: {fileID: 913678967739044469, guid: b74677dfa1bb17e49973d4be9cc3b148, type: 3}
+    WallObjectWeight: 30
   _generatePosition: {fileID: 2132844168}
   _generateInterval: 5
   _destroyObjectDistance: 35.8
