@@ -17,24 +17,8 @@ public class CRIPlaySoundSample : MonoBehaviour
     [LabelText("VoiceのCueSheet")]
     [SerializeField] string _voiceCueSheet;
 
-    [Title("3Dサウンドの位置参照用オブジェクト")]
-    [SerializeField] Transform _3dSoundPlayPosition;
-
-    private void Start()
-    {
-        if(_3dSoundPlayPosition == null)
-        {
-            _3dSoundPlayPosition = this.transform;
-        }
-    }
-
-    [Title("個別初期化用")]
-    [Button]
-    private void OnInitialize()
-    {
-        CRIAudioManager.Initialize();
-    }
-
+    [Title("3Dサウンドの発生地点から聞き手へのベクトル")]
+    [SerializeField] Vector3 _3dSoundPlayPosition;
     [Title("BGMの機能を試す関数群")]
     [Button]
     private void OnPlayBGM(string CueName)
@@ -57,7 +41,7 @@ public class CRIPlaySoundSample : MonoBehaviour
     [Button]
     private void OnPlaySE3D(string CueName)
     {
-        CRIAudioManager.SE.Play3D(_3dSoundPlayPosition.position, _seCueSheet, CueName);
+        CRIAudioManager.SE.Play3D(_3dSoundPlayPosition, _seCueSheet, CueName);
     }
 
 
