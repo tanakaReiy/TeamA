@@ -10,9 +10,7 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
-# Add
-/Assets/Scenes/SceneDependencies.asset
-/ProjectSettings/EditorBuildSettings.asset
+
 
 
 
