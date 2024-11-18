@@ -50,11 +50,6 @@ public class CRIPlaySoundSample : MonoBehaviour
 
     [Title("SE‚Ì‹@”\‚ğ‚·ŠÖ”ŒQ")]
     [Button]
-    private void OnPlaySE(string CueName)
-    {
-        CRIAudioManager.SE.Play(_seCueSheet, CueName);
-    }
-    [Button]
     private void OnChangeSEVolume(float volume)
     {
         CRIAudioManager.BGM.SetVolume(volume);
