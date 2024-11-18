@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8015147109654101864}
   - component: {fileID: 8177596515350679860}
   - component: {fileID: 456314348365061606}
-  - component: {fileID: 7249566542433383754}
+  - component: {fileID: 1608720707623980686}
   - component: {fileID: 7353795345678112109}
   m_Layer: 8
   m_Name: Surtr
@@ -133,7 +133,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7249566542433383754
+--- !u!114 &1608720707623980686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5492471666847611986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37e552239231e23469fa8eb456de0e55, type: 3}
+  m_Script: {fileID: 11500000, guid: 9993daafd962d5a448894cdd2668098d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _playerTransform: {fileID: 0}
@@ -153,9 +153,10 @@ MonoBehaviour:
   _stopDistance: 1
   _enemyAngularSpeed: 240
   _searchablePlayerDistance: 7
-  _fieldOfViewHalf: 30
-  _attackableDistance: 3
+  _fieldOfViewHalf: 60
+  _attackableDistance: 1
   _isViewLastTarget: 1
+  _sampleFloat: 1
 --- !u!114 &7353795345678112109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +173,7 @@ MonoBehaviour:
   OnCaptured:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1608720707623980686}
         m_TargetAssemblyTypeName: EnemyBase, Assembly-CSharp
         m_MethodName: OnCapturedAction
         m_Mode: 1
