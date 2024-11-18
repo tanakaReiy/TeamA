@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0909412c95eaa94c829796ad9a14fff, type: 3}
+  m_Name: SceneDependencies
+  m_EditorClassIdentifier: 
+  _dependencies:
+  - CanIDebugSelect: 1
+    Name: Morning
+    AssetPath: Assets/Scenes/Design/Morning.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: Night
+    AssetPath: Assets/Scenes/Design/Night.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: Stage_1
+    AssetPath: Assets/Scenes/ForPlaner/Stage_1.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: Stage_2
+    AssetPath: Assets/Scenes/ForPlaner/Stage_2.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: Stage_3
+    AssetPath: Assets/Scenes/ForPlaner/Stage_3.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: Stage_4
+    AssetPath: Assets/Scenes/ForPlaner/Stage_4.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: FirstStageSystem
+    AssetPath: Assets/Scenes/MainGame/FirstStageSystem.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: SecondStageSystem
+    AssetPath: Assets/Scenes/MainGame/SecondStageSystem.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: ThirdStageSystem
+    AssetPath: Assets/Scenes/MainGame/ThirdStageSystem.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: MockUp
+    AssetPath: Assets/Scenes/Mockup/MockUp.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: 3DSoundSample
+    AssetPath: Assets/Scenes/Sample/3DSoundSample.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: PlaySoundSample
+    AssetPath: Assets/Scenes/Sample/PlaySoundSample.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: GameLauncher
+    AssetPath: Assets/Scenes/System/GameLauncher.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: IngameDebug
+    AssetPath: Assets/Scenes/System/IngameDebug.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: IngameSystem
+    AssetPath: Assets/Scenes/System/IngameSystem.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: BaseGimmickTest
+    AssetPath: Assets/Scenes/TestScene/BaseGimmickTest.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: BlockTest
+    AssetPath: Assets/Scenes/TestScene/BlockTest.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: CandleGimmickTest
+    AssetPath: Assets/Scenes/TestScene/CandleGimmickTest.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: EnemyTest
+    AssetPath: Assets/Scenes/TestScene/EnemyTest.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: BallonTest
+    AssetPath: Assets/Scenes/TestScene/GimmickTest/BallonTest.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: WallTest
+    AssetPath: Assets/Scenes/TestScene/GimmickTest/WallTest.unity
+    SceneType: 0
