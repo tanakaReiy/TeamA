@@ -11,7 +11,7 @@ public class DoorTest : MonoBehaviour, IGimmick
     }
     public void Activate()
     {
+        CRIAudioManager.SE.Play3D(this.transform.position,"CueSheet_0", "SE_door_open");
         _doorAnimator?.SetTrigger("Open");
-        Debug.Log("ドアオープン");
     }
 }

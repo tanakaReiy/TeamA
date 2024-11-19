@@ -126,6 +126,7 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
                 _candleObject.SetActive(_isFire);
                 var _candleGimmick = this.GetComponent<TestCandleGimmick>();
                 _candleGimmick.OnFire();
+                CRIAudioManager.SE.Play3D(this.transform.position, "CueSheet_0", "SE_fire_tukeru");
             }
             _processed = false;
         }
