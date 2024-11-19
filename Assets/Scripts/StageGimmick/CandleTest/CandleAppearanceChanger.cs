@@ -9,11 +9,11 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     private bool _processed = true;
     private Renderer _candleRenderer;
     [SerializeField] private GameObject _candleObject = null;
-    [LabelText("‰Î‚ª‚Â‚¢‚Ä‚¢‚éó‘Ô‚ª³‚µ‚¢")]
+    [LabelText("ç«ãŒã¤ã„ã¦ã„ã‚‹çŠ¶æ…‹ãŒæ­£ã—ã„")]
     public bool IsFiredCorrect { get; private set; }  = true;
 
     /// <summary>
-    /// Œ»İA‰Î‚ª‚Â‚¢‚Ä‚¢‚é‚©‚ğŠÇ—‚·‚éƒu[ƒ‹
+    /// ç¾åœ¨ã€ç«ãŒã¤ã„ã¦ã„ã‚‹ã‹ã‚’ç®¡ç†ã™ã‚‹ãƒ–ãƒ¼ãƒ«
     /// </summary>
     private bool _isFire = false;
 
@@ -41,16 +41,16 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
         {
             if (_isFire)
             {
-                return "‰Î‚ğÁ‚·";
+                return "ç«ã‚’æ¶ˆã™";
             }
             else
             {
-                return "‰Î‚ğ“”‚·";
+                return "ç«ã‚’ç¯ã™";
             }
         }
         else
         {
-            return "‰Î‚ª‚ ‚ê‚Î...";
+            return "ç«ãŒã‚ã‚Œã°...";
         }
     }
 
@@ -60,15 +60,15 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     }
 
     /// <summary>
-    /// ƒƒEƒ\ƒN‚Ì‰Î‚ª•ÏX‚³‚ê‚½‚ÉŒÄ‚ÔŠÖ”
+    /// ãƒ­ã‚¦ã‚½ã‚¯ã®ç«ãŒå¤‰æ›´ã•ã‚ŒãŸæ™‚ã«å‘¼ã¶é–¢æ•°
     /// </summary>
-    /// <param name="newState">‰Î‚ÌƒIƒ“ƒIƒt</param>
+    /// <param name="newState">ç«ã®ã‚ªãƒ³ã‚ªãƒ•</param>
     public void SetState(bool newState)
     {
         _isFire = newState;
-        OnStateChanged?.Invoke(); // ƒCƒxƒ“ƒg‚ğ”­‰Î
+        OnStateChanged?.Invoke(); // ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç«
     }/// <summary>
-     /// ƒŠƒZƒbƒgƒAƒNƒVƒ‡ƒ“‚Ì’Ç‰Á
+     /// ãƒªã‚»ãƒƒãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è¿½åŠ 
      /// </summary>
     public void RegisterReset()
     {
@@ -82,11 +82,11 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
         }
     }
     /// <summary>
-    /// ƒMƒ~ƒbƒN‚Ìó‘Ô‚ğƒŠƒZƒbƒg‚·‚é
+    /// ã‚®ãƒŸãƒƒã‚¯ã®çŠ¶æ…‹ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
     /// </summary>
     public void ResetGimmick()
     {
-        //memo ‚±‚±‚Í•¡”‰ñ•ÏX‚ª‚Å‚«‚é‚©‚Ç‚¤‚©‚Å•ÏX‚ª“ü‚é‚©‚à‚µ‚ê‚È‚¢
+        //memo ã“ã“ã¯è¤‡æ•°å›å¤‰æ›´ãŒã§ãã‚‹ã‹ã©ã†ã‹ã§å¤‰æ›´ãŒå…¥ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
         _processed = true;
 
         _isFire = false;
@@ -96,7 +96,7 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     }
 
     /// <summary>
-    /// “o˜^‚µ‚½ƒŠƒZƒbƒgƒAƒNƒVƒ‡ƒ“‚Ì‰ğœ
+    /// ç™»éŒ²ã—ãŸãƒªã‚»ãƒƒãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è§£é™¤
     /// </summary>
     public void CancelletionReset()
     {
@@ -126,12 +126,13 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
                 _candleObject.SetActive(_isFire);
                 var _candleGimmick = this.GetComponent<TestCandleGimmick>();
                 _candleGimmick.OnFire();
+                CRIAudioManager.SE.Play3D(Vector3.zero, "CueSheet_0", "SE_fire_tukeru");
             }
             _processed = false;
         }
         else
         {
-            Debug.Log("‰½‚©‰Î‚ª‚ ‚ê‚Îcc");
+            Debug.Log("ä½•ã‹ç«ãŒã‚ã‚Œã°â€¦â€¦");
         }
     }
 }

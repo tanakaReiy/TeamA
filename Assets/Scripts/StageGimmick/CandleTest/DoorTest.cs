@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class DoorTest : MonoBehaviour, IGimmick
 {
-    Animator _animator;
+    Animator _doorAnimator;
     void Start()
     {
-        _animator = GetComponent<Animator>();
+        _doorAnimator = GetComponent<Animator>();
     }
     public void Activate()
     {
-        _animator.SetTrigger("Open");
-        Debug.Log("ドアオープン");
+        CRIAudioManager.SE.Play3D(Vector3.zero,"CueSheet_0", "SE_door_open");
+        _doorAnimator?.SetTrigger("Open");
     }
 }

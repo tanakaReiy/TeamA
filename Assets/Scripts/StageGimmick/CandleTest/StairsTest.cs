@@ -9,7 +9,7 @@ public class StairsTest : MonoBehaviour, IGimmick
     [SerializeField] string _sceneName;
     public void Activate()
     {
-        Debug.Log("階段をのぼる");
+        CRIAudioManager.SE.Play3D(Vector3.zero, "CueSheet_0", "SE_up_stairs");
         StartCoroutine(DelaySwitchScene(_delay, _sceneName));
     }
     private IEnumerator DelaySwitchScene(float delay, string sceneName)
@@ -21,7 +21,7 @@ public class StairsTest : MonoBehaviour, IGimmick
         }
         catch
         {
-            Debug.LogError($"{sceneName} は無効なシーン名です");
+            Debug.LogError($"{sceneName} 窶堙坂督ｳﾅ津ｸ窶堙鞍歎ﾂーﾆ停懌督ｼ窶堙�窶堋ｷ");
         }
     }
 }
