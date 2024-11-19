@@ -5,8 +5,9 @@ using AnimaitonEventReceivable;
 using Alchemy.Inspector;
 using UniRx;
 
-public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable
+public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable, IPlayerAnimationSePlayable
 {
+
     [field: SerializeField, FoldoutGroup("CompRefs")] public CharacterMovement CharacterMovement { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public CharacterController Controller { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public InteractDetector InteractDetector { get; private set; }
@@ -53,5 +54,28 @@ public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable
             state.DisableDetection();
         }
     }
+
+    public void PlaySe(string cueName)
+    {
+        CRIAudioManager.SE.Play3D(Vector3.zero, PlayerBaseState.CueSheetName, cueName);
+    }
+
+    public void PlaySeThroughState(string cueName)
+    {
+        if(_currentState is IPlayerAnimationSePlayable sePlayable)
+        {
+            sePlayable.PlaySeThroughState(cueName);
+        }
+    }
     #endregion
+}
+
+namespace AnimaitonEventReceivable
+{
+    public interface IPlayerAnimationSePlayable
+    {
+        void PlaySe(string cueName);
+
+        void PlaySeThroughState(string cueName);
+    }
 }
