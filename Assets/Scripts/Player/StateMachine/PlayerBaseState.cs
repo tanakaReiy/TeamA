@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public abstract class PlayerBaseState : State
 {
+    static public readonly string CueSheetName = "CueSheet_0";
+
     protected PlayerStateMachine _stateMachine = null;
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)

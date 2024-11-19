@@ -34,7 +34,7 @@ public class PlayerManager : SingletonMonoBehavior<PlayerManager>
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-        _playerRef = FindAnyObjectByType<PlayerStateMachine>().gameObject;
+        _playerRef = FindAnyObjectByType<PlayerStateMachine>()?.gameObject;
     }
 
     public bool DoesPlayerExist() { return  _playerRef != null; }
