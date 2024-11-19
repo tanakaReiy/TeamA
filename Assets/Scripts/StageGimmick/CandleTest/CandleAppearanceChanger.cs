@@ -10,12 +10,13 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     private Renderer _candleRenderer;
     [SerializeField] private GameObject _candleObject = null;
     [LabelText("火がついている状態が正しい")]
-    public bool IsFiredCorrect { get; private set; }  = true;
+    [SerializeField] private bool _isFiredCorrect = true;
+    public bool IsFiredCorrect => _isFiredCorrect;
 
     /// <summary>
     /// 現在、火がついているかを管理するブール
     /// </summary>
-    private bool _isFire = false;
+    public bool _isFire { get; private set; } = false;
 
     public bool IsEnableDetect => true;
 
@@ -65,7 +66,6 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
     /// <param name="newState">火のオンオフ</param>
     public void SetState(bool newState)
     {
-        _isFire = newState;
         OnStateChanged?.Invoke(); // イベントを発火
     }/// <summary>
      /// リセットアクションの追加
@@ -91,7 +91,7 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
 
         _isFire = false;
         _candleObject.SetActive(false);
-        SetState(IsFiredCorrect ? _isFire : !_isFire);
+        SetState(_isFiredCorrect ? _isFire : !_isFire);
         Debug.Log($"{this.gameObject.name} reset gimmick");
     }
 
@@ -120,7 +120,7 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
         if (IsEnableDetect && _processed)
         {
             _isFire = !_isFire;
-            SetState(IsFiredCorrect ? _isFire : !_isFire);
+            SetState(_isFiredCorrect ? _isFire : !_isFire);
             if (_candleObject)
             {
                 _candleObject.SetActive(_isFire);
