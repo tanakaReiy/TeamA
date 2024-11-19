@@ -9,7 +9,7 @@ public class StairsTest : MonoBehaviour, IGimmick
     [SerializeField] string _sceneName;
     public void Activate()
     {
-        CRIAudioManager.SE.Play3D(this.transform.position, "CueSheet_0", "SE_up_stairs");
+        CRIAudioManager.SE.Play3D(Vector3.zero, "CueSheet_0", "SE_up_stairs");
         StartCoroutine(DelaySwitchScene(_delay, _sceneName));
     }
     private IEnumerator DelaySwitchScene(float delay, string sceneName)
@@ -21,7 +21,7 @@ public class StairsTest : MonoBehaviour, IGimmick
         }
         catch
         {
-            Debug.LogError($"{sceneName} ‚Í–³Œø‚ÈƒV[ƒ“–¼‚Å‚·");
+            Debug.LogError($"{sceneName} â€šÃâ€“Â³Å’Ã¸â€šÃˆÆ’VÂ[Æ’â€œâ€“Â¼â€šÃ…â€šÂ·");
         }
     }
 }
