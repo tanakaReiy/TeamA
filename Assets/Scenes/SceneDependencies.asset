@@ -14,6 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dependencies:
   - CanIDebugSelect: 1
+    Name: CRIExecuter
+    AssetPath: Assets/Scenes/CRI/CRIExecuter.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: PlaySoundSample
+    AssetPath: Assets/Scenes/CRI/PlaySoundSample.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
     Name: Morning
     AssetPath: Assets/Scenes/Design/Morning.unity
     SceneType: 0
@@ -40,7 +48,7 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: FirstStageSystem
     AssetPath: Assets/Scenes/MainGame/FirstStageSystem.unity
-    SceneType: 0
+    SceneType: 2
   - CanIDebugSelect: 1
     Name: SecondStageSystem
     AssetPath: Assets/Scenes/MainGame/SecondStageSystem.unity
@@ -56,10 +64,6 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: 3DSoundSample
     AssetPath: Assets/Scenes/Sample/3DSoundSample.unity
-    SceneType: 0
-  - CanIDebugSelect: 1
-    Name: PlaySoundSample
-    AssetPath: Assets/Scenes/Sample/PlaySoundSample.unity
     SceneType: 0
   - CanIDebugSelect: 1
     Name: GameLauncher
@@ -88,6 +92,10 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: EnemyTest
     AssetPath: Assets/Scenes/TestScene/EnemyTest.unity
+    SceneType: 0
+  - CanIDebugSelect: 1
+    Name: PlayerTestScene
+    AssetPath: Assets/Scenes/TestScene/PlayerTestScene.unity
     SceneType: 0
   - CanIDebugSelect: 1
     Name: BallonTest
