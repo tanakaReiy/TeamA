@@ -39,18 +39,18 @@ public class BallonController : MonoBehaviour, IInteractable
         _startPos = this.transform.position;
         _endPos = new Vector3(_startPos.x, _startPos.y + _moveDistance, _startPos.z);
 
-        _downMoveBuilder = LMotion
-            .Create(_endPos, _startPos, _moveDuration)
-            .WithEase(Ease.InOutCubic)
-            .WithOnComplete(async () =>
-            {
-                CancellationTokenSource token = new CancellationTokenSource();
-                await StartCountdown(token.Token);
-            })
-            .Preserve();
-        _downMoveMotion = _downMoveBuilder.BindToPosition(transform);
-        
         // 上昇と下降をまとめる
+        _downMoveBuilder = LMotion
+           .Create(_endPos, _startPos, _moveDuration)
+           .WithEase(Ease.InOutCubic)
+           .WithOnComplete(async () =>
+           {
+               CancellationTokenSource token = new CancellationTokenSource();
+               await StartCountdown(token.Token);
+           })
+           .Preserve();
+        _downMoveMotion = _downMoveBuilder.BindToPosition(transform);
+
         _upMoveBuilder = LMotion
             .Create(_startPos, _endPos, _moveDuration)
             .WithEase(Ease.InOutCubic)
@@ -62,6 +62,7 @@ public class BallonController : MonoBehaviour, IInteractable
             .Preserve();
         _upMoveMotion = _upMoveBuilder.BindToPosition(transform);
 
+        
         // 初期状態で停止
         _upMoveMotion.PlaybackSpeed = 0f;
         _downMoveMotion.PlaybackSpeed = 0f;
@@ -76,9 +77,16 @@ public class BallonController : MonoBehaviour, IInteractable
     private void StartMotion()
     {
         SwitchPause();
-        if(!_isCountingDown)
+        if (!_isCountingDown)
         {
-            PlayCurrentMotion();
+            if (_isUp)
+            {
+                _upMoveMotion.PlaybackSpeed = 1f;
+            }
+            else
+            {
+                _downMoveMotion.PlaybackSpeed = 1f;
+            }
         }
     }
 
