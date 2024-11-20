@@ -10556,7 +10556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 505570582}
   m_Layer: 0
-  m_Name: kabe
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25940,7 +25940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1098285870}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
