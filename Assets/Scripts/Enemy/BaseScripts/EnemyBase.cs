@@ -26,7 +26,11 @@ public class EnemyBase : MonoBehaviour , IDamagable
     //後にシーンにあるエネミースポナーからPlayerのtransformを参照渡しする方法に変更
     //EnemyBaseから変更を加えない
     [ReadOnly]
-    public Transform _playerTransform;
+    [SerializeField] public Transform _playerTransform;
+    [ReadOnly]
+    [SerializeField] private string _cueSheet = "CueSheet_0";
+    [ReadOnly]
+    [SerializeField] private float _currentHp;
 
     [ReadOnly]
     [SerializeField] private bool _initialized = false;
@@ -91,7 +95,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
         {
             _initialized = true;
         }
-
+        _currentHp = _enemyHp;
         _navMeshAgent.agentTypeID = NavMesh.GetAreaFromName("EnemyMovable");
 
         _navMeshAgent.stoppingDistance = 1;
@@ -157,7 +161,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
                 //辺りを一回見まわす
                 await LookAround(_cancellTokenMovedAction);
             }
-            catch (OperationCanceledException e)
+            catch
             {
                 Debug.Log("SearchPlayer CancelThis\nWaitLastPlayerPositionAsync or LookAround");
             }
@@ -205,7 +209,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
         bool seachablePlayerDistance = toPlayerDirection.magnitude < _searchablePlayerDistance;
         bool playerInSight = Vector3.Angle(transform.forward, toPlayerDirection) < _fieldOfViewHalf;
         bool playerVisible = !Physics.Raycast(transform.position, toPlayerDirection, toPlayerDirection.magnitude, -1 - (1 << LayerMask.NameToLayer("Player")));
-        bool noObstaclesExistPlayerDirection = Physics.Raycast(transform.position, toPlayerDirection, _searchablePlayerDistance, (int)Mathf.Pow(2, 7));
+        bool noObstaclesExistPlayerDirection = Physics.Raycast(transform.position + Vector3.up * _navMeshAgent.baseOffset, toPlayerDirection, _searchablePlayerDistance, (int)Mathf.Pow(2, 7));
 
         if (seachablePlayerDistance && playerInSight && playerVisible && noObstaclesExistPlayerDirection)
         {
@@ -272,7 +276,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
                 .WithEase(Ease.InOutCubic).BindToLocalRotation(transform).ToUniTask(token);
             Debug.Log("見失い挙動終了");
         }
-        catch (OperationCanceledException e)
+        catch
         {
             Debug.Log("Cancel LookAround");
         }
@@ -313,6 +317,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
                 await OnAttackedActionAsync(_cancellTokenChangeState);
                 _isPlayChangeStateAction = false;
                 _navMeshAgent.enabled = true;
+                _navMeshAgent.destination = _lastTarget;
 
                 ChangeEnemyStateAsync(EnemyState.Move);
                 break;
@@ -323,6 +328,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
                 await OnDamagedActionAsync(_cancellTokenChangeState);
                 _isPlayChangeStateAction = false;
                 _navMeshAgent.enabled = true;
+                _navMeshAgent.destination = _lastTarget;
 
                 ChangeEnemyStateAsync(EnemyState.Move);
                 break;
@@ -333,7 +339,9 @@ public class EnemyBase : MonoBehaviour , IDamagable
                 _isPlayChangeStateAction = true;
                 await OnDeathActionAsync(_cancellTokenChangeState);
                 _isPlayChangeStateAction = false;
-                _navMeshAgent.enabled = true;
+
+                _initialized = false;
+                Destroy(this.gameObject);
                 break;
         }
     }
@@ -344,9 +352,22 @@ public class EnemyBase : MonoBehaviour , IDamagable
     virtual async protected UniTask OnAttackedActionAsync(CancellationToken token)
     {
         Debug.Log($"Enemy:{this.gameObject.name} attacked！\nStart attacked action");
-
-        await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * 5, 1)
-            .WithEase(Ease.OutElastic).BindToPosition(this.transform).ToUniTask(token);
+        try
+        {
+            //少し後退
+            await LMotion.Create(this.transform.position, this.transform.position - this.transform.forward, 0.5f)
+                .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+            //突進
+            await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * 5, 1)
+                .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+            //突進終了後に後ろを振り向く
+            await LMotion.Create(this.transform.rotation, Quaternion.LookRotation(-this.transform.forward, Vector3.up), 1)
+                .WithEase(Ease.InOutQuad).BindToLocalRotation(transform).ToUniTask(token);
+        }
+        catch
+        {
+            Debug.Log($"Enemy:{this.gameObject.name} called Cancel [attacked action]");
+        }
 
         Debug.Log($"Enemy:{this.gameObject.name} finish attacked action");
     }
@@ -359,8 +380,18 @@ public class EnemyBase : MonoBehaviour , IDamagable
     {
         Debug.Log($"Enemy:{this.gameObject.name} damaged！\nStart damaged action");
 
-        await LMotion.Create(this.transform.position, this.transform.position + Vector3.up * 5, 1)
-            .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+
+        try
+        {
+            await LMotion.Create(this.transform.position, this.transform.position + Vector3.up * 5, 1)
+                .WithEase(Ease.OutCubic).BindToPosition(this.transform).ToUniTask(token);
+            await LMotion.Create(this.transform.position, this.transform.position - Vector3.up * 5, 1)
+                .WithEase(Ease.InCubic).BindToPosition(this.transform).ToUniTask(token);
+        }
+        catch
+        {
+            Debug.Log($"Enemy:{this.gameObject.name} Call Cancel [damaged action]");
+        }
 
         Debug.Log($"Enemy:{this.gameObject.name} finish damaged action");
     }
@@ -372,9 +403,18 @@ public class EnemyBase : MonoBehaviour , IDamagable
     virtual async protected UniTask OnDeathActionAsync(CancellationToken token)
     {
         Debug.Log($"Enemy:{this.gameObject.name} dead！\nStart dead action");
-
-        await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * -5, 1)
-            .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+        try
+        {
+            await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * -5, 1)
+                .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+            var material = this.GetComponent<MeshRenderer>().material;
+            await LMotion.Create(this.transform.localScale, Vector3.zero, 1)
+                .WithEase(Ease.OutCirc).BindToLocalScale(this.transform).ToUniTask(token);
+        }
+        catch
+        {
+            Debug.Log($"Enemy:{this.gameObject.name} Call Cancel [dead action]");
+        }
 
         Debug.Log($"Enemy:{this.gameObject.name} finish dead action");
     }
@@ -384,7 +424,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
     /// </summary>
     public void OnCapturedAction()
     {
-        ChangeEnemyStateAsync(EnemyState.Idle);
+        ApplyDamage(1);
     }
 
     /// <summary>
@@ -399,14 +439,15 @@ public class EnemyBase : MonoBehaviour , IDamagable
             Debug.Log($"Now, enemy:{this.gameObject.name} cant damaged");
             return;
         }
-        _enemyHp -= damage;
-        if (_enemyHp < 0)
+        _currentHp -= damage;
+        if (_currentHp <= 0)
         {
-            _enemyHp = 0;
+            _currentHp = 0;
             ChangeEnemyStateAsync(EnemyState.Death);
         }
         else
         {
+            //CRIAudioManager.SE.Play3D(Vector3.zero, _cueSheet, "ダメージ音CueName");
             ChangeEnemyStateAsync(EnemyState.Damage);
         }
     }
