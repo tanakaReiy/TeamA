@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 5729678}
   - component: {fileID: 5729677}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -447,7 +447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 12908253}
   m_Layer: 0
-  m_Name: '5retume '
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -606,7 +606,7 @@ GameObject:
   - component: {fileID: 16988163}
   - component: {fileID: 16988162}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -813,7 +813,7 @@ GameObject:
   m_Component:
   - component: {fileID: 17762677}
   m_Layer: 0
-  m_Name: 4 (1)
+  m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1275,7 +1275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 52824859}
   m_Layer: 0
-  m_Name: '4retume '
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1959,7 +1959,7 @@ GameObject:
   - component: {fileID: 91884311}
   - component: {fileID: 91884310}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2694,7 +2694,7 @@ GameObject:
   - component: {fileID: 134789645}
   - component: {fileID: 134789644}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2904,7 +2904,7 @@ GameObject:
   - component: {fileID: 148854034}
   - component: {fileID: 148854033}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3321,7 +3321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 161228291}
   m_Layer: 0
-  m_Name: '16retume   '
+  m_Name: 14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4105,7 +4105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201166873}
   m_Layer: 0
-  m_Name: 1
+  m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4146,7 +4146,7 @@ GameObject:
   - component: {fileID: 202246251}
   - component: {fileID: 202246250}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4251,7 +4251,7 @@ GameObject:
   - component: {fileID: 202394786}
   - component: {fileID: 202394785}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4356,7 +4356,7 @@ GameObject:
   - component: {fileID: 211798347}
   - component: {fileID: 211798346}
   m_Layer: 0
-  m_Name: Tobira
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4461,7 +4461,7 @@ GameObject:
   - component: {fileID: 213157682}
   - component: {fileID: 213157681}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4671,7 +4671,7 @@ GameObject:
   - component: {fileID: 221764318}
   - component: {fileID: 221764317}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4881,7 +4881,7 @@ GameObject:
   - component: {fileID: 234522252}
   - component: {fileID: 234522251}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4986,7 +4986,7 @@ GameObject:
   - component: {fileID: 236927807}
   - component: {fileID: 236927806}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5091,7 +5091,7 @@ GameObject:
   - component: {fileID: 244650396}
   - component: {fileID: 244650395}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5196,7 +5196,7 @@ GameObject:
   - component: {fileID: 252049796}
   - component: {fileID: 252049795}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5406,7 +5406,7 @@ GameObject:
   - component: {fileID: 282270174}
   - component: {fileID: 282270173}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5511,7 +5511,7 @@ GameObject:
   - component: {fileID: 287105913}
   - component: {fileID: 287105912}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5826,7 +5826,7 @@ GameObject:
   - component: {fileID: 289104889}
   - component: {fileID: 289104888}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6033,7 +6033,7 @@ GameObject:
   m_Component:
   - component: {fileID: 293407002}
   m_Layer: 0
-  m_Name: Yuka (12)
+  m_Name: Floor13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6180,7 +6180,7 @@ GameObject:
   - component: {fileID: 307873091}
   - component: {fileID: 307873090}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6285,7 +6285,7 @@ GameObject:
   - component: {fileID: 317014629}
   - component: {fileID: 317014628}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6387,7 +6387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 330226587}
   m_Layer: 0
-  m_Name: 3 (1)
+  m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6537,7 +6537,7 @@ GameObject:
   - component: {fileID: 333764868}
   - component: {fileID: 333764867}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6642,7 +6642,7 @@ GameObject:
   - component: {fileID: 343070590}
   - component: {fileID: 343070589}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6747,7 +6747,7 @@ GameObject:
   - component: {fileID: 350177056}
   - component: {fileID: 350177055}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7062,7 +7062,7 @@ GameObject:
   - component: {fileID: 360011153}
   - component: {fileID: 360011152}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7272,7 +7272,7 @@ GameObject:
   - component: {fileID: 372841898}
   - component: {fileID: 372841897}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8109,7 +8109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 405961904}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: Floor7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8148,7 +8148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 410897776}
   m_Layer: 0
-  m_Name: Yuka (9)
+  m_Name: Floor10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8817,7 +8817,7 @@ GameObject:
   m_Component:
   - component: {fileID: 451303558}
   m_Layer: 0
-  m_Name: '14retume '
+  m_Name: 12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9283,7 +9283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464866860}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: Floor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10162,7 +10162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 496623170}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10510,7 +10510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 504972997}
   m_Layer: 0
-  m_Name: '13retume '
+  m_Name: 11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11641,7 +11641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 549488149}
   m_Layer: 0
-  m_Name: 3
+  m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12631,7 +12631,7 @@ GameObject:
   - component: {fileID: 586758575}
   - component: {fileID: 586758574}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12736,7 +12736,7 @@ GameObject:
   - component: {fileID: 586768031}
   - component: {fileID: 586768030}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12838,7 +12838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 592819503}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: Floor5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12880,7 +12880,7 @@ GameObject:
   - component: {fileID: 595937868}
   - component: {fileID: 595937867}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13838,7 +13838,7 @@ GameObject:
   - component: {fileID: 624191328}
   - component: {fileID: 624191327}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13943,7 +13943,7 @@ GameObject:
   - component: {fileID: 634054164}
   - component: {fileID: 634054163}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14048,7 +14048,7 @@ GameObject:
   - component: {fileID: 635573044}
   - component: {fileID: 635573043}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14153,7 +14153,7 @@ GameObject:
   - component: {fileID: 635938751}
   - component: {fileID: 635938750}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14468,7 +14468,7 @@ GameObject:
   - component: {fileID: 641299258}
   - component: {fileID: 641299257}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14678,7 +14678,7 @@ GameObject:
   - component: {fileID: 654967209}
   - component: {fileID: 654967208}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15095,7 +15095,7 @@ GameObject:
   m_Component:
   - component: {fileID: 665614728}
   m_Layer: 0
-  m_Name: Yuka (8)
+  m_Name: Floor9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15239,7 +15239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 669243412}
   m_Layer: 0
-  m_Name: 1 (1)
+  m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15385,7 +15385,7 @@ GameObject:
   - component: {fileID: 671682221}
   - component: {fileID: 671682220}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15700,7 +15700,7 @@ GameObject:
   - component: {fileID: 673249986}
   - component: {fileID: 673249985}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16120,7 +16120,7 @@ GameObject:
   - component: {fileID: 694505091}
   - component: {fileID: 694505090}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16225,7 +16225,7 @@ GameObject:
   - component: {fileID: 702837880}
   - component: {fileID: 702837879}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17065,7 +17065,7 @@ GameObject:
   - component: {fileID: 734031201}
   - component: {fileID: 734031200}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17275,7 +17275,7 @@ GameObject:
   - component: {fileID: 742183936}
   - component: {fileID: 742183935}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17380,7 +17380,7 @@ GameObject:
   - component: {fileID: 743884527}
   - component: {fileID: 743884526}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17485,7 +17485,7 @@ GameObject:
   - component: {fileID: 748519594}
   - component: {fileID: 748519593}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17695,7 +17695,7 @@ GameObject:
   - component: {fileID: 751492652}
   - component: {fileID: 751492651}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17800,7 +17800,7 @@ GameObject:
   - component: {fileID: 752162362}
   - component: {fileID: 752162361}
   m_Layer: 0
-  m_Name: Kaidan
+  m_Name: Stairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17907,7 +17907,7 @@ GameObject:
   - component: {fileID: 752387503}
   - component: {fileID: 752387502}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18009,7 +18009,7 @@ GameObject:
   m_Component:
   - component: {fileID: 754540913}
   m_Layer: 0
-  m_Name: Yuka (13)
+  m_Name: Floor14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19416,7 +19416,7 @@ GameObject:
   - component: {fileID: 818758891}
   - component: {fileID: 818758890}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19521,7 +19521,7 @@ GameObject:
   - component: {fileID: 819151603}
   - component: {fileID: 819151602}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19731,7 +19731,7 @@ GameObject:
   - component: {fileID: 829573580}
   - component: {fileID: 829573579}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20358,7 +20358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 855986514}
   m_Layer: 0
-  m_Name: '15retume  '
+  m_Name: 13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20830,7 +20830,7 @@ GameObject:
   - component: {fileID: 869555683}
   - component: {fileID: 869555682}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20932,7 +20932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 874228888}
   m_Layer: 0
-  m_Name: '9retume '
+  m_Name: 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21401,7 +21401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 903100943}
   m_Layer: 0
-  m_Name: Yuka (10)
+  m_Name: Floor11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21755,7 +21755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 933401857}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: Floor6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22427,7 +22427,7 @@ GameObject:
   - component: {fileID: 980569273}
   - component: {fileID: 980569272}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22529,7 +22529,7 @@ GameObject:
   m_Component:
   - component: {fileID: 987025064}
   m_Layer: 0
-  m_Name: 8retume
+  m_Name: 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22581,7 +22581,7 @@ GameObject:
   - component: {fileID: 988642030}
   - component: {fileID: 988642029}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23526,7 +23526,7 @@ GameObject:
   - component: {fileID: 1014680109}
   - component: {fileID: 1014680108}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24366,7 +24366,7 @@ GameObject:
   - component: {fileID: 1043401684}
   - component: {fileID: 1043401683}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24681,7 +24681,7 @@ GameObject:
   - component: {fileID: 1049235827}
   - component: {fileID: 1049235826}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24996,7 +24996,7 @@ GameObject:
   - component: {fileID: 1064801620}
   - component: {fileID: 1064801619}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25208,7 +25208,7 @@ GameObject:
   - component: {fileID: 1076567489}
   - component: {fileID: 1076567488}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25418,7 +25418,7 @@ GameObject:
   - component: {fileID: 1083271222}
   - component: {fileID: 1083271221}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25988,7 +25988,7 @@ GameObject:
   - component: {fileID: 1101365233}
   - component: {fileID: 1101365232}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26093,7 +26093,7 @@ GameObject:
   - component: {fileID: 1102607897}
   - component: {fileID: 1102607896}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26198,7 +26198,7 @@ GameObject:
   - component: {fileID: 1104448256}
   - component: {fileID: 1104448255}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27563,7 +27563,7 @@ GameObject:
   - component: {fileID: 1152458147}
   - component: {fileID: 1152458146}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27773,7 +27773,7 @@ GameObject:
   - component: {fileID: 1157816716}
   - component: {fileID: 1157816715}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28225,7 +28225,7 @@ GameObject:
   - component: {fileID: 1160053092}
   - component: {fileID: 1160053091}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28330,7 +28330,7 @@ GameObject:
   - component: {fileID: 1161054069}
   - component: {fileID: 1161054068}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28435,7 +28435,7 @@ GameObject:
   - component: {fileID: 1168179435}
   - component: {fileID: 1168179434}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28645,7 +28645,7 @@ GameObject:
   - component: {fileID: 1173032775}
   - component: {fileID: 1173032774}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28750,7 +28750,7 @@ GameObject:
   - component: {fileID: 1179919697}
   - component: {fileID: 1179919696}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28855,7 +28855,7 @@ GameObject:
   - component: {fileID: 1181128330}
   - component: {fileID: 1181128329}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30010,7 +30010,7 @@ GameObject:
   - component: {fileID: 1221821220}
   - component: {fileID: 1221821219}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30148,7 +30148,7 @@ GameObject:
   - component: {fileID: 1224150925}
   - component: {fileID: 1224150924}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30355,7 +30355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1226119271}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: Floor8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30397,7 +30397,7 @@ GameObject:
   - component: {fileID: 1229886635}
   - component: {fileID: 1229886634}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30502,7 +30502,7 @@ GameObject:
   - component: {fileID: 1234560552}
   - component: {fileID: 1234560551}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31027,7 +31027,7 @@ GameObject:
   - component: {fileID: 1264568356}
   - component: {fileID: 1264568355}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31867,7 +31867,7 @@ GameObject:
   - component: {fileID: 1280717312}
   - component: {fileID: 1280717311}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32179,7 +32179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1294029055}
   m_Layer: 0
-  m_Name: 1
+  m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32362,7 +32362,7 @@ GameObject:
   - component: {fileID: 1312544917}
   - component: {fileID: 1312544916}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32719,7 +32719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1321912515}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: Floor3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33073,7 +33073,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1351273219}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: Floor1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33115,7 +33115,7 @@ GameObject:
   - component: {fileID: 1351605505}
   - component: {fileID: 1351605504}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33427,7 +33427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1357043967}
   m_Layer: 0
-  m_Name: GameObject (3)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33778,7 +33778,7 @@ GameObject:
   - component: {fileID: 1374655807}
   - component: {fileID: 1374655806}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34093,7 +34093,7 @@ GameObject:
   - component: {fileID: 1395213836}
   - component: {fileID: 1395213835}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34513,7 +34513,7 @@ GameObject:
   - component: {fileID: 1409283232}
   - component: {fileID: 1409283231}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34723,7 +34723,7 @@ GameObject:
   - component: {fileID: 1429579128}
   - component: {fileID: 1429579127}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35458,7 +35458,7 @@ GameObject:
   - component: {fileID: 1472114947}
   - component: {fileID: 1472114946}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35668,7 +35668,7 @@ GameObject:
   - component: {fileID: 1484892255}
   - component: {fileID: 1484892254}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35878,7 +35878,7 @@ GameObject:
   - component: {fileID: 1497951324}
   - component: {fileID: 1497951323}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36190,7 +36190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1505725155}
   m_Layer: 0
-  m_Name: '11retume  '
+  m_Name: 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36347,7 +36347,7 @@ GameObject:
   - component: {fileID: 1508169375}
   - component: {fileID: 1508169374}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36557,7 +36557,7 @@ GameObject:
   - component: {fileID: 1510501721}
   - component: {fileID: 1510501720}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36662,7 +36662,7 @@ GameObject:
   - component: {fileID: 1511190863}
   - component: {fileID: 1511190862}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37082,7 +37082,7 @@ GameObject:
   - component: {fileID: 1526540017}
   - component: {fileID: 1526540016}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37187,7 +37187,7 @@ GameObject:
   - component: {fileID: 1533590001}
   - component: {fileID: 1533590000}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37714,7 +37714,7 @@ GameObject:
   - component: {fileID: 1562565071}
   - component: {fileID: 1562565070}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38869,7 +38869,7 @@ GameObject:
   - component: {fileID: 1610169663}
   - component: {fileID: 1610169662}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39079,7 +39079,7 @@ GameObject:
   - component: {fileID: 1631818441}
   - component: {fileID: 1631818440}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39601,7 +39601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1646934588}
   m_Layer: 0
-  m_Name: 1 (1)
+  m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40797,7 +40797,7 @@ GameObject:
   - component: {fileID: 1714493684}
   - component: {fileID: 1714493683}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40902,7 +40902,7 @@ GameObject:
   - component: {fileID: 1718958676}
   - component: {fileID: 1718958675}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41007,7 +41007,7 @@ GameObject:
   - component: {fileID: 1721042797}
   - component: {fileID: 1721042796}
   m_Layer: 0
-  m_Name: Yuka (2)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41112,7 +41112,7 @@ GameObject:
   - component: {fileID: 1728422548}
   - component: {fileID: 1728422547}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41322,7 +41322,7 @@ GameObject:
   - component: {fileID: 1742755426}
   - component: {fileID: 1742755425}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41949,7 +41949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1769758110}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42365,7 +42365,7 @@ GameObject:
   - component: {fileID: 1797893090}
   - component: {fileID: 1797893089}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42575,7 +42575,7 @@ GameObject:
   - component: {fileID: 1809763641}
   - component: {fileID: 1809763640}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42887,7 +42887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1818523184}
   m_Layer: 0
-  m_Name: '7retume '
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43254,7 +43254,7 @@ GameObject:
   - component: {fileID: 1838229523}
   - component: {fileID: 1838229522}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43464,7 +43464,7 @@ GameObject:
   - component: {fileID: 1860113159}
   - component: {fileID: 1860113158}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43569,7 +43569,7 @@ GameObject:
   - component: {fileID: 1863652889}
   - component: {fileID: 1863652888}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43674,7 +43674,7 @@ GameObject:
   - component: {fileID: 1866884095}
   - component: {fileID: 1866884094}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43989,7 +43989,7 @@ GameObject:
   - component: {fileID: 1885393709}
   - component: {fileID: 1885393708}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44199,7 +44199,7 @@ GameObject:
   - component: {fileID: 1889512476}
   - component: {fileID: 1889512475}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44406,7 +44406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1894217635}
   m_Layer: 0
-  m_Name: '12retume '
+  m_Name: 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45611,7 +45611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1974697097}
   m_Layer: 0
-  m_Name: 4
+  m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45656,7 +45656,7 @@ GameObject:
   - component: {fileID: 1986377732}
   - component: {fileID: 1986377731}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45761,7 +45761,7 @@ GameObject:
   - component: {fileID: 1995697650}
   - component: {fileID: 1995697649}
   m_Layer: 0
-  m_Name: Yuka (7)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45866,7 +45866,7 @@ GameObject:
   - component: {fileID: 1996473115}
   - component: {fileID: 1996473114}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46286,7 +46286,7 @@ GameObject:
   - component: {fileID: 2022569007}
   - component: {fileID: 2022569006}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46391,7 +46391,7 @@ GameObject:
   - component: {fileID: 2025333096}
   - component: {fileID: 2025333095}
   m_Layer: 0
-  m_Name: Yuka (4)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46496,7 +46496,7 @@ GameObject:
   - component: {fileID: 2031761146}
   - component: {fileID: 2031761145}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46598,7 +46598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036203321}
   m_Layer: 0
-  m_Name: '10retume  '
+  m_Name: 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47067,7 +47067,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2055763483}
   m_Layer: 0
-  m_Name: Yuka (11)
+  m_Name: Floor12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47211,7 +47211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2063399071}
   m_Layer: 0
-  m_Name: '6retume '
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47473,7 +47473,7 @@ GameObject:
   - component: {fileID: 2084446713}
   - component: {fileID: 2084446712}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47575,7 +47575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2096065054}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47926,7 +47926,7 @@ GameObject:
   - component: {fileID: 2108722349}
   - component: {fileID: 2108722348}
   m_Layer: 0
-  m_Name: Yuka (6)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48031,7 +48031,7 @@ GameObject:
   - component: {fileID: 2109109426}
   - component: {fileID: 2109109425}
   m_Layer: 0
-  m_Name: Yuka (1)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48451,7 +48451,7 @@ GameObject:
   - component: {fileID: 2130716790}
   - component: {fileID: 2130716789}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48553,7 +48553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2134520395}
   m_Layer: 0
-  m_Name: 3retume
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48692,7 +48692,7 @@ GameObject:
   - component: {fileID: 2138704967}
   - component: {fileID: 2138704966}
   m_Layer: 0
-  m_Name: Yuka
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48899,7 +48899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2141834196}
   m_Layer: 0
-  m_Name: Yuka (3)
+  m_Name: Floor4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48941,7 +48941,7 @@ GameObject:
   - component: {fileID: 2143187710}
   - component: {fileID: 2143187709}
   m_Layer: 0
-  m_Name: Yuka (5)
+  m_Name: 'Cube '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
