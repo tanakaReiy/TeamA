@@ -12,6 +12,7 @@ public abstract class StageGimmickBase : MonoBehaviour
     //ギミックのクリア状態を管理するプロパティ,trueにすることによりクリア通知を送る
     protected bool isClear = false;
 
+
     /// <summary>
     /// クリアするまで待つ処理
     /// </summary>
@@ -25,8 +26,10 @@ public abstract class StageGimmickBase : MonoBehaviour
     /// <br>クリア時に呼ぶ処理</br>
     /// <br>※オーバーライド時にはisClearをtrueにする処理を忘れずに</br>
     /// </summary>
-    protected virtual void ClearActive()
+    protected virtual void ClearActive(bool changeIsClear)
     {
-        isClear = true;
+        isClear = changeIsClear;
+        //ペンダント出現音（仮記載）
+        //CRIAudioManager.SE.Play("CueSheet_0", "SE_pendant_deru");
     }
 }

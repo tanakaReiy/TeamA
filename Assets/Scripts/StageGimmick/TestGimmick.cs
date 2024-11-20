@@ -14,9 +14,9 @@ public class TestGimmick : StageGimmickBase
         _observer = GameObject.FindObjectOfType<StageGimmickObserver>();
         _observer.OnAllGimmicksClear += ClearTest;
     }
-    protected override void ClearActive()
+    protected override void ClearActive(bool changed)
     {
-        base.ClearActive();
+        base.ClearActive(changed);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public class TestGimmick : StageGimmickBase
     /// </summary>
     public void ClearTestButton()
     {
-        ClearActive();
+        ClearActive(true);
     }
 
     private void ClearTest()

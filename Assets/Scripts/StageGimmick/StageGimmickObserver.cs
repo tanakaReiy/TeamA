@@ -3,9 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEditorInternal;
 using UnityEngine;
-
 /// <summary>
 /// すべてのギミックをクリアしたときに通知をするクラス
 /// </summary>
@@ -14,7 +12,7 @@ public class StageGimmickObserver : MonoBehaviour
     [Header("現在の階層のギミック")]
     [SerializeField] private StageGimmickBase[] _stageGimmicks;
 
-    [SerializeField] private GameObject _clearSwitch;
+    [SerializeField] private SwitchTest _switchTest;
 
     // キャンセル用のトークンソース
     private CancellationTokenSource _cancellationTokenSource;
@@ -24,10 +22,8 @@ public class StageGimmickObserver : MonoBehaviour
 
     private void Start()
     {
-        if (_clearSwitch != null)
-        {
-            _clearSwitch.SetActive(false);
-        }
+        _switchTest = _switchTest.GetComponent<SwitchTest>();
+        _switchTest?.gameObject.SetActive(false);
         if (_stageGimmicks != null)
         {
             //キャンセレーショントークンソースの初期化
@@ -74,7 +70,7 @@ public class StageGimmickObserver : MonoBehaviour
     {
         Debug.Log("すべてのギミックがクリアされました！");
         OnAllGimmicksClear?.Invoke(); // イベントを発行
-        _clearSwitch.SetActive(true);
+        _switchTest?.gameObject.SetActive(true);
     }
 
     private void OnDisable()

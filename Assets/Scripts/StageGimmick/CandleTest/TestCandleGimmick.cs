@@ -5,19 +5,21 @@ using UnityEngine;
 public class TestCandleGimmick : StageGimmickBase
 {
     private StageGimmickObserver _observer;
-
     private void Awake()
     {
         _observer = FindObjectOfType<StageGimmickObserver>();
         _observer.OnAllGimmicksClear += ClearTest;
     }
-    protected override void ClearActive()
+    protected override void ClearActive(bool changeIsClear)
     {
-        base.ClearActive();
+        base.ClearActive(changeIsClear);
+    }
+    public void OnFire()
+    {
+        ClearActive(true);
     }
     private void ClearTest()
     {
-        //ここにスイッチを出現させる処理
-        Debug.Log("スイッチ出現!");
+
     }
 }

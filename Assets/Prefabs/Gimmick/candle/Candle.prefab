@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7132742646268022841}
   - component: {fileID: 3712931037972302006}
   - component: {fileID: 8042157450636884549}
-  - component: {fileID: 2027345933334099560}
+  - component: {fileID: 5130633052281045567}
   m_Layer: 6
   m_Name: Candle
   m_TagString: Untagged
@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _candleObject: {fileID: 2781967622095873945}
---- !u!114 &2027345933334099560
+  _isFiredCorrect: 1
+--- !u!114 &5130633052281045567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
