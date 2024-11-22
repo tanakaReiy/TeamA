@@ -7,7 +7,7 @@ public class CriSoundExecuter : GameExecuterBase
     public override void InitializeScene()
     {
         CRIAudioManager.Initialize(); //初期化
-        CRIAudioManager.BGM.Play("BGM", "BGM_Stage"); //NOTE: 準備待ちがあるため遅延して再生されるが、指定する分には問題ない
+        //CRIAudioManager.BGM.Play("BGM", "BGM_Stage"); //NOTE: 準備待ちがあるため遅延して再生されるが、指定する分には問題ない
     }
 
     //Sceneで最後に何かする処理があれば書く
@@ -15,7 +15,7 @@ public class CriSoundExecuter : GameExecuterBase
     {
 
     }
-
+    /*
     private void Update()
     {
         //3Dサウンドの再生
@@ -42,4 +42,5 @@ public class CriSoundExecuter : GameExecuterBase
             CRIAudioManager.BGM.Play("BGM", "BGM_Stage_Final");
         }
     }
+    */
 }

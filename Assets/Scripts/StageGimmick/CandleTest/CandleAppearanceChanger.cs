@@ -1,12 +1,27 @@
+using Alchemy.Inspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
+using Ability;
+using System;
+public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable, IAbilityDetectable
 {
-    private bool _canInteract = true;
+    private bool _processed = true;
     private Renderer _candleRenderer;
     [SerializeField] private GameObject _candleObject = null;
+    [LabelText("火がついている状態が正しい")]
+    [SerializeField] private bool _isFiredCorrect = true;
+    public bool IsFiredCorrect => _isFiredCorrect;
+
+    /// <summary>
+    /// 現在、火がついているかを管理するブール
+    /// </summary>
+    public bool _isFire { get; private set; } = false;
+
+    public bool IsEnableDetect => true;
+
+    public event Action OnStateChanged;
+
     private void Start()
     {
         _candleRenderer = GetComponent<Renderer>();
@@ -14,38 +29,110 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
         {
             _candleObject.SetActive(false);
         }
+        FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction += ResetGimmick;
     }
     public bool CanInteract()
     {
-        //�v���C���[��������Ȃ����疳�����T���Ă܂�
-        //�����F�ʂ̕��@�ł̎Q�Ɓ@�v�C��
-        _canInteract = FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability is SurtrCaptrable ? true : false;
-        return _canInteract;
+        return false;
     }
 
     public string GetInteractionMessage()
     {
-        return "�΂𓔂�";
-        /*
-        return "�����ڕς��܂�";
-        */
+        if (IsEnableDetect)
+        {
+            if (_isFire)
+            {
+                return "火を消す";
+            }
+            else
+            {
+                return "火を灯す";
+            }
+        }
+        else
+        {
+            return "火があれば...";
+        }
     }
 
     public void OnInteract(IInteractCallBackReceivable caller)
     {
-        if (_canInteract)
+        
+    }
+
+    /// <summary>
+    /// ロウソクの火が変更された時に呼ぶ関数
+    /// </summary>
+    /// <param name="newState">火のオンオフ</param>
+    public void SetState(bool newState)
+    {
+        OnStateChanged?.Invoke(); // イベントを発火
+    }/// <summary>
+     /// リセットアクションの追加
+     /// </summary>
+    public void RegisterReset()
+    {
+        try
         {
-            base.ClearActive();
+            FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction += ResetGimmick;
+        }
+        catch
+        {
+            Debug.Log($"{this.gameObject.name} can't register ResetGimmick ");
+        }
+    }
+    /// <summary>
+    /// ギミックの状態をリセットする
+    /// </summary>
+    public void ResetGimmick()
+    {
+        //memo ここは複数回変更ができるかどうかで変更が入るかもしれない
+        _processed = true;
+
+        _isFire = false;
+        _candleObject.SetActive(false);
+        SetState(_isFiredCorrect ? _isFire : !_isFire);
+        Debug.Log($"{this.gameObject.name} reset gimmick");
+    }
+
+    /// <summary>
+    /// 登録したリセットアクションの解除
+    /// </summary>
+    public void CancelletionReset()
+    {
+        try
+        {
+            FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction -= ResetGimmick;
+        }
+        catch
+        {
+            Debug.Log($"{this.gameObject.name} can't register ResetGimmick ");
+        }
+    }
+    private void OnDisable()
+    {
+        CancelletionReset();
+    }
+
+    public void OnAbilityDetect(WandManager.CaptureAbility ability)
+    {
+        if (WandManager.CaptureAbility.Test1 != ability) { return; }
+        if (IsEnableDetect && _processed)
+        {
+            _isFire = !_isFire;
+            SetState(_isFiredCorrect ? _isFire : !_isFire);
             if (_candleObject)
             {
-                _candleObject.SetActive(true);
+                _candleObject.SetActive(_isFire);
+                var _candleGimmick = this.GetComponent<TestCandleGimmick>();
+                _candleGimmick.OnFire();
+                CRIAudioManager.SE.Play3D(Vector3.zero, "CueSheet_0", "SE_fire_tukeru");
             }
-            //_candleRenderer.material.color = Color.red;
-            _canInteract = false;
+            _processed = false;
         }
         else
         {
-            Debug.Log("�����΂�����΁c�c");
+            Debug.Log("何か火があれば……");
         }
     }
 }
