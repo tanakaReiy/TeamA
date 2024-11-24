@@ -10,14 +10,15 @@ using UnityEngine;
 public sealed class FreeMoveEnemy : IMovePatternEnemy
 {
 
-    Vector3[] IMovePatternEnemy.GetAllTargets()
+    (Vector3 position, float direction)[] IMovePatternEnemy.GetAllTargets()
     {
-        return new Vector3[] { Vector3.zero };
+        return new (Vector3 position, float direction)[] { (Vector3.zero , 0)};
     }
-    public (Vector3 position, Vector3 direction) GetNextTarget()
+    public (Vector3 position, float direction) GetNextTarget()
     {
-        return (Vector3.zero, Vector3.zero);
+        return (Vector3.zero, 0);
     }
+    public void OnDisposed() { }
 
     public async UniTask NextTargetActionAsync(Quaternion rotation, Transform transform, CancellationToken token)
     {
