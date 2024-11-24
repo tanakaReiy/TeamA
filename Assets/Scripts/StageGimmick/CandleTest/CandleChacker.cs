@@ -32,7 +32,7 @@ public class CandleChacker : StageGimmickBase
     {
         foreach( var candle in candleDictionary.Keys)
         {
-            if(candle.IsFiredCorrect != candleDictionary[candle])
+            if(candle._isFire != candleDictionary[candle])
             {
                 return;
             }
