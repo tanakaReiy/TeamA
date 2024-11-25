@@ -66,10 +66,18 @@ public class EnemySpawnManager : MonoBehaviour
     /// </summary>
     private bool IsSpawnableEnemy(int index)
     {
-        return _enemyData[index].SpawnablePlayerDistanceSquare >= (PlayerManager.Instance.transform.position - _enemyData[index].SpawnPoint).sqrMagnitude
-                && !_isEnemyExistArr[index]
-                && (_enemyData[index].MaxGenerateCnt <= -1  || _enemyGenerateCountArr[index] < _enemyData[index].MaxGenerateCnt )
-                && _spawnTimerArr[index] >= _enemyData[index].GenerateInterval;
+        GameObject playerRef = null; 
+        if(PlayerManager.Instance.TryGetPlayerRef(out playerRef))
+        {
+            return _enemyData[index].SpawnablePlayerDistanceSquare >= (playerRef.transform.position - _enemyData[index].SpawnPoint).sqrMagnitude
+                    && !_isEnemyExistArr[index]
+                    && (_enemyData[index].MaxGenerateCnt <= -1 || _enemyGenerateCountArr[index] < _enemyData[index].MaxGenerateCnt)
+                    && _spawnTimerArr[index] >= _enemyData[index].GenerateInterval;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void InitializeSpawnedEnemy(GameObject enemyObject, int index)
@@ -90,8 +98,8 @@ public class EnemySpawnManager : MonoBehaviour
         }
         //ƒGƒlƒ~[‚ª”jŠü‚³‚ê‚éÛ‚És‚¤ˆ—‚ğ“o˜^
         enemyBase._disposeAction += RegisterAction;
-        enemyBase.GetNextPosition += _enemyData[0].MovePatern.GetNextTarget;
-        enemyBase.GetNextGoalAction += _enemyData[0].MovePatern.NextTargetActionAsync;
+        enemyBase.GetNextPosition += _enemyData[index].MovePatern.GetNextTarget;
+        enemyBase.GetNextGoalAction += _enemyData[index].MovePatern.NextTargetActionAsync;
 
         void RegisterAction()
         {
