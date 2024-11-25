@@ -37,14 +37,15 @@ public class EnemyData
 
     [LabelText("エネミーの挙動")]
     [SerializeReference] public IMovePatternEnemy MovePatern;
+
 }
 
-public interface IMovePatternEnemy
+public interface IMovePatternEnemy : IDisposable
 {
     public (Vector3 position, float direction)[] GetAllTargets();
     public (Vector3 position, float direction) GetNextTarget();
 
-    public void OnDisposed();
+    public void Dispose();
     /// <summary>
     /// エネミーの次の目的地に移行する際の回転を制御する
     /// </summary>

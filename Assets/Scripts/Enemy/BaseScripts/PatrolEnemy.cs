@@ -23,7 +23,7 @@ public sealed class PatrolEnemy : IMovePatternEnemy
 
     private int _nowTargetIndex = -1;
 
-    public void OnDisposed()
+    public void Dispose()
     {
         _nowTargetIndex = -1;
     }

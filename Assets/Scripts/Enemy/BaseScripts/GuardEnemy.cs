@@ -23,7 +23,7 @@ public sealed class GuardEnemy : IMovePatternEnemy
     {
         return (_guardPosition, _guardFrontAngle);
     }
-    public void OnDisposed() { }
+    public void Dispose() { }
 
     public async UniTask NextTargetActionAsync(Quaternion targetRotation, Transform transform, CancellationToken token)
     {

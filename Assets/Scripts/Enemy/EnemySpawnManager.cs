@@ -96,7 +96,7 @@ public class EnemySpawnManager : MonoBehaviour
         void RegisterAction()
         {
             _isEnemyExistArr[index] = false;
-            _enemyData[index].MovePatern.OnDisposed(); 
+            _enemyData[index].MovePatern.Dispose(); 
             enemyBase.GetNextPosition -= _enemyData[0].MovePatern.GetNextTarget;
             enemyBase.GetNextGoalAction -= _enemyData[0].MovePatern.NextTargetActionAsync;
             enemyBase._disposeAction -= RegisterAction;

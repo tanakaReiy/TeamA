@@ -18,7 +18,7 @@ public sealed class FreeMoveEnemy : IMovePatternEnemy
     {
         return (Vector3.zero, 0);
     }
-    public void OnDisposed() { }
+    public void Dispose() { }
 
     public async UniTask NextTargetActionAsync(Quaternion rotation, Transform transform, CancellationToken token)
     {
