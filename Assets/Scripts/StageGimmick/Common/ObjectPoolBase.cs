@@ -14,7 +14,7 @@ public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component
 
     protected virtual void Awake()
     {
-        _pool = new Queue<T>();
+        _pool = new Queue<T>(_initialSize);
 
         //初期プールを作成
         for (int i = 0; i < _initialSize; i++)
@@ -35,15 +35,21 @@ public abstract class ObjectPoolBase<T> : MonoBehaviour where T : Component
     // オブジェクトを取得
     public T Get()
     {
+        T obj;
         if (_pool.Count > 0)
         {
-            T obj = _pool.Dequeue();
+            obj = _pool.Dequeue();
             obj.gameObject.SetActive(true);
             return obj;
         }
+        else
+        {
+            // プールが空の場合、新規作成
+            obj = CreateNewObject();
+        }
 
-        // プールが空の場合、新規作成
-        return CreateNewObject();
+        obj.gameObject.SetActive(true);
+        return obj;
     }
 
     // オブジェクトをプールに戻す
