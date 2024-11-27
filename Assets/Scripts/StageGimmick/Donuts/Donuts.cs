@@ -34,7 +34,6 @@ public class Donuts : MonoBehaviour
         if(Physics.SphereCast(this.transform.position, _radius, transform.forward,out hit, 0.1f, LayerMask, QueryTriggerInteraction.Ignore))
         {
             //プレイヤーに近づいた時の処理
-            Debug.Log("Hit!!!!!");
         }
         //現在の速度
         Vector3 currentVelocity = _rigidbody.velocity;
