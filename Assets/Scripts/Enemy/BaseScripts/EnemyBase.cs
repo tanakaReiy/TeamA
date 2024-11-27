@@ -59,14 +59,26 @@ public class EnemyBase : MonoBehaviour , IDamagable
     [SerializeField] private float _fieldOfViewHalf = 90;
 
     [LabelText("攻撃可能距離")]
-    [SerializeField] private float _attackableDistance = 3;
+    [SerializeField] private float _attackableDistance = 4;
+
+    [LabelText("攻撃範囲")]
+    [SerializeField] private Vector3 _attackArea = new Vector3(1, 1, 1);
 
     private Vector3 _lastTarget = Vector3.zero;
 
     private float _searchableTargetRange = 5;
 
+    private int _onlyPlayerLayerInt = 0;
+    private int _withoutPlayerLayerInt = 0;
+
     private bool _isTargetPlayer = false;
     private bool _isSearchPlayer = false;
+
+    protected bool _isEnableDamageArea = false;
+    /// <summary>
+    /// 現在発生している攻撃がプレイヤーに当たったかを判定する
+    /// </summary>
+    private bool _isAttackDamagedPlayer;
 
     private CancellationTokenSource _cts;
     private CancellationToken _token;
@@ -81,18 +93,19 @@ public class EnemyBase : MonoBehaviour , IDamagable
         _token = _cts.Token;
 
         _navMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
-
-
-        //ここのプレイヤーのポジション参照の取得は後にシングルトンかスポナーから与えられる形に変わる
-        _playerTransform = FindAnyObjectByType<PlayerInEnemyTest>().GetComponent<Transform>();
-
+        GameObject playerObject;
         //初期化できたかどうかのnullチェック
-        if (_playerTransform && _navMeshAgent && GetNextPosition != null && GetNextGoalAction != null && OnStart())
+        if (PlayerManager.Instance.TryGetPlayerRef(out playerObject) && _navMeshAgent && GetNextPosition != null && GetNextGoalAction != null && OnStart())
         {
             _initialized = true;
         }
+        _playerTransform = playerObject.transform;
+
         _currentHp = _enemyHp;
         _navMeshAgent.agentTypeID = NavMesh.GetAreaFromName("EnemyMovable");
+
+        _onlyPlayerLayerInt = 1 << 7;
+        _withoutPlayerLayerInt = -1 - (1 << LayerMask.NameToLayer("Player"));
 
         _navMeshAgent.stoppingDistance = _stopDistance;
         _navMeshAgent.speed = _enemyMaxSpeed;
@@ -113,18 +126,18 @@ public class EnemyBase : MonoBehaviour , IDamagable
 
     private void FixedUpdate()
     {
-        if (!_initialized || !_navMeshAgent.isOnNavMesh)
+        if (!_initialized)
         {
             return;
         }
 
-        if (_enemyState == EnemyState.Move)
-        {
-            ActionDecisionStateMove();
-        }
-        if(_enemyState == EnemyState.Attack)
+        if (_enemyState == EnemyState.Attack && _isEnableDamageArea)
         {
             DetectPlayer();
+        }
+        if (_navMeshAgent.isOnNavMesh && _enemyState == EnemyState.Move)
+        {
+            ActionDecisionStateMove();
         }
     }
     /// <summary>
@@ -165,12 +178,8 @@ public class EnemyBase : MonoBehaviour , IDamagable
             {
                 Debug.Log("SearchPlayer CancelThis\nWaitLastPlayerPositionAsync or LookAround");
             }
-
-
             _isTokenChecked = false;
             SetLastTarget();
-
-
         }
         //目的地との直線距離で判定している
         else if (Vector3.Distance(_navMeshAgent.destination, this.transform.position) <= _navMeshAgent.stoppingDistance && !_isTokenChecked)
@@ -208,8 +217,8 @@ public class EnemyBase : MonoBehaviour , IDamagable
 
         bool seachablePlayerDistance = toPlayerDirection.magnitude < _searchablePlayerDistance;
         bool playerInSight = Vector3.Angle(transform.forward, toPlayerDirection) < _fieldOfViewHalf;
-        bool playerVisible = !Physics.Raycast(transform.position, toPlayerDirection, toPlayerDirection.magnitude, -1 - (1 << LayerMask.NameToLayer("Player")));
-        bool noObstaclesExistPlayerDirection = Physics.Raycast(transform.position + Vector3.up * _navMeshAgent.baseOffset, toPlayerDirection, _searchablePlayerDistance, (int)Mathf.Pow(2, 7));
+        bool playerVisible = Physics.Raycast(transform.position + Vector3.up * _navMeshAgent.baseOffset, toPlayerDirection, toPlayerDirection.magnitude + 1, _onlyPlayerLayerInt);
+        bool noObstaclesExistPlayerDirection = !Physics.Raycast(transform.position + Vector3.up * _navMeshAgent.baseOffset, toPlayerDirection, _searchablePlayerDistance, _withoutPlayerLayerInt);
 
         if (seachablePlayerDistance && playerInSight && playerVisible && noObstaclesExistPlayerDirection)
         {
@@ -288,6 +297,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
     /// <param name="enemyState"></param>
     async protected void ChangeEnemyStateAsync(EnemyState enemyState)
     {
+        _enemyState = enemyState;
         if (_isTokenChecked)
         {
             //処理停止
@@ -306,6 +316,9 @@ public class EnemyBase : MonoBehaviour , IDamagable
         //token再生成
         _cts = new CancellationTokenSource();
         _token = _cts.Token;
+
+        //攻撃判定を出せるように初期化
+        _isAttackDamagedPlayer = false;
 
         Debug.Log($"Enemy:{this.gameObject.name} change state {enemyState}");
 
@@ -357,10 +370,17 @@ public class EnemyBase : MonoBehaviour , IDamagable
             //少し後退
             await LMotion.Create(this.transform.position, this.transform.position - this.transform.forward, 0.5f)
                 .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
-
+            //攻撃を有効化
+            _isEnableDamageArea = true;
+            /*//攻撃時のみプレイヤーとの判定を無くす
+            Physics.IgnoreLayerCollision(this.gameObject.layer, _onlyPlayerLayerInt, true);*/
             //突進
             await LMotion.Create(this.transform.position, this.transform.position + this.transform.forward * 5, 1)
                 .WithEase(Ease.InOutCubic).BindToPosition(this.transform).ToUniTask(token);
+            //攻撃を無効化
+            _isEnableDamageArea = false;
+            /*//攻撃終了時にプレイヤーとの判定を戻す
+            Physics.IgnoreLayerCollision(this.gameObject.layer, _onlyPlayerLayerInt, false);*/
             //突進終了後に後ろを振り向く
             await LMotion.Create(this.transform.rotation, Quaternion.LookRotation(-this.transform.forward, Vector3.up), 1)
                 .WithEase(Ease.InOutQuad).BindToLocalRotation(transform).ToUniTask(token);
@@ -374,7 +394,32 @@ public class EnemyBase : MonoBehaviour , IDamagable
     }
     private void DetectPlayer()
     {
-
+        if(_isAttackDamagedPlayer)
+        {
+            Debug.Log("This attack already damaged Player");
+            return;
+        }
+        RaycastHit hit;
+        if(Physics.BoxCast(transform.position, new Vector3(_attackArea.x * 0.5f, _attackArea.y * 0.5f, 0.01f), transform.forward,
+            out hit, this.transform.rotation, _attackArea.z, _onlyPlayerLayerInt))
+        {
+            try
+            {
+                if (hit.collider.gameObject.GetComponent<PlayerDamageReceiver>().ApplyDamage(1))
+                {
+                    _isAttackDamagedPlayer = true;
+                    Debug.Log("Succeed ApplyDamage to Player");
+                }
+                else
+                {
+                    Debug.Log("Failed ApplyDamage to Player");
+                }
+            }
+            catch
+            {
+                Debug.Log("Not apllied PlayerDamageReciever");
+            }
+        }
     }
 
     /// <summary>
@@ -423,26 +468,18 @@ public class EnemyBase : MonoBehaviour , IDamagable
 
         Debug.Log($"Enemy:{this.gameObject.name} finish dead action");
     }
-
-    /// <summary>
-    /// Capturableに付ける用の関数
-    /// </summary>
-    public void OnCapturedAction()
-    {
-        ApplyDamage(1);
-    }
-
     /// <summary>
     /// ダメージ処理
     /// </summary>
     /// <param name="damage"></param>
     /// <param name="arg"></param>
-    public void ApplyDamage(float damage, IDamageArg arg = null)
+    /// <returns>ダメージが実際に与えられたかを返す</returns>
+    public bool ApplyDamage(float damage, IDamageArg arg = null)
     {
         if (_enemyState == EnemyState.Damage || _enemyState == EnemyState.Death)
         {
             Debug.Log($"Now, enemy:{this.gameObject.name} cant damaged");
-            return;
+            return false;
         }
         _currentHp -= damage;
         if (_currentHp <= 0)
@@ -455,6 +492,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
             //CRIAudioManager.SE.Play3D(Vector3.zero, _cueSheet, "ダメージ音CueName");
             ChangeEnemyStateAsync(EnemyState.Damage);
         }
+        return true;
     }
 
     private void OnDisable()
@@ -504,8 +542,8 @@ public class EnemyBase : MonoBehaviour , IDamagable
         Gizmos.color = Color.yellow;
         // 正面の視野ラインを描画
         Gizmos.DrawLine(this.transform.position, this.transform.position + this.transform.forward * _searchablePlayerDistance);
+        
         Gizmos.color = Color.blue;
-
         // 左側の視野ラインを描画
         Vector3 leftDirection = this.transform.rotation * Quaternion.Euler(0, -_fieldOfViewHalf, 0) * Vector3.forward;
         Gizmos.DrawLine(this.transform.position, this.transform.position + leftDirection * _searchablePlayerDistance);
@@ -513,6 +551,20 @@ public class EnemyBase : MonoBehaviour , IDamagable
         // 右側の視野ラインを描画
         Vector3 rightDirection = this.transform.rotation * Quaternion.Euler(0, _fieldOfViewHalf, 0) * Vector3.forward;
         Gizmos.DrawLine(this.transform.position, this.transform.position + rightDirection * _searchablePlayerDistance);
+
+        //攻撃判定を描画
+        if(_isEnableDamageArea)
+        {
+            Gizmos.color = Color.green;
+        }
+        else
+        {
+            Gizmos.color = Color.gray;
+        }
+        var cache = Gizmos.matrix;
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+        Gizmos.DrawWireCube(Vector3.forward * _attackArea.z * 0.5f, _attackArea);
+        Gizmos.matrix = cache;
     }
 
 #endif

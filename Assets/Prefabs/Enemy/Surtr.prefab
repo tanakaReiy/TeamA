@@ -156,7 +156,8 @@ MonoBehaviour:
   _enemyAngularSpeed: 240
   _searchablePlayerDistance: 7
   _fieldOfViewHalf: 60
-  _attackableDistance: 1
+  _attackableDistance: 4
+  _attackArea: {x: 1, y: 1, z: 1}
   _isViewLastTarget: 1
   _sampleFloat: 1
 --- !u!114 &7353795345678112109
