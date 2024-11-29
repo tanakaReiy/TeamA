@@ -7,7 +7,7 @@ using LitMotion.Extensions;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 
-public class BallonController : MonoBehaviour, IInteractable
+public class BallonController : MonoBehaviour, IAbilityDetectable
 {
     [LabelText("移動距離")]
     [SerializeField] private float _moveDistance = 3.0f;
@@ -31,6 +31,8 @@ public class BallonController : MonoBehaviour, IInteractable
     private bool _isUp = true;
 
     private CharacterMovement _cache = null;
+
+    public bool IsEnableDetect => true;
 
 
     // Start is called before the first frame update
@@ -166,18 +168,10 @@ public class BallonController : MonoBehaviour, IInteractable
             StopMotion();
     }
 
-    public bool CanInteract()
+    public void OnAbilityDetect(WandManager.CaptureAbility ability)
     {
-        return true;
-    }
-
-    public string GetInteractionMessage()
-    {
-        return "動かす";
-    }
-
-    public void OnInteract(IInteractCallBackReceivable caller)
-    {
+        if(ability != WandManager.CaptureAbility.Test3)
+            return;
         if (_isPause)
             StopMotion();
         else

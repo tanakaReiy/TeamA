@@ -52,11 +52,11 @@ MonoBehaviour:
   - CanIDebugSelect: 1
     Name: SecondStageSystem
     AssetPath: Assets/Scenes/MainGame/SecondStageSystem.unity
-    SceneType: 0
+    SceneType: 2
   - CanIDebugSelect: 1
     Name: ThirdStageSystem
     AssetPath: Assets/Scenes/MainGame/ThirdStageSystem.unity
-    SceneType: 0
+    SceneType: 2
   - CanIDebugSelect: 1
     Name: MockUp
     AssetPath: Assets/Scenes/Mockup/MockUp.unity
@@ -98,10 +98,10 @@ MonoBehaviour:
     AssetPath: Assets/Scenes/TestScene/PlayerTestScene.unity
     SceneType: 0
   - CanIDebugSelect: 1
-    Name: BallonTest
-    AssetPath: Assets/Scenes/TestScene/GimmickTest/BallonTest.unity
+    Name: RotateFloorTest
+    AssetPath: Assets/Scenes/TestScene/RotateFloorTest.unity
     SceneType: 0
   - CanIDebugSelect: 1
-    Name: WallTest
-    AssetPath: Assets/Scenes/TestScene/GimmickTest/WallTest.unity
+    Name: BallonTest
+    AssetPath: Assets/Scenes/TestScene/GimmickTest/BallonTest.unity
     SceneType: 0
