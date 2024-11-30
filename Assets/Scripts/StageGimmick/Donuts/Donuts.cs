@@ -15,6 +15,8 @@ public class Donuts : MonoBehaviour
     [LabelText("プレイヤーに対するあたり判定の半径")]
     [SerializeField] private float _radius = 5f;
 
+    public Vector3 ProceedVector = Vector3.forward;
+
     private Rigidbody _rigidbody;
     private float _timer;
 
@@ -27,28 +29,29 @@ public class Donuts : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _pool = GameObject.FindObjectOfType<DonutsObjectPool>();
     }
-
     private void FixedUpdate()
     {
         RaycastHit hit;
-        if(Physics.SphereCast(this.transform.position, _radius, transform.forward,out hit, 0.1f, LayerMask, QueryTriggerInteraction.Ignore))
+        if(Physics.SphereCast(this.transform.position, _radius, ProceedVector,out hit, 0.01f, LayerMask, QueryTriggerInteraction.Ignore))
         {
             //プレイヤーに近づいた時の処理
+            Debug.Log("near player");
         }
+        /*
         //現在の速度
         Vector3 currentVelocity = _rigidbody.velocity;
 
         //最高速度未満の場合は加速させる
         if(currentVelocity.magnitude < _maxSpeed)
         {
-            Vector3 force = transform.forward * _acceleration;
+            Vector3 force = ProceedVector * _acceleration;
             _rigidbody.AddForce(force);
         }
         else
         {
             _rigidbody.velocity = currentVelocity.normalized * _maxSpeed;
         }
-
+        */
         //生存時間の管理
         _timer += Time.deltaTime;
         if(_timer >= _lifeTime)
@@ -62,6 +65,7 @@ public class Donuts : MonoBehaviour
         _timer = 0f;
         _rigidbody.velocity = Vector3.zero; // 速度リセット
         _rigidbody.angularVelocity = Vector3.zero; // 回転リセット
+        _rigidbody.velocity = ProceedVector * _acceleration;
     }
 
     private void OnDrawGizmos()
@@ -69,6 +73,6 @@ public class Donuts : MonoBehaviour
         if (Application.isPlaying) return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position + Vector3.forward * 0.1f, _radius);
+        Gizmos.DrawWireSphere(this.transform.position + ProceedVector * 0.01f, _radius);
     }
 }

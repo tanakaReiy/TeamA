@@ -23,10 +23,13 @@ public class RegistrationGimmick : MonoBehaviour
 {
     [SerializeField] private List<GimmickPair> _gimmickPairs;
     [SerializeField] private GameObject _doorPendant;
-    StageGimmickObserver _observer;
+    [SerializeField] StageGimmickObserver _observer;
     private void Start()
     {
-        _observer = FindAnyObjectByType<StageGimmickObserver>();
+        if(!_observer)
+        {
+            _observer = FindAnyObjectByType<StageGimmickObserver>();
+        }
         foreach (var pair in _gimmickPairs)
         {
             if (pair?._activatable is IActivatable activatable && pair?._gimmick is IGimmick gimmick)
