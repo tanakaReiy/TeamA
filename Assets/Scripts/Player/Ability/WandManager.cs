@@ -66,6 +66,8 @@ public partial class WandManager : MonoBehaviour
         clipOverrides[overrideIndex] = new KeyValuePair<AnimationClip, AnimationClip>(clipOverrides[overrideIndex].Key,source.Clip);
 
         animatorOverrideController.ApplyOverrides(clipOverrides);
+
+        PlayerEventHelper.OnCaptureAbility.OnNext(ability);
     }
 
     //アビリティのenumです

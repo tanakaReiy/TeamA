@@ -5,14 +5,13 @@ using UnityEngine.UI;
 using UniRx;
 namespace UIControls
 {
-    public class InteractableObjectText : MonoBehaviour,IInitializable
+    public class InteractableObjectText : UIGroup
     {
         [SerializeField] private Text _text;
         [SerializeField] private InteractDetector _detector;
 
-        public void Initialize()
+        public override void Initialize()
         {
-          
             _detector.CurrentInteractable
                 .Subscribe(data =>
                 {
