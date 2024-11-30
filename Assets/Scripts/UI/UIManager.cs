@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
+using UnityEngine.AddressableAssets;
+using Cysharp.Threading.Tasks;
 /// <summary>
 /// すべてのUIを管理します
 /// シングルトン、DontDestoryOnLoadであり残り続けます
@@ -12,37 +14,83 @@ using UnityEngine.UI;
 /// </summary>
 public class UIManager : SingletonMonoBehavior<UIManager>
 {
+    
+    private List<CanvasData> _canvases = new();
 
-    private List<CanvasData> _regsteredCanvas;
+    private readonly string CanvasPrefabAddressableAddress = "CanvasPrefab";
+    private GameObject _canvasPrefab;
 
-    public void RegisterCanvas(Canvas canvas,bool isSerachEnable = true)
-    {
-        _regsteredCanvas.Add(new CanvasData(canvas,isSerachEnable));
-    }
-
-
-
+    public bool IsReady { get; private set; } = false;
+    
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(this);
-    }
-
-    private class CanvasData
-    {
-        public CanvasData(Canvas canvas, bool isSerachEnable)
+        UniTask.Create(async () =>
         {
-            Canvas = canvas;
-            IsSerachEnable = isSerachEnable;
-        }
+            _canvasPrefab = await Addressables.LoadAssetAsync<GameObject>(CanvasPrefabAddressableAddress);
+        }).ContinueWith(() =>
+        {
 
-        public Canvas Canvas { get;set; }
-        public bool IsSerachEnable { get; set; }
+            if (_canvasPrefab == null)
+            {
+                Debug.LogError("CanvasPrefabが未設定");
+                return;
+            }
+            if (!_canvasPrefab.TryGetComponent(out CanvasData canvasData))
+            {
+                Debug.LogError("CanvasPrefabがCanvasを含みません"); return;
+            }
+            IsReady = true;
+
+        }).Forget();
+        
+ 
     }
-
-
-    public enum UiMergeType
+    
+    public void RegisterGroup(int sortOrder, IEnumerable<UIGroup> groups)
     {
-        Normal,Independent
+        var canvasData = GetCanvasData(sortOrder);
+        foreach(var g in groups)
+        {
+            canvasData.AddGroup(g);
+        }
     }
+
+    public CanvasData GetCanvasData(int sortOrder)
+    {
+        int index = _canvases.FindIndex(c => c.Canvas.sortingOrder == sortOrder);
+        if (index != -1)
+        {
+            return _canvases[index];
+        }
+        else
+        {
+            return CreateNewCanvas(sortOrder);
+        }
+    }
+
+    private CanvasData CreateNewCanvas(int sortOrder)
+    {
+        GameObject canvasObject = Instantiate(_canvasPrefab);
+        canvasObject.name = $"Canvas_{sortOrder}";
+        CanvasData canvasData = canvasObject.GetComponent<CanvasData>();
+        int index = _canvases.FindIndex(c => c.Canvas.sortingOrder > sortOrder);
+        if(index != -1)
+        {
+            _canvases.Insert(index, canvasData);
+            canvasObject.transform.SetParent(transform);
+            canvasObject.transform.SetSiblingIndex(index);
+        }
+        else
+        {
+            _canvases.Add(canvasData);
+            canvasObject.transform.SetParent(transform);
+            canvasObject.transform.SetAsLastSibling();
+        }
+        return canvasData;
+    }
+
+
+
 }

@@ -136,7 +136,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _showRange: 1
-  ability: 1
+  ability: 4
 --- !u!1 &5254681455853390870
 GameObject:
   m_ObjectHideFlags: 0
