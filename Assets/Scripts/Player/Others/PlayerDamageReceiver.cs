@@ -12,8 +12,9 @@ public class PlayerDamageReceiver : MonoBehaviour, IDamagable
         _status = GetComponent<PlayerStatus>();
     }
 
-    public void ApplyDamage(float damage, IDamageArg arg = null)
+    public bool ApplyDamage(float damage, IDamageArg arg = null)
     {
         _status.Health.Value -= damage;
+        return true;
     }
 }
