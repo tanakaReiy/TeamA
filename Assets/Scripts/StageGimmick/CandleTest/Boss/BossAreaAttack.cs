@@ -21,7 +21,7 @@ public class BossAreaAttack : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            ExecuteAttack();
+            ExecuteAttack(1);
         }
     }
     /// <summary>
@@ -59,7 +59,7 @@ public class BossAreaAttack : MonoBehaviour
     /// <summary>
     /// 実際の攻撃処理
     /// </summary>
-    public void ExecuteAttack()
+    public void ExecuteAttack(float damage)
     {
         Vector3 boxCenter = warningIndicatorCollider.bounds.center;
         Vector3 boxHalfExtents = warningIndicatorCollider.bounds.extents;
@@ -67,8 +67,13 @@ public class BossAreaAttack : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            Debug.Log($"攻撃が命中: {hit.collider.gameObject.name}");
+            Debug.Log($"攻撃範囲内にプレイヤーを検知");
             // ダメージ処理
+            if(hit.collider.TryGetComponent<PlayerDamageReceiver>(out PlayerDamageReceiver damageReceiver))
+            {
+                damageReceiver.ApplyDamage(damage);
+                Debug.Log($"{hit.collider.name}に{damage}ダメージ与えた");
+            }
         }
     }
 
