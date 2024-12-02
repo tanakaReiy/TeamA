@@ -1,11 +1,7 @@
-using Ability;
 using Alchemy.Inspector;
-using Cysharp.Threading.Tasks;
-using System.Threading;
-using UnityEditor;
 using UnityEngine;
 
-public class SURUTOKARI : EnemyBase
+public class Surtr : EnemyBase
 {
     [Title("å≈óLê›íË")]
     [SerializeField] float _sampleFloat = 1.0f;
@@ -27,7 +23,14 @@ public class SURUTOKARI : EnemyBase
     [Button]
     private void Damage(int damage)
     {
-        base.ApplyDamage(damage);
+        if (base.ApplyDamage(damage))
+        {
+            Debug.Log($"Damaged enemy:{this.name}");
+        }
+        else
+        {
+            Debug.Log($"Fail Damage enemy:{this.name}");
+        }
     }
 #endif
 }

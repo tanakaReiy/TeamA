@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UniRx;
 public class TestAbilityDetectable : MonoBehaviour,IAbilityDetectable
 {
     public bool IsEnableDetect => true;
+
+    private void Start()
+    {
+        PlayerEventHelper.OnCaptureAbility.Subscribe(Ability => print(Ability)).AddTo(this);
+    }
 
     public void OnAbilityDetect(WandManager.CaptureAbility ability)
     {
@@ -20,6 +25,8 @@ public class TestAbilityDetectable : MonoBehaviour,IAbilityDetectable
 
                 break;
             case WandManager.CaptureAbility.Test3:
+                Debug.Log("Test3 Ability Detected");
+
                 break;
         }
     }
