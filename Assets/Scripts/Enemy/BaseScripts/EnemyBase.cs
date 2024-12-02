@@ -400,7 +400,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
             return;
         }
         RaycastHit hit;
-        if(Physics.BoxCast(transform.position, new Vector3(_attackArea.x * 0.5f, _attackArea.y * 0.5f, 0.01f), transform.forward,
+        if(Physics.BoxCast(transform.position + Vector3.up * _attackArea.y * 0.5f, new Vector3(_attackArea.x * 0.5f, _attackArea.y * 0.5f, 0.01f), transform.forward,
             out hit, this.transform.rotation, _attackArea.z, _onlyPlayerLayerInt))
         {
             try
@@ -533,11 +533,12 @@ public class EnemyBase : MonoBehaviour , IDamagable
             //DrawLastTarget
             Gizmos.color = Color.cyan;
             Gizmos.DrawCube(_lastTarget, Vector3.one);
-            if (!_initialized)
-                return;
-            //DrawNowTarget
-            Gizmos.color = new Color(0, 0, 0, 0.6f);
-            Gizmos.DrawCube(_navMeshAgent.destination, Vector3.one * 0.5f + Vector3.up * 3);
+            if (_initialized)
+            {
+                //DrawNowTarget
+                Gizmos.color = new Color(0, 0, 0, 0.6f);
+                Gizmos.DrawCube(_navMeshAgent.destination, Vector3.one * 0.5f + Vector3.up * 3);
+            }
         }
         Gizmos.color = Color.yellow;
         // 正面の視野ラインを描画
@@ -562,7 +563,7 @@ public class EnemyBase : MonoBehaviour , IDamagable
             Gizmos.color = Color.gray;
         }
         var cache = Gizmos.matrix;
-        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+        Gizmos.matrix = Matrix4x4.TRS(transform.position + Vector3.up * _attackArea.y * 0.5f, transform.rotation, transform.lossyScale);
         Gizmos.DrawWireCube(Vector3.forward * _attackArea.z * 0.5f, _attackArea);
         Gizmos.matrix = cache;
     }
