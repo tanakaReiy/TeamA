@@ -6,6 +6,7 @@ using System.Threading;
 using UniRx;
 using UnityEngine;
 
+[Obsolete]
 public class CapturableDetector : OnceDetector<Capturable>
 {
    

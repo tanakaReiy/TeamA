@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 055b6216634c8ba4b80610294c57a4cb
   m_SerializeEntries:
-  - m_GUID: 5842a28357383ef46ad89a28eeb57f31
-    m_Address: Assets/Scenes/SceneDependencies.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 75bda8f836a56154caac0e35934a5625
     m_Address: PlayerPrefab
     m_ReadOnly: 0

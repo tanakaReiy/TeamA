@@ -3,22 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AnimaitonEventReceivable;
-public class PlayerCapturingState : PlayerBaseState,ICaptureAnimationEventReceivable,IPlayerAnimationSePlayable
+public class PlayerCapturingState : PlayerBaseState,IPlayerAnimationSePlayable
 {
     private readonly int CaputureStateHash = Animator.StringToHash("Capture");
     private const float TransitionDuration = 0.1f;
-    private readonly string SpoonSoundCueName = "SE_Spoon";
 
-    private bool _isCapturableDetected = false;
-
-
+    private Capturable _cachedCapturable = null;
     public PlayerCapturingState(PlayerStateMachine playerStateMachine) : base(playerStateMachine){}
 
-
+    
     public override void Enter()
     {
         _stateMachine.Animator.CrossFadeInFixedTime(CaputureStateHash, TransitionDuration);
-
+        _cachedCapturable = _stateMachine.Capturaing.CurrentTarget;
     }
 
     public override void Tick(float deltaTime)
@@ -32,26 +29,6 @@ public class PlayerCapturingState : PlayerBaseState,ICaptureAnimationEventReceiv
 
     public override void Exit()
     {
-        DisableDetection();
-    }
-
-    public void EnableDetection()
-    {
-
-        _stateMachine.CapturableDetector.StartDetection(
-            capture =>
-            {
-                _isCapturableDetected = true;
-                capture.OnCaptured.Invoke();
-                _stateMachine.WandManager.OnCapture(capture.CapturableAbility);
-
-                _stateMachine.CapturableDetector.EndDetection();
-            });
-    }
-
-    public void DisableDetection()
-    {
-        _stateMachine.CapturableDetector.EndDetection();
     }
 
     public void PlaySe(string cueName)
@@ -61,11 +38,14 @@ public class PlayerCapturingState : PlayerBaseState,ICaptureAnimationEventReceiv
 
     public void PlaySeThroughState(string cueName)
     {
-        if (_isCapturableDetected)
+        if(_cachedCapturable == null) { return; }
+        if (_stateMachine.Capturaing.IsInRange(_cachedCapturable.gameObject))
         {
             CRIAudioManager.SE.Play3D(Vector3.zero, CueSheetName, cueName);
-
+            _cachedCapturable.OnCaptured.Invoke();
+            _stateMachine.WandManager.OnCapture(_cachedCapturable.CapturableAbility);
         }
+        
 
     }
 }

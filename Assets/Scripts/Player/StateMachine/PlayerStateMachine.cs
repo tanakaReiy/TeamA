@@ -5,7 +5,7 @@ using AnimaitonEventReceivable;
 using Alchemy.Inspector;
 using UniRx;
 
-public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable, IPlayerAnimationSePlayable
+public class PlayerStateMachine : StateMachine, IPlayerAnimationSePlayable
 {
 
     [field: SerializeField, FoldoutGroup("CompRefs")] public CharacterMovement CharacterMovement { get; private set; }
@@ -13,7 +13,7 @@ public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable,
     [field: SerializeField, FoldoutGroup("CompRefs")] public InteractDetector InteractDetector { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public SocketManager SocketManager { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public Animator Animator { get; private set; }
-    [field: SerializeField, FoldoutGroup("CompRefs")] public CapturableDetector CapturableDetector { get; private set; }
+    [field: SerializeField, FoldoutGroup("CompRefs")] public Capturaing Capturaing { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public PlayerStatus Status { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public WandManager WandManager { get; private set; }
 
@@ -39,21 +39,7 @@ public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable,
     }
 
     #region AnimationEventReceiver
-    public void EnableDetection()
-    {
-        if(_currentState is ICaptureAnimationEventReceivable state)
-        {
-            state.EnableDetection();
-        }
-    }
 
-    public void DisableDetection()
-    {
-        if (_currentState is ICaptureAnimationEventReceivable state)
-        {
-            state.DisableDetection();
-        }
-    }
 
     public void PlaySe(string cueName)
     {
