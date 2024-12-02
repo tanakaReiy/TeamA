@@ -5,7 +5,7 @@ using AnimaitonEventReceivable;
 using Alchemy.Inspector;
 using UniRx;
 
-public class PlayerStateMachine : StateMachine, IPlayerAnimationSePlayable
+public class PlayerStateMachine : StateMachine, IPlayerAnimationSePlayable,IPlayerAnimationAbilityPerformable
 {
 
     [field: SerializeField, FoldoutGroup("CompRefs")] public CharacterMovement CharacterMovement { get; private set; }
@@ -53,6 +53,14 @@ public class PlayerStateMachine : StateMachine, IPlayerAnimationSePlayable
             sePlayable.PlaySeThroughState(cueName);
         }
     }
+
+    public void PerformAbility()
+    {
+        if (_currentState is IPlayerAnimationAbilityPerformable performable)
+        {
+            performable.PerformAbility();
+        }
+    }
     #endregion
 }
 
@@ -64,4 +72,11 @@ namespace AnimaitonEventReceivable
 
         void PlaySeThroughState(string cueName);
     }
+
+    public interface IPlayerAnimationAbilityPerformable
+    {
+        void PerformAbility();
+    }
+
+    
 }

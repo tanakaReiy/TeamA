@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 251976058502594451}
   - component: {fileID: 8138384297840474614}
   - component: {fileID: 2627622731570711625}
-  - component: {fileID: 3075728961830421047}
+  - component: {fileID: 4385230847526125253}
   m_Layer: 0
   m_Name: HeadTest_1
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3075728961830421047
+--- !u!114 &4385230847526125253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,17 +126,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2379698036203508746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 528056057513b6443803323a58001b32, type: 3}
+  m_Script: {fileID: 11500000, guid: 78fc48d322d813441859822160175fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startPosition: {fileID: 953612234749687591}
-  _endPosition: {fileID: 4486938955378298365}
-  _radius: 0.5
-  _layer:
+  <Ability>k__BackingField: 1
+  <OverrideAnimationClip>k__BackingField: {fileID: 7400000, guid: de6aff95087f84245a6f9677ae4a60df, type: 2}
+  <OverrideRangeSettings>k__BackingField: 0
+  <Offset>k__BackingField: {x: 0, y: 0, z: 0}
+  <Radius>k__BackingField: 0
+  <Mask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 4294967295
-  _showRange: 1
-  ability: 1
+    m_Bits: 0
 --- !u!1 &5314733209802513954
 GameObject:
   m_ObjectHideFlags: 0

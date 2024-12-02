@@ -30,4 +30,9 @@ public class TestAbilityDetectable : MonoBehaviour,IAbilityDetectable
                 break;
         }
     }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 }

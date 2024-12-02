@@ -43,7 +43,7 @@ public class PlayerCapturingState : PlayerBaseState,IPlayerAnimationSePlayable
         {
             CRIAudioManager.SE.Play3D(Vector3.zero, CueSheetName, cueName);
             _cachedCapturable.OnCaptured.Invoke();
-            _stateMachine.WandManager.OnCapture(_cachedCapturable.CapturableAbility);
+            _stateMachine.WandManager.ChangeAbility(_cachedCapturable.CapturableAbility);
         }
         
 
