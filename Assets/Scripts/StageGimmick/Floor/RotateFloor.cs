@@ -1,14 +1,19 @@
+using Alchemy.Inspector;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class RotateFloor : MonoBehaviour
 {
+    [LabelText("ìoò^Ç≈Ç´ÇÈâÒì]é≤")]
+    [SerializeField] FloorOrigin _floorOrign;
     Rigidbody _rb;
-    bool _isSet;
+    RotateFloor _rotateFloor;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _rotateFloor = GetComponent<RotateFloor>();
+
         if (_rb == null)
         {
             Debug.LogError("RigidbodyÇ™ÉAÉ^ÉbÉ`Ç≥ÇÍÇƒÇ¢Ç‹ÇπÇÒÅB");
@@ -17,24 +22,11 @@ public class RotateFloor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("RotateFloor"))
+        if (other.gameObject.CompareTag("RotateFloor") && transform.parent == null)
         {
-            if (_isSet)
-                return;
             _rb.isKinematic = false;
             this.transform.SetParent(other.transform);
-            _isSet = true;
+            _floorOrign.RegisterFloor(_rotateFloor);
         }
-        if (transform.parent != null && other.CompareTag("Detach"))
-        {
-            StopMove();
-        }
-    }
-
-    private void StopMove()
-    {
-        this.transform.parent = null;
-        _rb.isKinematic = true; // ìÆÇ©Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈ
-        _isSet = false;
     }
 }
