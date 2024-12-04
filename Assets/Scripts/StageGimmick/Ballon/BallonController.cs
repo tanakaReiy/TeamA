@@ -15,6 +15,8 @@ public class BallonController : MonoBehaviour, IAbilityDetectable
     [SerializeField] private float _moveDuration = 3.0f;
     [LabelText("停止時間")]
     [SerializeField] private float _pauseDuration = 2.0f;
+    [LabelText("入力受け付けない時間")]
+    [SerializeField] private float _disableDetectDuration = 1.0f;
 
     [Header("当たり判定")]
     [SerializeField] private Vector3 _offset;
@@ -32,7 +34,9 @@ public class BallonController : MonoBehaviour, IAbilityDetectable
 
     private CharacterMovement _cache = null;
 
-    public bool IsEnableDetect => true;
+    private float _timer = 0;
+    private bool _isEnableDetect = true;
+    public bool IsEnableDetect => _isEnableDetect;
 
 
     // Start is called before the first frame update
@@ -72,6 +76,15 @@ public class BallonController : MonoBehaviour, IAbilityDetectable
 
     private void Update()
     {
+        if(!_isEnableDetect)
+        {
+            _timer += Time.deltaTime;
+            if(_timer >= _disableDetectDuration)
+            {
+                _isEnableDetect = true;
+                _timer = 0f;
+            }
+        }
         CatchPlayer();
     }
 
@@ -170,9 +183,10 @@ public class BallonController : MonoBehaviour, IAbilityDetectable
 
     public void OnAbilityDetect(WandManager.CaptureAbility ability)
     {
-        if(ability != WandManager.CaptureAbility.Test3)
+        if(ability != WandManager.CaptureAbility.Test3 || !_isEnableDetect)
             return;
-        if (_isPause)
+        _isEnableDetect = false;
+        if (!_isPause)
             StopMotion();
         else
             StartMotion();
