@@ -5,7 +5,7 @@ using UnityEngine;
 using LitMotion;
 using LitMotion.Extensions;
 using Cysharp.Threading.Tasks;
-using System.Net;
+using System.Threading;
 
 public class BallonController : MonoBehaviour, IInteractable
 {
@@ -16,12 +16,21 @@ public class BallonController : MonoBehaviour, IInteractable
     [LabelText("停止時間")]
     [SerializeField] private float _pauseDuration = 2.0f;
 
+    [Header("当たり判定")]
+    [SerializeField] private Vector3 _offset;
+    [SerializeField] private Vector3 _size;
+
     private Vector3 _startPos;
     private Vector3 _endPos;
-    private MotionHandle _moveMotion;
-    private bool _isMoving;
-    private bool _isPause;
+    private MotionBuilder<Vector3, NoOptions, LitMotion.Adapters.Vector3MotionAdapter> _upMoveBuilder;
+    private MotionBuilder<Vector3, NoOptions, LitMotion.Adapters.Vector3MotionAdapter> _downMoveBuilder;
+    private MotionHandle _upMoveMotion;
+    private MotionHandle _downMoveMotion;
+    private bool _isPause = true;
     private bool _isCountingDown;
+    private bool _isUp = true;
+
+    private CharacterMovement _cache = null;
 
 
     // Start is called before the first frame update
@@ -29,79 +38,87 @@ public class BallonController : MonoBehaviour, IInteractable
     {
         _startPos = this.transform.position;
         _endPos = new Vector3(_startPos.x, _startPos.y + _moveDistance, _startPos.z);
-        // 上昇と下降のモーションを一つにまとめて作成し、Yoyoループを設定
-        _moveMotion = LMotion
-            .Create(_startPos, _endPos, _moveDuration)
-            .WithLoops(-1, LoopType.Yoyo) // 無限ループのYoyoモーション
-            .WithEase(Ease.InOutCubic)
-            .BindToPosition(transform);
 
-        _moveMotion.PlaybackSpeed = 0f; // 初期状態で停止
+        // 上昇と下降をまとめる
+        _downMoveBuilder = LMotion
+           .Create(_endPos, _startPos, _moveDuration)
+           .WithEase(Ease.InOutCubic)
+           .WithOnComplete(async () =>
+           {
+               CancellationTokenSource token = new CancellationTokenSource();
+               await StartCountdown(token.Token);
+           })
+           .Preserve();
+        _downMoveMotion = _downMoveBuilder.BindToPosition(transform);
+
+        _upMoveBuilder = LMotion
+            .Create(_startPos, _endPos, _moveDuration)
+            .WithEase(Ease.InOutCubic)
+            .WithOnComplete(async () =>
+            {
+                CancellationTokenSource token = new CancellationTokenSource();
+                await StartCountdown(token.Token);
+            })
+            .Preserve();
+        _upMoveMotion = _upMoveBuilder.BindToPosition(transform);
+
+        
+        // 初期状態で停止
+        _upMoveMotion.PlaybackSpeed = 0f;
+        _downMoveMotion.PlaybackSpeed = 0f;
     }
 
     private void Update()
     {
-        //CheckPausePosition(); //位置チェックの処理
+        CatchPlayer();
     }
 
     //Motionを再生するメソッド
     private void StartMotion()
     {
-        if(_isCountingDown)
+        SwitchPause();
+        if (!_isCountingDown)
         {
-            SwitchPause();
+            if (_isUp)
+            {
+                _upMoveMotion.PlaybackSpeed = 1f;
+            }
+            else
+            {
+                _downMoveMotion.PlaybackSpeed = 1f;
+            }
         }
-        else
-        {
-            _isMoving = true;
-            _moveMotion.PlaybackSpeed = 1f;
-        } 
     }
 
     //Motionを止めるメソッド
     private void StopMotion()
     {
-        if(_isCountingDown)
+        SwitchPause();
+        if (!_isCountingDown)
         {
-            SwitchPause();
-        }
-        else
-        {
-            _isMoving = false;
-            _moveMotion.PlaybackSpeed = 0f;
+            if (_isUp)
+            {
+                _upMoveMotion.PlaybackSpeed = 0f;
+            }
+            else
+            {
+                _downMoveMotion.PlaybackSpeed = 0f;
+            }
         }
     }
 
-    //カウントダウン処理
-    private async UniTask StartCountdown()
+    //LMotionの呼出しを行う
+    private void PlayCurrentMotion()
     {
-        _isCountingDown = true;
-        float remainingTime = _pauseDuration;
-        while (remainingTime > 0)
+        if(_isUp)
         {
-
-            if (_isPause)
-            {
-                // 一時停止している場合は待機
-                await UniTask.Yield();
-                continue;
-            }
-
-            // 1秒ごとに残り時間を減らす
-            await UniTask.Delay(1000);
-            remainingTime--;
-
-            if (remainingTime <= 0)
-            {
-                Debug.Log("カウントダウン終了");
-                _isPause = false;
-                _isCountingDown = false;
-                if(_isMoving)
-                {
-                    StartMotion();
-                }
-                break;
-            }
+            _upMoveMotion.ToDisposable().Dispose();
+            _upMoveMotion = _upMoveBuilder.BindToPosition(transform);
+        }
+        else
+        {
+            _downMoveMotion.ToDisposable().Dispose();
+            _downMoveMotion = _downMoveBuilder.BindToPosition(transform);
         }
     }
 
@@ -109,38 +126,44 @@ public class BallonController : MonoBehaviour, IInteractable
     public void SwitchPause()
     {
         _isPause = !_isPause;
-        Debug.Log(_isPause ? "一時停止中" : "再開");
     }
 
-    //始点か終点に着いたか判定するメソッド
-    private void CheckPausePosition()
+    //カウントダウンメソッド
+    private async UniTask StartCountdown(CancellationToken cancellationToken)
     {
-        // 現在の位置が始点または終点に到達したかどうかを確認
-        if (Vector3.Distance(transform.position, _startPos) < 0.01f)
+        if (_isCountingDown) return;
+
+        _isCountingDown = true;
+        float time = 0;
+        //停止時間
+        while(_pauseDuration >= time)
         {
-            if (!_isCountingDown) // カウントダウンが開始されていない場合
+            if(!_isPause)
             {
-                Debug.Log("始点に到達");
-                StartCountdown().Forget(); // 始点に到達したらカウントダウンを開始
+                time += Time.deltaTime;
             }
+            await UniTask.NextFrame(cancellationToken);
         }
-        else if (Vector3.Distance(transform.position, _endPos) < 0.01f)
-        {
-            if (!_isCountingDown) // カウントダウンが開始されていない場合
-            {
-                Debug.Log("終点に到達");
-                StartCountdown().Forget(); // 終点に到達したらカウントダウンを開始
-            }
-        }
+        _isCountingDown = false;
+
+        await UniTask.WaitUntil(() => !_isPause);
+
+        SwitchDirection();
+        PlayCurrentMotion();
+    }
+
+    private void SwitchDirection()
+    {
+        _isUp = !_isUp;
     }
 
     [Button]
     public void TestButton()
     {
-        if (_isMoving)
-            StopMotion();
-        else
+        if (_isPause)
             StartMotion();
+        else
+            StopMotion();
     }
 
     public bool CanInteract()
@@ -155,31 +178,37 @@ public class BallonController : MonoBehaviour, IInteractable
 
     public void OnInteract(IInteractCallBackReceivable caller)
     {
-        if (_isMoving)
+        if (_isPause)
             StopMotion();
         else
             StartMotion();
     }
 
-    //移動床のコライダーに触れた時の処理
-    private void OnCollisionEnter(Collision collision)
+    private void CatchPlayer()
     {
-        if (collision.gameObject.CompareTag("Player"))
+        var colliders = Physics.OverlapBox(transform.position + transform.TransformVector(_offset), _size / 2f);
+        bool found = false;
+        foreach (var collider in colliders)
         {
-            // 触れたobjの親を移動床にする
-            collision.transform.SetParent(transform);
-            Debug.Log("当たった");
+            if (collider.gameObject.TryGetComponent(out CharacterMovement characterMovement))
+            {
+                found = true;
+                if (characterMovement == _cache) { return; }
+                characterMovement.SetFollowTarget(transform);
+                _cache = characterMovement;
+            }
+        }
+        if (!found && _cache != null)
+        {
+            _cache.SetFollowTarget(null);
+            _cache = null;
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnDestroy()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            // 触れたobjの親をなくす
-            collision.transform.SetParent(null);
-            Debug.Log("離れた");
-        }
+        _upMoveBuilder.Dispose();
+        _downMoveBuilder.Dispose();
     }
 
     private void OnDrawGizmos()
@@ -195,5 +224,8 @@ public class BallonController : MonoBehaviour, IInteractable
 
         Gizmos.color = Color.green;
         Gizmos.DrawLine(startPosition, endPosition);
+
+        //当たり判定
+        Gizmos.DrawCube(transform.position + transform.TransformVector(_offset), _size);
     }
 }

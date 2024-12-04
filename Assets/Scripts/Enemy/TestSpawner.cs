@@ -3,36 +3,36 @@ using UnityEngine;
 
 public class TestSpawner : MonoBehaviour
 {
-    [SerializeField] List<EnemyMoveData> _enemyMoveData = new List<EnemyMoveData>();
+    [SerializeField] List<EnemyData> _enemyData = new List<EnemyData>();
 
     Vector3 _enableSpawnPoint = Vector3.zero;
 
     private void Start()
     {
-        GameObject enemyObject = Instantiate(_enemyMoveData[0]._enemyPrefab, _enemyMoveData[0]._spawnPoint, this.gameObject.transform.rotation);
+        GameObject enemyObject = Instantiate(_enemyData[0].EnemyPrefab, _enemyData[0].SpawnPoint, this.gameObject.transform.rotation);
         EnemyBase enemyBase = enemyObject.GetComponent<EnemyBase>();
         if (!enemyBase)
         {
             enemyBase = enemyObject.AddComponent<EnemyBase>();
         }
-        enemyBase.GetNextPosition += _enemyMoveData[0]._movePatern.GetNextTarget;
-        enemyBase.GetNextGoalAction += _enemyMoveData[0]._movePatern.NextTargetActionAsync;
+        enemyBase.GetNextPosition += _enemyData[0].MovePatern.GetNextTarget;
+        enemyBase.GetNextGoalAction += _enemyData[0].MovePatern.NextTargetActionAsync;
         enemyBase.Initialize();
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        for (int i = 0; i < _enemyMoveData.Count; i++)
+        for (int i = 0; i < _enemyData.Count; i++)
         {
-            if (_enemyMoveData[i]._isDrawTargetsPosition)
+            if (_enemyData[i].IsDrawTargetsPosition)
             {
                 Gizmos.color = new Color(1, 0, 0, 0.7f);
-                Gizmos.DrawCube(_enemyMoveData[i]._spawnPoint, (Vector3.one + Vector3.up) * 0.8f);
+                Gizmos.DrawCube(_enemyData[i].SpawnPoint, (Vector3.one + Vector3.up) * 0.8f);
                 Gizmos.color = new Color(1, 0, 1, 0.5f);
-                foreach (var position in _enemyMoveData[i]._movePatern.GetAllTargets())
+                foreach (var data in _enemyData[i].MovePatern.GetAllTargets())
                 {
-                    Gizmos.DrawCube(position, Vector3.one * 0.8f);
+                    Gizmos.DrawCube(data.position, Vector3.one * 0.8f);
                 }
             }
         }
