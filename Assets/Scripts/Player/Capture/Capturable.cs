@@ -11,7 +11,7 @@ using UnityEngine.Events;
 /// </summary>
 public class Capturable : MonoBehaviour,IDetectable
 {
-    [field: SerializeField, SerializeReference]
+    [field: SerializeField]
     public WandManager.CaptureAbility CapturableAbility { get; private set; }
 
     public UnityEvent OnCaptured;
@@ -28,7 +28,10 @@ public class Capturable : MonoBehaviour,IDetectable
         }
     }
 
-
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 }
 
 

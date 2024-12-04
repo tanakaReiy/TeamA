@@ -6,7 +6,7 @@ namespace DamageSystem
 {
     public interface IDamagable
     {
-        void ApplyDamage(float damage,IDamageArg arg = null);
+        bool ApplyDamage(float damage,IDamageArg arg = null);
     }
 
     public interface IDamageArg { }

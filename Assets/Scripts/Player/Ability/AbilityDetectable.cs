@@ -9,5 +9,6 @@ using UnityEngine;
 /// </summary>
 public interface IAbilityDetectable : IDetectable
 {
+    public bool IsAvailable(WandManager.CaptureAbility ability) => true;
     void OnAbilityDetect(WandManager.CaptureAbility ability);
 }

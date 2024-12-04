@@ -135,4 +135,9 @@ public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable,
             Debug.Log("何か火があれば……");
         }
     }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 }
