@@ -29150,7 +29150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f2dd88e251a3a3c4db27aa366f835635, type: 3}
       propertyPath: m_Name
-      value: BgMD_Door
+      value: DoorWSmoke
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29161,33 +29161,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4485884728559818686, guid: f2dd88e251a3a3c4db27aa366f835635, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8782699195390979967}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: -7753016333429903366, guid: f2dd88e251a3a3c4db27aa366f835635, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2987450220088921959}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2dd88e251a3a3c4db27aa366f835635, type: 3}
 --- !u!4 &1579758764571860324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6466008744848760174, guid: f2dd88e251a3a3c4db27aa366f835635, type: 3}
   m_PrefabInstance: {fileID: 5501022184998043658}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6354665045544267760 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -7753016333429903366, guid: f2dd88e251a3a3c4db27aa366f835635, type: 3}
-  m_PrefabInstance: {fileID: 5501022184998043658}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2987450220088921959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6354665045544267760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3f85fbb7c8b0b741a32a0d7002feded, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8220932909003069364 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4485884728559818686, guid: f2dd88e251a3a3c4db27aa366f835635, type: 3}
