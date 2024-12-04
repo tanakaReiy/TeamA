@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Donuts
+  - RotateFloor
+  - Detauch
   layers:
   - Default
   - TransparentFX
