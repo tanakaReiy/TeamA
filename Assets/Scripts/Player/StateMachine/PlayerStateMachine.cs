@@ -30,6 +30,12 @@ public class PlayerStateMachine : StateMachine, IPlayerAnimationSePlayable,IPlay
 
         Cursor.lockState = CursorLockMode.Locked;
 
+        InputReader.Instance.OnEscapeAsObservable()
+            .Where(c => c.performed)
+            .Subscribe(_ =>
+            {
+                ChangeState(new PlayerOperatingUIState(this));
+            }).AddTo(this);
 
     }
 

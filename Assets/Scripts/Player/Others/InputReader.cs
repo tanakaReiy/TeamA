@@ -13,6 +13,8 @@ public class InputReader : SingletonMonoBehavior<InputReader>, Controls.IPlayerA
     public IObservable<InputAction.CallbackContext> OnMoveAsObservable() => _onMoveSubject;
     public IObservable<InputAction.CallbackContext> OnLookAsObservable() => _onLookSubject;
     public IObservable<InputAction.CallbackContext> OnInteractAsObservable() => _onInteractSubject;
+    public IObservable<InputAction.CallbackContext> OnEscapeAsObservable() => _onEscapeSubject;
+
 
     public Vector2 MovementInput { get; private set; }
 
@@ -22,6 +24,8 @@ public class InputReader : SingletonMonoBehavior<InputReader>, Controls.IPlayerA
     private Subject<InputAction.CallbackContext> _onMoveSubject = new();
     private Subject<InputAction.CallbackContext> _onLookSubject = new();
     private Subject<InputAction.CallbackContext> _onInteractSubject = new();
+    private Subject<InputAction.CallbackContext> _onEscapeSubject = new();
+
 
     private Controls controls;
     private void Start()
@@ -38,6 +42,12 @@ public class InputReader : SingletonMonoBehavior<InputReader>, Controls.IPlayerA
 
 
 
+    }
+
+    public void SetEnableInput(bool enable)
+    {
+        if (enable) { controls.Player.Enable(); }
+        else {  controls.Player.Disable(); }
     }
 
     public void OnCapture(InputAction.CallbackContext context)
@@ -63,5 +73,10 @@ public class InputReader : SingletonMonoBehavior<InputReader>, Controls.IPlayerA
     public void OnInteract(InputAction.CallbackContext context)
     {
         _onInteractSubject.OnNext(context);
+    }
+
+    public void OnEscape(InputAction.CallbackContext context)
+    {
+        _onEscapeSubject.OnNext(context);
     }
 }
