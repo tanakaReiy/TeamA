@@ -18,36 +18,27 @@ public class UIManager : SingletonMonoBehavior<UIManager>
     private List<CanvasData> _canvases = new();
 
     private readonly string CanvasPrefabAddressableAddress = "CanvasPrefab";
-    private GameObject _canvasPrefab;
-
-    public bool IsReady { get; private set; } = false;
-    
+    private GameObject _canvasPrefab;    
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(this);
-        UniTask.Create(async () =>
-        {
-            _canvasPrefab = await Addressables.LoadAssetAsync<GameObject>(CanvasPrefabAddressableAddress);
-        }).ContinueWith(() =>
-        {
+        var handle =  Addressables.LoadAssetAsync<GameObject>(CanvasPrefabAddressableAddress);
+        _canvasPrefab = handle.WaitForCompletion();
 
-            if (_canvasPrefab == null)
-            {
-                Debug.LogError("CanvasPrefab‚ª–¢İ’è");
-                return;
-            }
-            if (!_canvasPrefab.TryGetComponent(out CanvasData canvasData))
-            {
-                Debug.LogError("CanvasPrefab‚ªCanvas‚ğŠÜ‚İ‚Ü‚¹‚ñ"); return;
-            }
-            IsReady = true;
+        if (_canvasPrefab == null)
+        {
+            Debug.LogError("CanvasPrefab‚ª–¢İ’è");
+            return;
+        }
+        if (!_canvasPrefab.TryGetComponent(out CanvasData canvasData))
+        {
+            Debug.LogError("CanvasPrefab‚ªCanvas‚ğŠÜ‚İ‚Ü‚¹‚ñ"); return;
+        }
 
-        }).Forget();
-        
- 
     }
-    
+
+
+   
     public void RegisterGroup(int sortOrder, IEnumerable<UIGroup> groups)
     {
         var canvasData = GetCanvasData(sortOrder);
@@ -68,6 +59,18 @@ public class UIManager : SingletonMonoBehavior<UIManager>
         {
             return CreateNewCanvas(sortOrder);
         }
+    }
+
+    public CanvasData GetCanvasData(Func<bool,CanvasData> predicate)
+    {
+        for (int i = 0; i < _canvases.Count; i++)
+        {
+            if (predicate(_canvases[i]))
+            {
+                return _canvases[i];
+            }
+        }
+        return null;
     }
 
     private CanvasData CreateNewCanvas(int sortOrder)
