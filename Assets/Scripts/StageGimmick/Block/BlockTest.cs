@@ -54,4 +54,9 @@ public class BlockTest : MonoBehaviour, IAbilityDetectable
             Debug.Log("破壊不可");
         }
     }
+
+    public Transform GetTransform()
+    {
+        return this.transform;
+    }
 }

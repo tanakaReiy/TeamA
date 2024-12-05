@@ -236,4 +236,9 @@ public class BallonController : MonoBehaviour, IAbilityDetectable
         //当たり判定
         Gizmos.DrawCube(transform.position + transform.TransformVector(_offset), _size);
     }
+
+    public Transform GetTransform()
+    {
+        return this.transform;
+    }
 }
