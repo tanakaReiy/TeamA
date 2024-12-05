@@ -5548,7 +5548,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 221174b2fc76f964482bab6251e5ac5f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8d900b218c4f3b24e97b567371c72611, type: 2}
+      objectReference: {fileID: 2100000, guid: cf602ebe95f522d4ab64d4d43bffcfa7, type: 2}
     - target: {fileID: 919132149155446097, guid: 221174b2fc76f964482bab6251e5ac5f, type: 3}
       propertyPath: m_Name
       value: pendant (2)
@@ -14296,7 +14296,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 221174b2fc76f964482bab6251e5ac5f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8d900b218c4f3b24e97b567371c72611, type: 2}
+      objectReference: {fileID: 2100000, guid: cf602ebe95f522d4ab64d4d43bffcfa7, type: 2}
     - target: {fileID: 919132149155446097, guid: 221174b2fc76f964482bab6251e5ac5f, type: 3}
       propertyPath: m_Name
       value: pendant (1)
@@ -17516,7 +17516,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 221174b2fc76f964482bab6251e5ac5f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8d900b218c4f3b24e97b567371c72611, type: 2}
+      objectReference: {fileID: 2100000, guid: cf602ebe95f522d4ab64d4d43bffcfa7, type: 2}
     - target: {fileID: 919132149155446097, guid: 221174b2fc76f964482bab6251e5ac5f, type: 3}
       propertyPath: m_Name
       value: pendant

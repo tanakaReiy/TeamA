@@ -7,7 +7,7 @@ using LitMotion.Extensions;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 
-public class BallonController : MonoBehaviour, IInteractable
+public class BallonController : MonoBehaviour, IAbilityDetectable
 {
     [LabelText("移動距離")]
     [SerializeField] private float _moveDistance = 3.0f;
@@ -15,6 +15,8 @@ public class BallonController : MonoBehaviour, IInteractable
     [SerializeField] private float _moveDuration = 3.0f;
     [LabelText("停止時間")]
     [SerializeField] private float _pauseDuration = 2.0f;
+    [LabelText("入力受け付けない時間")]
+    [SerializeField] private float _disableDetectDuration = 1.0f;
 
     [Header("当たり判定")]
     [SerializeField] private Vector3 _offset;
@@ -31,6 +33,10 @@ public class BallonController : MonoBehaviour, IInteractable
     private bool _isUp = true;
 
     private CharacterMovement _cache = null;
+
+    private float _timer = 0;
+    private bool _isEnableDetect = true;
+    public bool IsEnableDetect => _isEnableDetect;
 
 
     // Start is called before the first frame update
@@ -70,6 +76,15 @@ public class BallonController : MonoBehaviour, IInteractable
 
     private void Update()
     {
+        if(!_isEnableDetect)
+        {
+            _timer += Time.deltaTime;
+            if(_timer >= _disableDetectDuration)
+            {
+                _isEnableDetect = true;
+                _timer = 0f;
+            }
+        }
         CatchPlayer();
     }
 
@@ -166,19 +181,12 @@ public class BallonController : MonoBehaviour, IInteractable
             StopMotion();
     }
 
-    public bool CanInteract()
+    public void OnAbilityDetect(WandManager.CaptureAbility ability)
     {
-        return true;
-    }
-
-    public string GetInteractionMessage()
-    {
-        return "動かす";
-    }
-
-    public void OnInteract(IInteractCallBackReceivable caller)
-    {
-        if (_isPause)
+        if(ability != WandManager.CaptureAbility.Test3 || !_isEnableDetect)
+            return;
+        _isEnableDetect = false;
+        if (!_isPause)
             StopMotion();
         else
             StartMotion();

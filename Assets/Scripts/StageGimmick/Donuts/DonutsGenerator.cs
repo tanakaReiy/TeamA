@@ -36,6 +36,8 @@ public class DonutsGenerator : MonoBehaviour
         obj.transform.position = _generatePosition.position;
         obj.transform.rotation = _generatePosition.rotation;
 
+        obj.ProceedVector = _generatePosition.transform.forward;
+
         obj.ResetObject();
     }
 

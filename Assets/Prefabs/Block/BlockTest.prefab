@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1418e20c1079b4b979afb84ea34d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isBreak: 0
   _breakBlockPrefab: {fileID: 0}
-  _collapseForce: 0.5
+  _collapseForce: 5
   _collapseRadius: 5
+  _collapseDestorySecond: 5
