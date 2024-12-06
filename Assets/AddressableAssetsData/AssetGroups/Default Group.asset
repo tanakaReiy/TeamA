@@ -17,13 +17,23 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 055b6216634c8ba4b80610294c57a4cb
   m_SerializeEntries:
-  - m_GUID: 5842a28357383ef46ad89a28eeb57f31
-    m_Address: Assets/Scenes/SceneDependencies.asset
+  - m_GUID: 75bda8f836a56154caac0e35934a5625
+    m_Address: PlayerPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b5116f778bac72f4b937c070e3437bce
+    m_Address: Assets/Prefabs/Enemy/Surtr.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c60c2ca92c2d30244a57d8d3d38604a1
     m_Address: Assets/Prefabs/CRI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0d0367a3ee85d04e9e02597765e473d
+    m_Address: CanvasPrefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -12,9 +12,76 @@ EditorBuildSettings:
     path: Assets/Scenes/Design/Night.unity
     guid: 3fc4caa4d09689641906dd3861daa8cf
   - enabled: 1
+    path: Assets/Scenes/ForPlaner/Stage_1.unity
+    guid: 40c2ca951c972ce458e1f4188e41e260
+  - enabled: 1
+    path: Assets/Scenes/ForPlaner/Stage_2.unity
+    guid: b85907d32ec7ccc47890366951f3a7e2
+  - enabled: 1
+    path: Assets/Scenes/ForPlaner/Stage_3.unity
+    guid: 4dc70545337753a4a8ac5fe19d6c6ef6
+  - enabled: 1
+    path: Assets/Scenes/ForPlaner/Stage_4.unity
+    guid: e75a7b4e78698dd48a05b0dc7c9f41f2
+  - enabled: 1
+    path: Assets/Scenes/MainGame/FirstStageSystem.unity
+    guid: a6c7107efa221464ebf0edd5a51b6a21
+  - enabled: 1
+    path: Assets/Scenes/MainGame/SecondStageSystem.unity
+    guid: ead3920293096af43a51117c84ea22eb
+  - enabled: 1
+    path: Assets/Scenes/MainGame/ThirdStageSystem.unity
+    guid: aaecbbb0607cad4419228d757ca0b38c
+  - enabled: 1
+    path: Assets/Scenes/Mockup/MockUp.unity
+    guid: a704b5aecf1200e4bac3d7816ffae00b
+  - enabled: 1
+    path: Assets/Scenes/Sample/3DSoundSample.unity
+    guid: a174e69cd80e78248945d3373b6e48f0
+  - enabled: 1
+    path: Assets/Scenes/CRI/PlaySoundSample.unity
+    guid: 0e43765a639212d4f9e16f128e114864
+  - enabled: 1
+    path: Assets/Scenes/System/GameLauncher.unity
+    guid: 8fddd8bd6df26f84eb0ce52c7a3f43e5
+  - enabled: 1
+    path: Assets/Scenes/System/IngameDebug.unity
+    guid: f344c073eba28c247a464cfb6b57ff22
+  - enabled: 1
     path: Assets/Scenes/System/IngameSystem.unity
     guid: 28bbf92597792604b989fbdc7a1fb369
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+    path: Assets/Scenes/TestScene/BaseGimmickTest.unity
+    guid: c9f136a29b659324a995d5c953d362d7
+  - enabled: 1
+    path: Assets/Scenes/TestScene/BlockTest.unity
+    guid: 87458957ea42177438e4d7d7facfa0ea
+  - enabled: 1
+    path: Assets/Scenes/TestScene/CandleGimmickTest.unity
+    guid: d3df973b97c7bac4990e9c4e7d74ec25
+  - enabled: 1
+    path: Assets/Scenes/TestScene/EnemyTest.unity
+    guid: 0fb9e8fa86fa4ca4ca2f30d0402791a3
+  - enabled: 1
+    path: Assets/Scenes/TestScene/GimmickTest/BallonTest.unity
+    guid: 8894550f3eb2bc94ab1542c841a8a93a
+  - enabled: 1
+    path: Assets/Scenes/TestScene/GimmickTest/WallTest.unity
+    guid: 8cb2f0f5542eb914bbbcc2c5bb15bd9f
+  - enabled: 1
+    path: Assets/Scenes/CRI/CRIExecuter.unity
+    guid: 527f3aa5a9bff1e4ab99ce31c4b75985
+  - enabled: 1
+    path: Assets/Scenes/Sample/PlaySoundSample.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/TestScene/PlayerTestScene.unity
+    guid: a35aaea4c99f76c4a8cce932226bff06
+  - enabled: 1
+    path: Assets/Scenes/TestScene/RotateFloorTest.unity
+    guid: 6b38fa906dc33874f8cbacb90b9cdb69
+  - enabled: 1
+    path: Assets/Scenes/TestScene/GimmickTest/DonutsTest.unity
+    guid: 95f6d92ca42cf484f8b875de2810de59
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7366e43fa3f777f4292c2095e8b63e4c, type: 2}
