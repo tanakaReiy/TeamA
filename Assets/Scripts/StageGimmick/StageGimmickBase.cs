@@ -29,10 +29,7 @@ public abstract class StageGimmickBase : MonoBehaviour
     protected virtual void ClearActive(bool changeIsClear)
     {
         isClear = changeIsClear;
-    }
-
-    public virtual void ResetGimmick()
-    {
-        Debug.Log($"{this.gameObject.name}がリセットされました");
+        //ペンダント出現音（仮記載）
+        //CRIAudioManager.SE.Play("CueSheet_0", "SE_pendant_deru");
     }
 }

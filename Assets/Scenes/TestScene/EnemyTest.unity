@@ -1096,7 +1096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &731768231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,9 +1109,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab57419642782a945978e17cff12adfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isGizmoActive: 1
-  _enemyData: {fileID: 11400000, guid: 3dbc2a6207bdc58488f44f42e0a65312, type: 2}
-  _SpawnEnemyCnt: 0
+  _enemyData:
+  - IsDrawTargetsPosition: 0
+    EnemyPrefab: {fileID: 5492471666847611986, guid: b5116f778bac72f4b937c070e3437bce, type: 3}
+    Enemy: 0
+    SpawnPoint: {x: 0, y: 0, z: 0}
+    SpawnedEnemyRotationY: 0
+    MaxGenerateCnt: 0
+    GenerateInterval: 0
+    SpawnablePlayerDistanceSquare: 0
+    MovePatern:
+      rid: 8352059080838742019
+  references:
+    version: 2
+    RefIds:
+    - rid: 8352059080838742019
+      type: {class: GuardEnemy, ns: , asm: Assembly-CSharp}
+      data:
+        _guardPosition: {x: -12.51, y: 0, z: 0}
+        _guardFrontAngle: 0
 --- !u!4 &731768232
 Transform:
   m_ObjectHideFlags: 0
@@ -1120,13 +1136,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731768230}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.27076843, z: 0, w: 0.9626446}
   m_LocalPosition: {x: -9.2, y: 0, z: 4.6759696}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -31.42, z: 0}
 --- !u!1 &768650656
 GameObject:
   m_ObjectHideFlags: 0
@@ -3099,6 +3115,78 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2008637587}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1999433791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1999433793}
+  - component: {fileID: 1999433792}
+  m_Layer: 0
+  m_Name: EnemySpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1999433792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999433791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7132a27476a1a04a9cb220d25b624e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyData:
+  - IsDrawTargetsPosition: 1
+    EnemyPrefab: {fileID: 0}
+    Enemy: 0
+    SpawnPoint: {x: 0, y: 0, z: 2}
+    SpawnedEnemyRotationY: -90
+    MaxGenerateCnt: 3
+    GenerateInterval: 5
+    SpawnablePlayerDistanceSquare: 16
+    MovePatern:
+      rid: 8352059102345822209
+  _spawnPointColor: {r: 1, g: 0, b: 0, a: 0.7}
+  _spawnPointScale: {x: 1, y: 2, z: 1}
+  _targetPointColor: {r: 1, g: 0, b: 1, a: 0.5}
+  _targetPointScale: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8352059102345822209
+      type: {class: PatrolEnemy, ns: , asm: Assembly-CSharp}
+      data:
+        _patrolPositions:
+        - Position: {x: 22.3, y: 0, z: 0}
+          Direction: -180.42
+        - Position: {x: 15.46, y: 0, z: -20.68}
+          Direction: -90
+        - Position: {x: 6.32, y: 0, z: -10.35}
+          Direction: 0
+--- !u!4 &1999433793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999433791}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2008637586
 GameObject:
   m_ObjectHideFlags: 0
@@ -3165,7 +3253,6 @@ GameObject:
   - component: {fileID: 2021992050}
   - component: {fileID: 2021992049}
   - component: {fileID: 2021992048}
-  - component: {fileID: 2021992052}
   m_Layer: 7
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -3255,24 +3342,56 @@ Transform:
   m_GameObject: {fileID: 2021992047}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.9, y: 1, z: 5.7}
+  m_LocalPosition: {x: 0, y: 1, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2021992052
+--- !u!1 &2090013788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2090013790}
+  - component: {fileID: 2090013789}
+  m_Layer: 0
+  m_Name: EnemyDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2090013789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021992047}
+  m_GameObject: {fileID: 2090013788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ab5a6a33bffb3a49a9aac606a4e8576, type: 3}
+  m_Script: {fileID: 11500000, guid: f1171c5ef4d96d1438f2e744bf9cc6da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2090013790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090013788}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 429.3692, y: -845.9248, z: -343.49405}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3284,3 +3403,5 @@ SceneRoots:
   - {fileID: 1006203166}
   - {fileID: 2008637587}
   - {fileID: 731768232}
+  - {fileID: 1999433793}
+  - {fileID: 2090013790}

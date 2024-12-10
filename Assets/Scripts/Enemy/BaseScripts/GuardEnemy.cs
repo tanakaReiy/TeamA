@@ -3,22 +3,27 @@ using Cysharp.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [Serializable]
 /// <summary>一か所を守るやつ</summary>
 public sealed class GuardEnemy : IMovePatternEnemy
 {
     [SerializeField] private Vector3 _guardPosition;
-    public Vector3 GetGuardPosition => _guardPosition;
-    [SerializeField] private Vector3 _guardFrontAngle;
-    public Vector3 GetGuardFrontAngle => _guardFrontAngle;
+    [SerializeField] private float _guardFrontAngle;
 
-    public (Vector3 position, Vector3 direction) NextTarget()
+    (Vector3 position, float direction)[] IMovePatternEnemy.GetAllTargets()
+    {
+        return new (Vector3 position, float direction)[] { (_guardPosition , _guardFrontAngle)};
+    }
+    public (Vector3 position, float direction) GetNextTarget()
     {
         return (_guardPosition, _guardFrontAngle);
     }
+    public void Dispose() { }
 
     public async UniTask NextTargetActionAsync(Quaternion targetRotation, Transform transform, CancellationToken token)
     {
@@ -31,22 +36,23 @@ public sealed class GuardEnemy : IMovePatternEnemy
             //ループで左右に回転して警戒をする
             await LMotion.Create(targetRotation * Quaternion.AngleAxis(-30, Vector3.up), targetRotation * Quaternion.AngleAxis(60, Vector3.up), 3f).WithEase(Ease.InOutCubic).WithLoops(-1, loopType: LoopType.Yoyo).BindToLocalRotation(transform).ToUniTask(token);
         }
-        catch (OperationCanceledException e)
+        catch
         {
             Debug.Log("Cancel NextTargetAction");
         }
     }
+
     /*
 #if UNITY_EDITOR
-    /// <summary>
-    /// 
-    /// ※この仮想クラス以外で呼び出さないこと
-    /// </summary>
-    [Button]
-    public void GenerateGuradPosition() 
-    {
+/// <summary>
+/// 
+/// ※この仮想クラス以外で呼び出さないこと
+/// </summary>
+[Button]
+public void GenerateGuradPosition() 
+{
 
-    }
+}
 #endif
-    */
+*/
 }

@@ -5,14 +5,15 @@ using AnimaitonEventReceivable;
 using Alchemy.Inspector;
 using UniRx;
 
-public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable
+public class PlayerStateMachine : StateMachine, IPlayerAnimationSePlayable,IPlayerAnimationAbilityPerformable
 {
+
     [field: SerializeField, FoldoutGroup("CompRefs")] public CharacterMovement CharacterMovement { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public CharacterController Controller { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public InteractDetector InteractDetector { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public SocketManager SocketManager { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public Animator Animator { get; private set; }
-    [field: SerializeField, FoldoutGroup("CompRefs")] public CapturableDetector CapturableDetector { get; private set; }
+    [field: SerializeField, FoldoutGroup("CompRefs")] public Capturaing Capturaing { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public PlayerStatus Status { get; private set; }
     [field: SerializeField, FoldoutGroup("CompRefs")] public WandManager WandManager { get; private set; }
 
@@ -38,20 +39,44 @@ public class PlayerStateMachine : StateMachine,ICaptureAnimationEventReceivable
     }
 
     #region AnimationEventReceiver
-    public void EnableDetection()
+
+
+    public void PlaySe(string cueName)
     {
-        if(_currentState is ICaptureAnimationEventReceivable state)
+        CRIAudioManager.SE.Play3D(Vector3.zero, PlayerBaseState.CueSheetName, cueName);
+    }
+
+    public void PlaySeThroughState(string cueName)
+    {
+        if(_currentState is IPlayerAnimationSePlayable sePlayable)
         {
-            state.EnableDetection();
+            sePlayable.PlaySeThroughState(cueName);
         }
     }
 
-    public void DisableDetection()
+    public void PerformAbility()
     {
-        if (_currentState is ICaptureAnimationEventReceivable state)
+        if (_currentState is IPlayerAnimationAbilityPerformable performable)
         {
-            state.DisableDetection();
+            performable.PerformAbility();
         }
     }
     #endregion
+}
+
+namespace AnimaitonEventReceivable
+{
+    public interface IPlayerAnimationSePlayable
+    {
+        void PlaySe(string cueName);
+
+        void PlaySeThroughState(string cueName);
+    }
+
+    public interface IPlayerAnimationAbilityPerformable
+    {
+        void PerformAbility();
+    }
+
+    
 }

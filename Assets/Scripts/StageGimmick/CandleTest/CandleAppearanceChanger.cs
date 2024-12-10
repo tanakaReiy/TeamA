@@ -3,20 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ability;
-public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
+using System;
+public class CandleAppearanceChanger : MonoBehaviour, IInteractable, IResetable, IAbilityDetectable
 {
-    private bool _canInteract = true;
+    private bool _processed = true;
     private Renderer _candleRenderer;
     [SerializeField] private GameObject _candleObject = null;
-
-
-    [LabelText("‰Î‚ª‚Â‚¢‚Ä‚¢‚éó‘Ô‚ª³‚µ‚¢")]
+    [LabelText("ç«ãŒã¤ã„ã¦ã„ã‚‹çŠ¶æ…‹ãŒæ­£ã—ã„")]
     [SerializeField] private bool _isFiredCorrect = true;
+    public bool IsFiredCorrect => _isFiredCorrect;
 
     /// <summary>
-    /// Œ»İA‰Î‚ª‚Â‚¢‚Ä‚¢‚é‚©‚ğŠÇ—‚·‚éƒu[ƒ‹
+    /// ç¾åœ¨ã€ç«ãŒã¤ã„ã¦ã„ã‚‹ã‹ã‚’ç®¡ç†ã™ã‚‹ãƒ–ãƒ¼ãƒ«
     /// </summary>
-    private bool _isFire = false;
+    public bool _isFire { get; private set; } = false;
+
+    public bool IsEnableDetect => true;
+
+    public event Action OnStateChanged;
 
     private void Start()
     {
@@ -29,53 +33,111 @@ public class CandleAppearanceChanger : TestCandleGimmick, IInteractable
     }
     public bool CanInteract()
     {
-        //ƒvƒŒƒCƒ„[‚ªˆê‚Â‚µ‚©‚È‚¢‚©‚ç–³—‚â‚è’T‚µ‚Ä‚Ü‚·
-        //„§F•Ê‚Ì•û–@‚Å‚ÌQÆ@—vC³
-        _canInteract = FindAnyObjectByType<PlayerStatus>().GetComponent<PlayerStatus>().Ability is SurtrCaptrable ? true : false;
-        return _canInteract;
+        return false;
     }
 
     public string GetInteractionMessage()
     {
-        if(_canInteract)
+        if (IsEnableDetect)
         {
-            if(_isFire)
+            if (_isFire)
             {
-                return "‰Î‚ğÁ‚·";
+                return "ç«ã‚’æ¶ˆã™";
             }
             else
             {
-                return "‰Î‚ğ“”‚·";
+                return "ç«ã‚’ç¯ã™";
             }
         }
         else
         {
-            return "‰Î‚ª‚ ‚ê‚Î...";
+            return "ç«ãŒã‚ã‚Œã°...";
         }
-        return _canInteract ? "‰Î‚ğ“”‚·" : "‰Î‚ª‚ ‚ê‚Î...";
     }
 
     public void OnInteract(IInteractCallBackReceivable caller)
     {
-        if (_canInteract)
+        
+    }
+
+    /// <summary>
+    /// ãƒ­ã‚¦ã‚½ã‚¯ã®ç«ãŒå¤‰æ›´ã•ã‚ŒãŸæ™‚ã«å‘¼ã¶é–¢æ•°
+    /// </summary>
+    /// <param name="newState">ç«ã®ã‚ªãƒ³ã‚ªãƒ•</param>
+    public void SetState(bool newState)
+    {
+        OnStateChanged?.Invoke(); // ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™ºç«
+    }/// <summary>
+     /// ãƒªã‚»ãƒƒãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è¿½åŠ 
+     /// </summary>
+    public void RegisterReset()
+    {
+        try
+        {
+            FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction += ResetGimmick;
+        }
+        catch
+        {
+            Debug.Log($"{this.gameObject.name} can't register ResetGimmick ");
+        }
+    }
+    /// <summary>
+    /// ã‚®ãƒŸãƒƒã‚¯ã®çŠ¶æ…‹ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
+    /// </summary>
+    public void ResetGimmick()
+    {
+        //memo ã“ã“ã¯è¤‡æ•°å›å¤‰æ›´ãŒã§ãã‚‹ã‹ã©ã†ã‹ã§å¤‰æ›´ãŒå…¥ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
+        _processed = true;
+
+        _isFire = false;
+        _candleObject.SetActive(false);
+        SetState(_isFiredCorrect ? _isFire : !_isFire);
+        Debug.Log($"{this.gameObject.name} reset gimmick");
+    }
+
+    /// <summary>
+    /// ç™»éŒ²ã—ãŸãƒªã‚»ãƒƒãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è§£é™¤
+    /// </summary>
+    public void CancelletionReset()
+    {
+        try
+        {
+            FindAnyObjectByType<GimmickResetManager>().GetComponent<GimmickResetManager>()._resetAction -= ResetGimmick;
+        }
+        catch
+        {
+            Debug.Log($"{this.gameObject.name} can't register ResetGimmick ");
+        }
+    }
+    private void OnDisable()
+    {
+        CancelletionReset();
+    }
+
+    public void OnAbilityDetect(WandManager.CaptureAbility ability)
+    {
+        if (WandManager.CaptureAbility.Test1 != ability) { return; }
+        if (IsEnableDetect && _processed)
         {
             _isFire = !_isFire;
-            base.ClearActive(_isFiredCorrect ? _isFire : !_isFire);
+            SetState(_isFiredCorrect ? _isFire : !_isFire);
             if (_candleObject)
             {
                 _candleObject.SetActive(_isFire);
+                var _candleGimmick = this.GetComponent<TestCandleGimmick>();
+                _candleGimmick.OnFire();
+                CRIAudioManager.SE.Play3D(Vector3.zero, "CueSheet_0", "SE_fire_tukeru");
             }
-            _canInteract = false;
+            _processed = false;
         }
         else
         {
-            Debug.Log("‰½‚©‰Î‚ª‚ ‚ê‚Îcc");
+            Debug.Log("ä½•ã‹ç«ãŒã‚ã‚Œã°â€¦â€¦");
         }
     }
-    public override void ResetGimmick()
+
+    public Transform GetTransform()
     {
-        _isFire = false;
-        _candleObject.SetActive(false);
-        Debug.Log($"{this.gameObject.name} reset gimmick");
+        return transform;
     }
 }

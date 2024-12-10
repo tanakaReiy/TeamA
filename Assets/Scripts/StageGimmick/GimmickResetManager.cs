@@ -9,6 +9,8 @@ public class GimmickResetManager : MonoBehaviour, IInteractable
 {
     public Action _resetAction;
 
+    public bool IsEnableDetect => true;
+
     public bool CanInteract()
     {
         return true;

@@ -120,5 +120,6 @@ public class DetectInfo
 public interface IDetectable
 {
     bool IsEnableDetect { get; }
+    Transform GetTransform();
 
 }

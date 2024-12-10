@@ -44,19 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f529aa944b914449d62b8c40f188fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acfFile: TGS2023.acf
+  acfFile: VGA_A.acf
   cueSheets:
-  - name: BGM
-    acbFile: BGM.acb
-    awbFile: BGM.awb
-    loaderStatus: 0
-  - name: SE
-    acbFile: SE.acb
-    awbFile: 
-    loaderStatus: 0
-  - name: ME
-    acbFile: ME.acb
-    awbFile: 
+  - name: CueSheet_0
+    acbFile: CueSheet_0.acb
+    awbFile: CueSheet_0.awb
     loaderStatus: 0
   dspBusSetting: 
   dontDestroyOnLoad: 0
@@ -120,7 +112,7 @@ MonoBehaviour:
     androidDeviceReadBitrate: 50000000
   initializesAtom: 1
   atomConfig:
-    acfFileName: 
+    acfFileName: VGA_A.acf
     maxVirtualVoices: 32
     maxVoiceLimitGroups: 32
     maxCategories: 32

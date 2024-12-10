@@ -6,37 +6,14 @@ using UnityEngine;
 /// <summary>
 /// マシュマロブロック
 /// </summary>
-public class BlockTest : MonoBehaviour, IInteractable
+public class BlockTest : MonoBehaviour, IAbilityDetectable
 {
-    [SerializeField, LabelText("ブロックが壊せるかのフラグ")] private bool _isBreak;
     [SerializeField, LabelText("崩れるプロックのプレハブ")] private Transform _breakBlockPrefab;
     [SerializeField, LabelText("崩壊時の力")] private float _collapseForce = 150f;
     [SerializeField, LabelText("崩壊の影響範囲")] private float _collapseRadius = 5f;
     [SerializeField, LabelText("崩壊したパーツを消す秒数")] private float _collapseDestorySecond = 5f;
 
-
-    public bool CanInteract()
-    {
-        return true;
-    }
-
-    public string GetInteractionMessage()
-    {
-        return "ブロック";
-    }
-
-    public void OnInteract(IInteractCallBackReceivable caller)
-    {
-        //ここにプレイヤーの状態を入れる
-        if (_isBreak)
-        {
-            Collapse();
-        }
-        else
-        {
-            Debug.Log("破壊不可");
-        }
-    }
+    public bool IsEnableDetect => true;
 
     /// <summary>
     /// 崩壊処理
@@ -63,6 +40,23 @@ public class BlockTest : MonoBehaviour, IInteractable
     /// </summary>
     public void OnButton()
     {
-        OnInteract(null);
+        Collapse();
+    }
+
+    public void OnAbilityDetect(WandManager.CaptureAbility ability)
+    {
+        if(ability == WandManager.CaptureAbility.Test2)
+        {
+            Collapse();
+        }
+        else
+        {
+            Debug.Log("破壊不可");
+        }
+    }
+
+    public Transform GetTransform()
+    {
+        return this.transform;
     }
 }

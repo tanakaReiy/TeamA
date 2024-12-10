@@ -1,37 +1,40 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TestSpawner : MonoBehaviour
 {
-    [SerializeField] private bool _isGizmoActive;
-    [SerializeField] EnemyData _enemyData;
-    int _existEnemyCnt = 0;
-    [SerializeField] int _SpawnEnemyCnt = 0;
-    int _SpawnEnemyCount = 0;
+    [SerializeField] List<EnemyData> _enemyData = new List<EnemyData>();
 
     Vector3 _enableSpawnPoint = Vector3.zero;
 
     private void Start()
     {
-        GameObject enemyObject = Instantiate(_enemyData.EnemyPrefab, _enemyData.MovePatern.NextTarget().position, Quaternion.Euler(_enemyData.MovePatern.NextTarget().direction));
+        GameObject enemyObject = Instantiate(_enemyData[0].EnemyPrefab, _enemyData[0].SpawnPoint, this.gameObject.transform.rotation);
         EnemyBase enemyBase = enemyObject.GetComponent<EnemyBase>();
-        if(!enemyBase)
+        if (!enemyBase)
         {
             enemyBase = enemyObject.AddComponent<EnemyBase>();
         }
-        enemyBase.GetNextPosition += _enemyData.MovePatern.NextTarget;
-        enemyBase.GetNextGoalAction += _enemyData.MovePatern.NextTargetActionAsync;
+        enemyBase.GetNextPosition += _enemyData[0].MovePatern.GetNextTarget;
+        enemyBase.GetNextGoalAction += _enemyData[0].MovePatern.NextTargetActionAsync;
         enemyBase.Initialize();
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if(_isGizmoActive && _enemyData)
+        for (int i = 0; i < _enemyData.Count; i++)
         {
-            Gizmos.color = new Color(1, 0, 1, 0.5f);
-            Gizmos.DrawCube(_enemyData.MovePatern.NextTarget().position, Vector3.one * 0.8f);
+            if (_enemyData[i].IsDrawTargetsPosition)
+            {
+                Gizmos.color = new Color(1, 0, 0, 0.7f);
+                Gizmos.DrawCube(_enemyData[i].SpawnPoint, (Vector3.one + Vector3.up) * 0.8f);
+                Gizmos.color = new Color(1, 0, 1, 0.5f);
+                foreach (var data in _enemyData[i].MovePatern.GetAllTargets())
+                {
+                    Gizmos.DrawCube(data.position, Vector3.one * 0.8f);
+                }
+            }
         }
     }
 #endif
